@@ -1,4 +1,4 @@
-package com.exam.natour.ui.home;
+package com.exam.natour.UI.View.home;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -12,7 +12,6 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.exam.natour.R;
 import com.exam.natour.databinding.FragmentHomeBinding;
 
 public class HomeFragment extends Fragment {

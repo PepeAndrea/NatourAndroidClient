@@ -1,4 +1,4 @@
-package com.exam.natour.ui.notifications;
+package com.exam.natour.UI.View.notifications;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -12,7 +12,6 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.exam.natour.R;
 import com.exam.natour.databinding.FragmentNotificationsBinding;
 
 public class NotificationsFragment extends Fragment {
