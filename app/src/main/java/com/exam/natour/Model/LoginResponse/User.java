@@ -7,7 +7,7 @@ import javax.annotation.Generated;
 
 
 @Generated("jsonschema2pojo")
-class User {
+public class User {
 
     @SerializedName("id")
     @Expose
