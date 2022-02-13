@@ -1,5 +1,6 @@
 package com.exam.natour.UI.View.LoginPage;
 
+import android.content.Context;
 import android.widget.Toast;
 
 import androidx.lifecycle.ViewModel;
@@ -16,7 +17,7 @@ public class LoginPageViewModel extends ViewModel {
     }
 
 
-    public void login(String email, String password) {
-        this.authRepository.login(email, password);
+    public void login(Context context, String email, String password) {
+        this.authRepository.login(context,email, password);
     }
 }

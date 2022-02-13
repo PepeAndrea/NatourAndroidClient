@@ -1,11 +1,16 @@
 package com.exam.natour.UI.View.LoginPage;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.os.Handler;
+import android.os.Looper;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +21,7 @@ import android.widget.Toast;
 import com.exam.natour.Activity.MainActivity;
 import com.exam.natour.Model.AuthUser;
 import com.exam.natour.R;
+import com.google.android.material.snackbar.Snackbar;
 
 public class LoginPage extends Fragment {
 
@@ -59,23 +65,50 @@ public class LoginPage extends Fragment {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                loginPageViewModel.login(emailInput.getText().toString(),passwordInput.getText().toString());
-                if(AuthUser.getInstance().getToken() != null && AuthUser.getInstance().getToken().length() > 0 ){
-                    startActivity(new Intent(view.getContext(), MainActivity.class));
-                    getActivity().finish();
+
+                loginButton.setEnabled(false);
+                String email = emailInput.getText().toString();
+                String password = passwordInput.getText().toString();
+                emailInput.setError(null);
+                if(validateLoginInput(email,password)){
+                    loginPageViewModel.login(view.getContext(),email,password);
                 }else{
-                    Toast.makeText(view.getContext(),"Login non riuscito",Toast.LENGTH_LONG).show();
+                    loginButton.setEnabled(true);
                 }
+
             }
         });
-
 
 
         return view;
     }
 
+    private boolean validateLoginInput(String email, String password) {
+        boolean validated = true;
+
+        if(email.length() == 0){
+            this.emailInput.setError("Il campo email non può essere vuoto");
+            validated = false;
+        }else if(!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()){
+            this.emailInput.setError("Inserire una mail valida");
+            validated = false;
+        }
+        if(password.length() == 0){
+            this.passwordInput.setError("Il campo email non può essere vuoto");
+            validated = false;
+        }
+        return validated;
+    }
+
     private void goToSignupPage(){
         //getParentFragmentManager().beginTransaction().replace(R.id.AuthContainer, new LoginPage()).commit();
         Toast.makeText(getContext(),"Ancora non impostata",Toast.LENGTH_LONG).show();
+        new AlertDialog.Builder(getContext())
+                .setTitle("Attenzione")
+                .setMessage("Non ancora implementata")
+                .show();
     }
+
+
+
 }

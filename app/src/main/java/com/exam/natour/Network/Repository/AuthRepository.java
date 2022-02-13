@@ -1,5 +1,6 @@
 package com.exam.natour.Network.Repository;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 
 import com.exam.natour.Network.APIClient.AuthApiClient;
@@ -21,8 +22,8 @@ public class AuthRepository {
         return authRepository;
     }
 
-    public void login(String email,String password){
-        this.authApiClient.login(email, password);
+    public void login(Context context, String email, String password){
+        this.authApiClient.login(context,email, password);
     }
 
 }

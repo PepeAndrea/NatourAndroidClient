@@ -1,13 +1,19 @@
 package com.exam.natour.Network.APIClient;
 
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.lifecycle.MutableLiveData;
 
+import com.exam.natour.Activity.MainActivity;
 import com.exam.natour.Model.AuthUser;
 import com.exam.natour.Model.LoginResponse.LoginResponse;
 import com.exam.natour.Network.APICaller;
 import com.exam.natour.Network.RetroInstance;
+import com.exam.natour.R;
 import com.exam.natour.UI.View.LoginPage.LoginPage;
 
 import org.json.JSONException;
@@ -37,7 +43,7 @@ public class AuthApiClient {
     }
 
 
-    public void login(String email,String password){
+    public void login(Context context, String email, String password){
         Call<LoginResponse> call = apiCaller.login(email, password);
         call.enqueue(new Callback<LoginResponse>() {
             @Override
@@ -49,11 +55,28 @@ public class AuthApiClient {
                         authUser.setEmail(response.body().getData().getUser().getEmail());
                         authUser.setName(response.body().getData().getUser().getName());
                         authUser.setToken(response.body().getData().getToken());
+                        context.startActivity(new Intent(context, MainActivity.class));
+                        ((Activity) context).finish();
                     }else if(response.code() == 422){
                         Log.i("API 422",new JSONObject(response.errorBody().string()).getJSONObject("errors").toString());
+                        new AlertDialog.Builder(context)
+                                .setTitle("Si è verificato un errore")
+                                .setMessage("La invitiamo a controllare i dati inseriti e riprovare")
+                                .show();
                     }else if(response.code() == 401){
                         Log.i("API 401",new JSONObject(response.errorBody().string()).getString("message"));
+                        new AlertDialog.Builder(context)
+                                .setTitle("Acccesso non riuscito")
+                                .setMessage("Le credenziali inserite non sono corrette!")
+                                .show();
+                    }else if(response.code() == 500|| response.code() == 502){
+                        Log.i("API 500/502",new JSONObject(response.errorBody().string()).getString("message"));
+                        new AlertDialog.Builder(context)
+                                .setTitle("Errore con il server remoto")
+                                .setMessage("Attualmente la piattaforma non è disponibile.\nRiprovare più tardi.")
+                                .show();
                     }
+                    ((Activity) context).findViewById(R.id.login_button).setEnabled(true);
                 }catch (JSONException | IOException e) {
                     Log.e("Errore durante chiamata al backend","Messaggio di errore: "+e.getMessage());
                 }
