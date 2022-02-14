@@ -25,6 +25,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.common.api.GoogleApi;
 import com.google.android.gms.tasks.Task;
 
 public class AuthMainPage extends Fragment {
@@ -130,29 +131,33 @@ public class AuthMainPage extends Fragment {
 
     private void setGoogleLogin(View view){
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.google_server_client_id))
+                .requestServerAuthCode(getString(R.string.google_server_client_id))
                 .requestEmail()
                 .build();
         googleSignInClient = GoogleSignIn.getClient(view.getContext(), gso);
-        SignInButton googleSignInButton = view.findViewById(R.id.google_login_button);
 
         this.GoogleLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                googleSignInButton.performClick();
-            }
-        });
-
-        googleSignInButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                GoogleSignInClient mGoogleSignInClient = null;
-                Intent signInIntent = mGoogleSignInClient.getSignInIntent();
+                Intent signInIntent = googleSignInClient.getSignInIntent();
                 startActivityForResult(signInIntent, 101);
             }
         });
 
 
 
+    }
+
+    private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
+        try {
+            GoogleSignInAccount account = completedTask.getResult(ApiException.class);
+            authViewModel.loginProvider(getContext(),"google",account.getServerAuthCode());
+        } catch (ApiException e) {
+            // The ApiException status code indicates the detailed failure reason.
+            // Please refer to the GoogleSignInStatusCodes class reference for more information.
+            Log.i("Google login fallito", "signInResult:failed code=" + e.getStatusCode());
+        }
     }
 
     @Override
@@ -169,17 +174,7 @@ public class AuthMainPage extends Fragment {
         }
     }
 
-    private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
-        try {
-            GoogleSignInAccount account = completedTask.getResult(ApiException.class);
-            Log.i("Accesso Google riuscito", account.toString());
 
-        } catch (ApiException e) {
-            // The ApiException status code indicates the detailed failure reason.
-            // Please refer to the GoogleSignInStatusCodes class reference for more information.
-            Log.i("Google login fallito", "signInResult:failed code=" + e.getStatusCode());
-        }
-    }
 
 
 }
