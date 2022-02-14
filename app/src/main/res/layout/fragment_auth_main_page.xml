@@ -70,13 +70,6 @@
         app:layout_constraintStart_toStartOf="@+id/FacebookLogin"
         app:layout_constraintTop_toBottomOf="@+id/FacebookLogin" />
 
-    <com.google.android.gms.common.SignInButton
-        android:id="@+id/google_login_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        tools:ignore="MissingConstraints"
-        android:visibility="gone" />
-
     <Button
         android:id="@+id/EmailLogin"
         android:layout_width="wrap_content"
