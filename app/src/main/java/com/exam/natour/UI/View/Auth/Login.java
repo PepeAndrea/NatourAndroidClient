@@ -1,47 +1,37 @@
-package com.exam.natour.UI.View.LoginPage;
+package com.exam.natour.UI.View.Auth;
 
-import android.app.Dialog;
-import android.content.Intent;
 import android.os.Bundle;
 
-import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import android.os.Handler;
-import android.os.Looper;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
-import com.exam.natour.Activity.MainActivity;
-import com.exam.natour.Model.AuthUser;
 import com.exam.natour.R;
-import com.google.android.material.snackbar.Snackbar;
 
-public class LoginPage extends Fragment {
+public class Login extends Fragment {
 
-    private LoginPageViewModel loginPageViewModel;
+    private AuthViewModel authViewModel;
     Button loginButton,goToSignUpButton;
     EditText emailInput,passwordInput;
 
-    public LoginPage() {
+    public Login() {
         // Required empty public constructor
     }
 
-    public static LoginPage newInstance() {
-        LoginPage fragment = new LoginPage();
+    public static Login newInstance() {
+        Login fragment = new Login();
         return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        loginPageViewModel = new ViewModelProvider(this).get(LoginPageViewModel.class);
+        authViewModel = new ViewModelProvider(this).get(AuthViewModel.class);
 
     }
 
@@ -69,7 +59,7 @@ public class LoginPage extends Fragment {
                 String email = emailInput.getText().toString();
                 String password = passwordInput.getText().toString();
                 if(validateLoginInput(email,password)){
-                    loginPageViewModel.login(view.getContext(),email,password);
+                    authViewModel.login(view.getContext(),email,password);
                 }else{
                     loginButton.setEnabled(true);
                 }
@@ -92,19 +82,14 @@ public class LoginPage extends Fragment {
             validated = false;
         }
         if(password.length() == 0){
-            this.passwordInput.setError("Il campo email non può essere vuoto");
+            this.passwordInput.setError("Il campo password non può essere vuoto");
             validated = false;
         }
         return validated;
     }
 
     private void goToSignupPage(){
-        //getParentFragmentManager().beginTransaction().replace(R.id.AuthContainer, new LoginPage()).commit();
-        Toast.makeText(getContext(),"Ancora non impostata",Toast.LENGTH_LONG).show();
-        new AlertDialog.Builder(getContext())
-                .setTitle("Attenzione")
-                .setMessage("Non ancora implementata")
-                .show();
+        getParentFragmentManager().beginTransaction().replace(R.id.AuthContainer, new Signup()).commit();
     }
 
 

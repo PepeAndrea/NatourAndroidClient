@@ -1,19 +1,17 @@
-package com.exam.natour.UI.View.LoginPage;
+package com.exam.natour.UI.View.Auth;
 
 import android.content.Context;
-import android.widget.Toast;
 
 import androidx.lifecycle.ViewModel;
 
-import com.exam.natour.Activity.AuthActivity;
 import com.exam.natour.Network.Repository.AuthRepository;
 
-public class LoginPageViewModel extends ViewModel {
+public class AuthViewModel extends ViewModel {
 
     private AuthRepository authRepository;
 
 
-    public LoginPageViewModel() {
+    public AuthViewModel() {
         this.authRepository = AuthRepository.getInstance();
     }
 
@@ -24,5 +22,13 @@ public class LoginPageViewModel extends ViewModel {
 
     public void checkSavedToken(Context context, String token) {
         this.authRepository.checkSavedToken(context,token);
+    }
+
+    public void signup(Context context, String email, String username, String password, String passwordConfirmation) {
+        this.authRepository.signup(context,email,username,password,passwordConfirmation);
+    }
+
+    public void loginProvider(Context context, String provider, String token) {
+        this.authRepository.loginProvider(context,provider,token);
     }
 }

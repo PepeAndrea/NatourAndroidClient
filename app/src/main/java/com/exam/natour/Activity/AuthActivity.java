@@ -2,14 +2,15 @@ package com.exam.natour.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Context;
+import android.app.Fragment;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 
 import com.exam.natour.R;
-import com.exam.natour.UI.View.AuthMainPage.AuthMainPage;
-import com.exam.natour.UI.View.LoginPage.LoginPageViewModel;
+import com.exam.natour.UI.View.Auth.AuthMainPage;
+import com.exam.natour.UI.View.Auth.AuthViewModel;
 
 public class AuthActivity extends AppCompatActivity {
 
@@ -21,12 +22,11 @@ public class AuthActivity extends AppCompatActivity {
         getSupportActionBar().hide();
 
         //Verifica se è salvato l'accesso nel dispositivo
-        sharedPreferences = getSharedPreferences("AUTH",MODE_PRIVATE);
-        Log.i("Token",sharedPreferences.getString("Token",""));
 
+        sharedPreferences = getSharedPreferences("AUTH",MODE_PRIVATE);
         if(sharedPreferences.contains("Token")){
-            Log.i("Token",sharedPreferences.getString("Token",""));
-            new LoginPageViewModel().checkSavedToken(this,sharedPreferences.getString("Token",""));
+            Log.i("Token salvato",sharedPreferences.getString("Token",""));
+            new AuthViewModel().checkSavedToken(this,sharedPreferences.getString("Token",""));
         }
 
 
@@ -41,4 +41,6 @@ public class AuthActivity extends AppCompatActivity {
 
 
     }
+
+
 }

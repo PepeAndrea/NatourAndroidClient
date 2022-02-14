@@ -9,7 +9,7 @@
     tools:context=".UI.View.Auth.Login">
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/back_button_signup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
@@ -19,7 +19,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/login_welcome_text"
+        android:id="@+id/signup_welcome_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="40dp"
@@ -27,12 +27,12 @@
         android:layout_marginEnd="24dp"
         android:text="Bentornato"
         android:textColor="#FFFFFF"
-        app:layout_constraintEnd_toEndOf="@+id/button2"
+        app:layout_constraintEnd_toEndOf="@+id/back_button_signup"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button2" />
+        app:layout_constraintTop_toBottomOf="@+id/back_button_signup" />
 
     <EditText
-        android:id="@+id/email_login_input"
+        android:id="@+id/email_signup_input"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="60dp"
@@ -45,49 +45,77 @@
         android:textCursorDrawable="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/login_welcome_text" />
+        app:layout_constraintTop_toBottomOf="@+id/signup_welcome_text" />
 
     <EditText
-        android:id="@+id/passwod_login_input"
+        android:id="@+id/username_signup_input"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
+        android:ems="10"
+        android:hint="Username"
+        android:inputType="text"
+        android:textColor="#FFFFFF"
+        android:textColorHint="#FFFFFF"
+        app:layout_constraintEnd_toEndOf="@+id/email_signup_input"
+        app:layout_constraintStart_toStartOf="@+id/email_signup_input"
+        app:layout_constraintTop_toBottomOf="@+id/email_signup_input" />
+
+    <EditText
+        android:id="@+id/password_signup_input"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
         android:ems="10"
         android:hint="Password"
         android:inputType="textPassword"
         android:textColor="#FFFFFF"
         android:textColorHint="#FFFFFF"
-        app:layout_constraintEnd_toEndOf="@+id/email_login_input"
-        app:layout_constraintStart_toStartOf="@+id/email_login_input"
-        app:layout_constraintTop_toBottomOf="@+id/email_login_input" />
+        app:layout_constraintEnd_toEndOf="@+id/username_signup_input"
+        app:layout_constraintStart_toStartOf="@+id/username_signup_input"
+        app:layout_constraintTop_toBottomOf="@+id/username_signup_input" />
 
-    <Button
-        android:id="@+id/login_button"
+    <EditText
+        android:id="@+id/confirm_password_signup_input"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:text="Accedi"
-        app:layout_constraintEnd_toEndOf="@+id/passwod_login_input"
-        app:layout_constraintStart_toStartOf="@+id/passwod_login_input"
-        app:layout_constraintTop_toBottomOf="@+id/passwod_login_input" />
+        android:layout_marginTop="20dp"
+        android:ems="10"
+        android:hint="Conferma password"
+        android:inputType="textPassword"
+        android:textColor="#FFFFFF"
+        android:textColorHint="#FFFFFF"
+        app:layout_constraintEnd_toEndOf="@+id/password_signup_input"
+        app:layout_constraintStart_toStartOf="@+id/password_signup_input"
+        app:layout_constraintTop_toBottomOf="@+id/password_signup_input" />
+
+    <Button
+        android:id="@+id/signup_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="Registrati"
+        app:layout_constraintEnd_toEndOf="@+id/confirm_password_signup_input"
+        app:layout_constraintStart_toStartOf="@+id/confirm_password_signup_input"
+        app:layout_constraintTop_toBottomOf="@+id/confirm_password_signup_input" />
 
     <TextView
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="20dp"
         android:text="oppure"
         android:textColor="#FFFFFF"
-        app:layout_constraintEnd_toEndOf="@+id/login_button"
-        app:layout_constraintStart_toStartOf="@+id/login_button"
-        app:layout_constraintTop_toBottomOf="@+id/login_button" />
+        app:layout_constraintEnd_toEndOf="@+id/signup_button"
+        app:layout_constraintStart_toStartOf="@+id/signup_button"
+        app:layout_constraintTop_toBottomOf="@+id/signup_button" />
 
     <Button
-        android:id="@+id/go_to_signup_button"
+        android:id="@+id/go_to_login_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:text="Registrati"
+        android:layout_marginTop="20dp"
+        android:text="Accedi"
         app:layout_constraintEnd_toEndOf="@+id/textView2"
         app:layout_constraintStart_toStartOf="@+id/textView2"
         app:layout_constraintTop_toBottomOf="@+id/textView2" />

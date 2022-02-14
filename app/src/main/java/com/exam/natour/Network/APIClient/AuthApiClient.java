@@ -7,7 +7,6 @@ import android.content.SharedPreferences;
 import android.util.Log;
 
 import androidx.appcompat.app.AlertDialog;
-import androidx.lifecycle.MutableLiveData;
 
 import com.exam.natour.Activity.MainActivity;
 import com.exam.natour.Model.AuthUser;
@@ -15,13 +14,11 @@ import com.exam.natour.Model.LoginResponse.LoginResponse;
 import com.exam.natour.Network.APICaller;
 import com.exam.natour.Network.RetroInstance;
 import com.exam.natour.R;
-import com.exam.natour.UI.View.LoginPage.LoginPage;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -57,13 +54,13 @@ public class AuthApiClient {
                         context.startActivity(new Intent(context, MainActivity.class));
                         ((Activity) context).finish();
                     }else if(response.code() == 422){
-                        Log.i("API 422",new JSONObject(response.errorBody().string()).getJSONObject("errors").toString());
+                        Log.i("API 422",new JSONObject(response.errorBody().string()).toString());
                         new AlertDialog.Builder(context)
                                 .setTitle("Si è verificato un errore")
                                 .setMessage("La invitiamo a controllare i dati inseriti e riprovare")
                                 .show();
                     }else if(response.code() == 401){
-                        Log.i("API 401",new JSONObject(response.errorBody().string()).getString("message"));
+                        Log.i("API 401",new JSONObject(response.errorBody().string()).toString());
                         new AlertDialog.Builder(context)
                                 .setTitle("Acccesso non riuscito")
                                 .setMessage("Le credenziali inserite non sono corrette!")
@@ -112,7 +109,7 @@ public class AuthApiClient {
             public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
                 if(response.isSuccessful()){
                     Log.i("API 200","Login riuscito correttamente per il token: "+token);
-                    setSavedUser(context,response.body());
+                    setSavedUser(response.body());
                     context.startActivity(new Intent(context, MainActivity.class));
                     ((Activity) context).finish();
                 }else if(response.code() == 404){
@@ -128,15 +125,96 @@ public class AuthApiClient {
                         .setTitle("Errore con il server remoto")
                         .setMessage("Attualmente la piattaforma non è disponibile.\nRiprovare più tardi.")
                         .show();
-                ((Activity) context).findViewById(R.id.login_button).setEnabled(true);
             }
         });
     }
 
-    private void setSavedUser(Context context, LoginResponse response) {
+    private void setSavedUser(LoginResponse response) {
         AuthUser authUser = AuthUser.getInstance();
         authUser.setEmail(response.getData().getUser().getEmail());
         authUser.setName(response.getData().getUser().getName());
         authUser.setToken(response.getData().getToken());
+    }
+
+    public void signup(Context context, String email, String username, String password, String passwordConfirmation) {
+        Call<LoginResponse> call = apiCaller.signup(email,username,password,passwordConfirmation);
+        call.enqueue(new Callback<LoginResponse>() {
+            @Override
+            public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
+                try {
+                    if(response.isSuccessful()){
+                        Log.i("API 200","Registrazione avvenuta correttamente per: "+email);
+                        saveLogin(context,response.body());
+                        context.startActivity(new Intent(context, MainActivity.class));
+                        ((Activity) context).finish();
+                    }else if(response.code() == 422){
+                        Log.i("API 422",new JSONObject(response.errorBody().string()).toString());
+                        new AlertDialog.Builder(context)
+                                .setTitle("Errore registrazione")
+                                .setMessage("L'indirizzo email risulta già registrato!\nAccedere premendo il tasto \"Accedi\"")
+                                .show();
+                    }else if(response.code() == 500|| response.code() == 502){
+                        Log.i("API 500/502",new JSONObject(response.errorBody().string()).toString());
+                        new AlertDialog.Builder(context)
+                                .setTitle("Errore con il server remoto")
+                                .setMessage("Attualmente la piattaforma non è disponibile.\nRiprovare più tardi.")
+                                .show();
+                    }
+                    ((Activity) context).findViewById(R.id.signup_button).setEnabled(true);
+                }catch (JSONException | IOException e) {
+                    Log.e("Errore durante chiamata al backend","Messaggio di errore: "+e.getMessage());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<LoginResponse> call, Throwable t) {
+                Log.i("API Error",t.toString());
+                new AlertDialog.Builder(context)
+                        .setTitle("Errore con il server remoto")
+                        .setMessage("Attualmente la piattaforma non è disponibile.\nRiprovare più tardi.")
+                        .show();
+                ((Activity) context).findViewById(R.id.signup_button).setEnabled(true);
+            }
+        });
+    }
+
+    public void loginProvider(Context context, String provider, String token) {
+        Call<LoginResponse> call = apiCaller.loginProvider(provider, token);
+        call.enqueue(new Callback<LoginResponse>() {
+            @Override
+            public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
+                try {
+                    if(response.isSuccessful()){
+                        Log.i("API 200","Login con provider "+provider+" riuscito correttamente con token: "+token);
+                        saveLogin(context,response.body());
+                        context.startActivity(new Intent(context, MainActivity.class));
+                        ((Activity) context).finish();
+                    }else if(response.code() == 422){
+                        Log.i("API 422",new JSONObject(response.errorBody().string()).toString());
+                        new AlertDialog.Builder(context)
+                                .setTitle("Errore trasferimento dati")
+                                .setMessage("Si è verificato un errore di comnicazione con il provider, la invitiamo a riprovare")
+                                .show();
+                    }else if(response.code() == 500|| response.code() == 502){
+                        Log.i("API 500/502",new JSONObject(response.errorBody().string()).toString());
+                        new AlertDialog.Builder(context)
+                                .setTitle("Errore con il server remoto")
+                                .setMessage("Attualmente la piattaforma non è disponibile.\nRiprovare più tardi.")
+                                .show();
+                    }
+                }catch (JSONException | IOException e) {
+                    Log.e("Errore durante chiamata al backend","Messaggio di errore: "+e.getMessage());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<LoginResponse> call, Throwable t) {
+                Log.i("API Error",t.toString());
+                new AlertDialog.Builder(context)
+                        .setTitle("Errore con il server remoto")
+                        .setMessage("Attualmente la piattaforma non è disponibile.\nRiprovare più tardi.")
+                        .show();
+            }
+        });
     }
 }

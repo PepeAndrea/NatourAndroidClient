@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#212121"
-    tools:context=".UI.View.AuthMainPage.AuthMainPage">
+    tools:context=".UI.View.Auth.AuthMainPage">
 
     <ImageView
         android:id="@+id/imageView"
@@ -52,6 +52,13 @@
         app:layout_constraintEnd_toEndOf="@+id/AppDescription"
         app:layout_constraintStart_toStartOf="@+id/AppDescription"
         app:layout_constraintTop_toBottomOf="@+id/AppDescription" />
+
+    <com.facebook.login.widget.LoginButton
+        android:id="@+id/fb_login_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:ignore="MissingConstraints"
+        android:visibility="gone"/>
 
     <Button
         android:id="@+id/GoogleLogin"
