@@ -19,6 +19,13 @@ import com.facebook.FacebookException;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.SignInButton;
+import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.tasks.Task;
 
 public class AuthMainPage extends Fragment {
 
@@ -26,6 +33,7 @@ public class AuthMainPage extends Fragment {
     private Button FacebookLogin,GoogleLogin,EmailLogin;
     private LoginButton fbLoginButton;
     private CallbackManager callbackManager;
+    private GoogleSignInClient googleSignInClient;
 
     public AuthMainPage() {
         // Required empty public constructor
@@ -55,6 +63,9 @@ public class AuthMainPage extends Fragment {
 
         //SETUP LOGIN FACEBOOK
         this.setFacebookLogin(view);
+
+        //SETUP GOOGLE FACEBOOK
+        this.setGoogleLogin(view);
 
         this.EmailLogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -117,10 +128,57 @@ public class AuthMainPage extends Fragment {
 
     }
 
+    private void setGoogleLogin(View view){
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestEmail()
+                .build();
+        googleSignInClient = GoogleSignIn.getClient(view.getContext(), gso);
+        SignInButton googleSignInButton = view.findViewById(R.id.google_login_button);
+
+        this.GoogleLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                googleSignInButton.performClick();
+            }
+        });
+
+        googleSignInButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                GoogleSignInClient mGoogleSignInClient = null;
+                Intent signInIntent = mGoogleSignInClient.getSignInIntent();
+                startActivityForResult(signInIntent, 101);
+            }
+        });
+
+
+
+    }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        callbackManager.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 101) {
+            // The Task returned from this call is always completed, no need to attach
+            // a listener.
+            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+            handleSignInResult(task);
+        }else{
+            callbackManager.onActivityResult(requestCode, resultCode, data);
+
+        }
+    }
+
+    private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
+        try {
+            GoogleSignInAccount account = completedTask.getResult(ApiException.class);
+            Log.i("Accesso Google riuscito", account.toString());
+
+        } catch (ApiException e) {
+            // The ApiException status code indicates the detailed failure reason.
+            // Please refer to the GoogleSignInStatusCodes class reference for more information.
+            Log.i("Google login fallito", "signInResult:failed code=" + e.getStatusCode());
+        }
     }
 
 
