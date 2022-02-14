@@ -77,8 +77,6 @@ public class Signup extends Fragment {
             }
         });
 
-
-
         return view;
     }
 
@@ -118,7 +116,11 @@ public class Signup extends Fragment {
     }
 
     private void goToAuthPage(){
-        getParentFragmentManager().beginTransaction().replace(R.id.AuthContainer, new AuthMainPage()).commit();
+        if (getParentFragmentManager().getBackStackEntryCount() > 0) {
+            getParentFragmentManager().popBackStack();
+        } else {
+            getParentFragmentManager().beginTransaction().replace(R.id.AuthContainer, new AuthMainPage()).commit();
+        }
     }
 
 

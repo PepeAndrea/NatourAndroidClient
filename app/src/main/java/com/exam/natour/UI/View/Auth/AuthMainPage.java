@@ -70,8 +70,9 @@ public class AuthMainPage extends Fragment {
     }
 
     private void goToLoginPage(){
-        getParentFragmentManager().beginTransaction().
-                replace(R.id.AuthContainer, new Login()).
+        getParentFragmentManager().beginTransaction()
+                .replace(R.id.AuthContainer, new Login())
+                .addToBackStack("FragStack").
                 commit();
     }
 
@@ -121,4 +122,6 @@ public class AuthMainPage extends Fragment {
         super.onActivityResult(requestCode, resultCode, data);
         callbackManager.onActivityResult(requestCode, resultCode, data);
     }
+
+
 }

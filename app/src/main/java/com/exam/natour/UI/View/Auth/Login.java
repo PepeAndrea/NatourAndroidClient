@@ -16,7 +16,7 @@ import com.exam.natour.R;
 public class Login extends Fragment {
 
     private AuthViewModel authViewModel;
-    Button loginButton,goToSignUpButton;
+    Button loginButton,goToSignUpButton,backButton;
     EditText emailInput,passwordInput;
 
     public Login() {
@@ -40,10 +40,18 @@ public class Login extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_login_page, container, false);
+        backButton = view.findViewById(R.id.back_button_login);
         loginButton = view.findViewById(R.id.login_button);
         goToSignUpButton = view.findViewById(R.id.go_to_signup_button);
         emailInput = view.findViewById(R.id.email_login_input);
         passwordInput = view.findViewById(R.id.passwod_login_input);
+
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                goToAuthPage();
+            }
+        });
 
         goToSignUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -92,6 +100,13 @@ public class Login extends Fragment {
         getParentFragmentManager().beginTransaction().replace(R.id.AuthContainer, new Signup()).commit();
     }
 
+    private void goToAuthPage(){
+        if (getParentFragmentManager().getBackStackEntryCount() > 0) {
+            getParentFragmentManager().popBackStack();
+        } else {
+            getParentFragmentManager().beginTransaction().replace(R.id.AuthContainer, new AuthMainPage()).commit();
+        }
+    }
 
 
 }
