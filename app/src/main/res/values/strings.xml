@@ -5,6 +5,8 @@
     <string name="title_notifications">Notifications</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="back">Back</string>
-    <string name="bentornato">Bentornato</string>
+
+    <string name="facebook_app_id">4617504791693748</string> <string name="fb_login_protocol_scheme">fb4617504791693748</string>
+
+
 </resources>
