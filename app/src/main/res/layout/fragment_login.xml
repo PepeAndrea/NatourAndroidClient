@@ -30,7 +30,8 @@
         android:layout_marginTop="32dp"
         android:text="Bentornato"
         android:textColor="#FFFFFF"
-        android:textSize="18sp"
+        android:textSize="24sp"
+        android:textStyle="normal"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/back_button_login" />
 

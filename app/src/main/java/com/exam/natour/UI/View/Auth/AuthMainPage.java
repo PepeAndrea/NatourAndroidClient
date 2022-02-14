@@ -55,7 +55,7 @@ public class AuthMainPage extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_auth_main_page, container, false);
+        View view = inflater.inflate(R.layout.fragment_auth_main, container, false);
         this.EmailLogin = view.findViewById(R.id.EmailLogin);
         this.FacebookLogin = view.findViewById(R.id.FacebookLogin);
         this.GoogleLogin = view.findViewById(R.id.GoogleLogin);
