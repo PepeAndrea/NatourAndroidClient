@@ -26,4 +26,7 @@ public class AuthRepository {
         this.authApiClient.login(context,email, password);
     }
 
+    public void checkSavedToken(Context context, String token) {
+        this.authApiClient.checkSavedToken(context,token);
+    }
 }

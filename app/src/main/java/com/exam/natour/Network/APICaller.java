@@ -1,6 +1,7 @@
 package com.exam.natour.Network;
 
 
+import com.exam.natour.Model.AuthUser;
 import com.exam.natour.Model.LoginResponse.LoginResponse;
 import com.exam.natour.Model.PathsResponse.PathsResponse;
 
@@ -23,7 +24,8 @@ public interface APICaller {
     @GET("paths")
     Call<PathsResponse> getAllPaths();
 
-
-
-
+    //CheckToken endpoint
+    @Headers({"Accept: application/json"})
+    @GET("checkUser")
+    Call<LoginResponse> checkToken();
 }

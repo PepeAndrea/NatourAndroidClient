@@ -3,6 +3,7 @@ package com.exam.natour.Network.APIClient;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.util.Log;
 
 import androidx.appcompat.app.AlertDialog;
@@ -30,6 +31,7 @@ public class AuthApiClient {
 
     private APICaller apiCaller;
     private static AuthApiClient authApiClient;
+    private SharedPreferences sharedPreferences;
 
     public AuthApiClient() {
         this.apiCaller = RetroInstance.getRetrofitClient().create(APICaller.class);
@@ -51,10 +53,7 @@ public class AuthApiClient {
                 try {
                     if(response.isSuccessful()){
                         Log.i("API 200","Login riuscito correttamente per: "+email);
-                        AuthUser authUser = AuthUser.getInstance();
-                        authUser.setEmail(response.body().getData().getUser().getEmail());
-                        authUser.setName(response.body().getData().getUser().getName());
-                        authUser.setToken(response.body().getData().getToken());
+                        saveLogin(context,response.body());
                         context.startActivity(new Intent(context, MainActivity.class));
                         ((Activity) context).finish();
                     }else if(response.code() == 422){
@@ -85,10 +84,59 @@ public class AuthApiClient {
             @Override
             public void onFailure(Call<LoginResponse> call, Throwable t) {
                 Log.i("API Error",t.toString());
+                new AlertDialog.Builder(context)
+                        .setTitle("Errore con il server remoto")
+                        .setMessage("Attualmente la piattaforma non è disponibile.\nRiprovare più tardi.")
+                        .show();
+                ((Activity) context).findViewById(R.id.login_button).setEnabled(true);
             }
         });
     }
 
+    private void saveLogin(Context context, LoginResponse response) {
+        AuthUser authUser = AuthUser.getInstance();
+        authUser.setEmail(response.getData().getUser().getEmail());
+        authUser.setName(response.getData().getUser().getName());
+        authUser.setToken(response.getData().getToken());
+        sharedPreferences = context.getSharedPreferences("AUTH",Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("Token",response.getData().getToken());
+        editor.apply();
+    }
 
+    public void checkSavedToken(Context context, String token) {
+        AuthUser.getInstance().setToken(token);
+        Call<LoginResponse> call = apiCaller.checkToken();
+        call.enqueue(new Callback<LoginResponse>() {
+            @Override
+            public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
+                if(response.isSuccessful()){
+                    Log.i("API 200","Login riuscito correttamente per il token: "+token);
+                    setSavedUser(context,response.body());
+                    context.startActivity(new Intent(context, MainActivity.class));
+                    ((Activity) context).finish();
+                }else if(response.code() == 404){
+                    Log.i("API 404","Il token fornito è scaduto on non è valido");
+                }
 
+            }
+
+            @Override
+            public void onFailure(Call<LoginResponse> call, Throwable t) {
+                Log.i("API Error",t.toString());
+                new AlertDialog.Builder(context)
+                        .setTitle("Errore con il server remoto")
+                        .setMessage("Attualmente la piattaforma non è disponibile.\nRiprovare più tardi.")
+                        .show();
+                ((Activity) context).findViewById(R.id.login_button).setEnabled(true);
+            }
+        });
+    }
+
+    private void setSavedUser(Context context, LoginResponse response) {
+        AuthUser authUser = AuthUser.getInstance();
+        authUser.setEmail(response.getData().getUser().getEmail());
+        authUser.setName(response.getData().getUser().getName());
+        authUser.setToken(response.getData().getToken());
+    }
 }

@@ -65,11 +65,9 @@ public class LoginPage extends Fragment {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 loginButton.setEnabled(false);
                 String email = emailInput.getText().toString();
                 String password = passwordInput.getText().toString();
-                emailInput.setError(null);
                 if(validateLoginInput(email,password)){
                     loginPageViewModel.login(view.getContext(),email,password);
                 }else{
