@@ -15,10 +15,12 @@ public class PathViewHolder extends RecyclerView.ViewHolder implements View.OnCl
         super(itemView);
 
         pathTitle = itemView.findViewById(R.id.pathTitle);
+        /*
         pathDescription = itemView.findViewById(R.id.pathDescription);
         pathDifficulty = itemView.findViewById(R.id.pathDifficulty);
         pathLength = itemView.findViewById(R.id.pathLength);
         pathDuration = itemView.findViewById(R.id.pathDuration);
+        */
         pathUser = itemView.findViewById(R.id.pathUser);
 
         itemView.setOnClickListener(new View.OnClickListener() {
