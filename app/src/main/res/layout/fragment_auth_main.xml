@@ -27,7 +27,7 @@
         android:layout_marginTop="24dp"
         android:text="NaTour"
         android:textColor="#669944"
-        android:textSize="36sp"
+        android:textSize="48sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="@+id/imageView"
         app:layout_constraintTop_toBottomOf="@+id/imageView" />
@@ -42,7 +42,7 @@
         android:width="250dp"
         android:text="Unisciti alla più grande community di escursionisti!"
         android:textColor="#FFFFFF"
-        android:textSize="16sp"
+        android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/AppTitle" />
@@ -110,7 +110,7 @@
         android:id="@+id/imageView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="15dp"
         android:src="@drawable/ic_google"
         android:translationZ="10dp"
         app:layout_constraintBottom_toBottomOf="@+id/GoogleLogin"
