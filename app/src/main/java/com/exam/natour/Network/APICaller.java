@@ -22,7 +22,7 @@ public interface APICaller {
                               @Field("password") String password);
 
     //Get all paths endpoint
-    @Headers({"Accept: application/json", "Authorization: Bearer 1|3sssq6r6BMGiJDOK8D8KtnA2xi40oz31vzqgdJuK"})
+    @Headers({"Accept: application/json"})
     @GET("paths")
     Call<PathsResponse> getAllPaths();
 
