@@ -37,7 +37,6 @@ public class PathAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         ((PathViewHolder) holder).pathLocation.setText(mPath.get(position).getLocation());
 
 
-
     }
 
     @Override
