@@ -10,48 +10,74 @@
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="40dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:src="@drawable/img" />
+        android:src="@drawable/logo" />
 
     <TextView
         android:id="@+id/AppTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="24dp"
         android:text="NaTour"
         android:textColor="#669944"
-        android:textSize="34sp"
+        android:textSize="48sp"
         android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="@+id/imageView"
         app:layout_constraintStart_toStartOf="@+id/imageView"
         app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
     <TextView
         android:id="@+id/AppDescription"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="40dp"
         android:width="250dp"
-        android:layout_marginTop="20dp"
         android:text="Unisciti alla più grande community di escursionisti!"
         android:textColor="#FFFFFF"
-        app:layout_constraintEnd_toEndOf="@+id/AppTitle"
-        app:layout_constraintStart_toStartOf="@+id/AppTitle"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/AppTitle" />
 
     <Button
         android:id="@+id/FacebookLogin"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
         android:text="Continua con Facebook"
         app:layout_constraintEnd_toEndOf="@+id/AppDescription"
         app:layout_constraintStart_toStartOf="@+id/AppDescription"
-        app:layout_constraintTop_toBottomOf="@+id/AppDescription" />
+        app:layout_constraintTop_toBottomOf="@+id/AppDescription"
+        android:layout_width="0dp"
+        android:layout_height="55dp"
+        android:layout_marginTop="40dp"
+        android:backgroundTint="#212121"
+        android:insetTop="0dp"
+        android:insetBottom="0dp"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:textColor="#ffffff"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:cornerRadius="28dp"
+        app:strokeColor="#ffffff"
+        app:strokeWidth="2dp"/>
+
+    <ImageView
+        android:id="@+id/imageView4"
+        android:layout_width="22dp"
+        android:layout_height="22dp"
+        android:layout_marginStart="20dp"
+        android:src="@drawable/ic_facebook"
+        android:translationZ="10dp"
+        app:layout_constraintBottom_toBottomOf="@+id/FacebookLogin"
+        app:layout_constraintStart_toStartOf="@+id/FacebookLogin"
+        app:layout_constraintTop_toTopOf="@+id/FacebookLogin"
+        app:layout_constraintVertical_bias="0.485" />
 
     <com.facebook.login.widget.LoginButton
         android:id="@+id/fb_login_button"
@@ -62,21 +88,65 @@
 
     <Button
         android:id="@+id/GoogleLogin"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_width="0dp"
+        android:layout_height="55dp"
+        android:layout_marginTop="24dp"
+        android:backgroundTint="#212121"
+        android:insetTop="0dp"
+        android:insetBottom="0dp"
         android:text="Continua con Google"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:textColor="#ffffff"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:cornerRadius="28dp"
         app:layout_constraintEnd_toEndOf="@+id/FacebookLogin"
         app:layout_constraintStart_toStartOf="@+id/FacebookLogin"
-        app:layout_constraintTop_toBottomOf="@+id/FacebookLogin" />
+        app:layout_constraintTop_toBottomOf="@+id/FacebookLogin"
+        app:strokeColor="#ffffff"
+        app:strokeWidth="2dp" />
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:src="@drawable/ic_google"
+        android:translationZ="10dp"
+        app:layout_constraintBottom_toBottomOf="@+id/GoogleLogin"
+        app:layout_constraintStart_toStartOf="@+id/GoogleLogin"
+        app:layout_constraintTop_toTopOf="@+id/GoogleLogin" />
 
     <Button
         android:id="@+id/EmailLogin"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:text="Continua con Email"
+        android:text="Continua con l'email"
         app:layout_constraintEnd_toEndOf="@+id/GoogleLogin"
         app:layout_constraintStart_toStartOf="@+id/GoogleLogin"
-        app:layout_constraintTop_toBottomOf="@+id/GoogleLogin" />
+        app:layout_constraintTop_toBottomOf="@+id/GoogleLogin"
+        android:layout_width="0dp"
+        android:layout_height="55dp"
+        android:layout_marginTop="24dp"
+        android:backgroundTint="#212121"
+        android:insetTop="0dp"
+        android:insetBottom="0dp"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:textColor="#ffffff"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:cornerRadius="28dp"
+        app:strokeColor="#ffffff"
+        app:strokeWidth="2dp" />
+
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="22dp"
+        android:src="@drawable/ic_email"
+        android:translationZ="10dp"
+        app:layout_constraintBottom_toBottomOf="@+id/EmailLogin"
+        app:layout_constraintStart_toStartOf="@+id/EmailLogin"
+        app:layout_constraintTop_toTopOf="@+id/EmailLogin"
+        app:layout_constraintVertical_bias="0.512" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
