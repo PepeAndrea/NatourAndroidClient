@@ -1,10 +1,15 @@
 package com.exam.natour.Network.APIClient;
 
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import com.exam.natour.Activity.AuthActivity;
 import com.exam.natour.Model.PathsResponse.Path;
 import com.exam.natour.Model.PathsResponse.PathsResponse;
 import com.exam.natour.Network.APICaller;
@@ -38,21 +43,27 @@ public class PathApiClient {
         return pathApiClient;
     }
 
-    private void LoadPath(){
+    private void LoadPath(Context context){
         Call<PathsResponse> call = service.getAllPaths();
         call.enqueue(new Callback<PathsResponse>() {
             @Override
             public void onResponse(Call<PathsResponse> call, Response<PathsResponse> response) {
-                try {
-                    if(response.isSuccessful()){
-                        mPaths.setValue(response.body().getData().getPaths());
-                    }else if(response.code() == 422){
-                        Log.i("API 422",new JSONObject(response.errorBody().string()).toString());
-                    }else if(response.code() == 401){
-                        Log.i("API 401",new JSONObject(response.errorBody().string()).toString());
+                if(response.isSuccessful()){
+                    mPaths.setValue(response.body().getData().getPaths());
+                }else if(response.code() == 401){
+                    Log.i("API 401","Il token fornito è scaduto o non è valido");
+                    context.startActivity(new Intent(context, AuthActivity.class));
+                    ((Activity) context).finish();
+                }else if(response.code() == 500|| response.code() == 502){
+                    try {
+                        Log.i("API 500/502",new JSONObject(response.errorBody().string()).toString());
+                    } catch (JSONException | IOException e) {
+                        Log.e("Errore durante chiamata al backend","Messaggio di errore: "+e.getMessage());
                     }
-                }catch (JSONException | IOException e) {
-                    Log.e("Errore","Messaggio di errore: "+e.getMessage());
+                    new AlertDialog.Builder(context)
+                            .setTitle("Errore con il server remoto")
+                            .setMessage("Attualmente la piattaforma non è disponibile.\nRiprovare più tardi.")
+                            .show();
                 }
             }
 
@@ -63,8 +74,8 @@ public class PathApiClient {
         });
     }
 
-    public LiveData<List<Path>> getPaths(){
-        this.LoadPath();
+    public LiveData<List<Path>> getPaths(Context context){
+        this.LoadPath(context);
         return mPaths;
     }
 

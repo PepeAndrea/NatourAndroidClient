@@ -37,7 +37,7 @@ public class HomeFragment extends Fragment {
         this.pathList = root.findViewById(R.id.pathList);
         this.setupPathList();
         this.ObserveChange();
-        this.homeViewModel.getPaths();
+        this.homeViewModel.getPaths(root.getContext());
 
         return root;
     }
@@ -49,7 +49,7 @@ public class HomeFragment extends Fragment {
     }
 
     private void ObserveChange(){
-        homeViewModel.getPaths().observe(this, new Observer<List<Path>>() {
+        homeViewModel.getPaths(getContext()).observe(this, new Observer<List<Path>>() {
             @Override
             public void onChanged(List<Path> paths) {
                 pathAdapter.setPaths(paths);

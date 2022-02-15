@@ -37,4 +37,10 @@ public class AuthUser {
     public void setToken(String token) {
         this.token = token;
     }
+
+    public void inizialize(){
+        this.setToken(null);
+        this.setEmail(null);
+        this.setName(null);
+    }
 }

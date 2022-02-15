@@ -1,14 +1,19 @@
 package com.exam.natour.Network.Repository;
 
 import android.content.Context;
-import android.view.LayoutInflater;
 
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
+
+import com.exam.natour.Model.AuthUser;
 import com.exam.natour.Network.APIClient.AuthApiClient;
 
 public class AuthRepository {
 
     private AuthApiClient authApiClient;
     private static AuthRepository authRepository;
+
+    private AuthUser authuser;
 
 
     public AuthRepository() {
@@ -36,5 +41,13 @@ public class AuthRepository {
 
     public void loginProvider(Context context, String provider, String token) {
         this.authApiClient.loginProvider(context,provider,token);
+    }
+
+    public AuthUser getAuthUser() {
+        return AuthUser.getInstance();
+    }
+
+    public void logout(Context context) {
+        this.authApiClient.logout(context);
     }
 }
