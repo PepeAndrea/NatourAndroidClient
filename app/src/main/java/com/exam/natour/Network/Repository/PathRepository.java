@@ -1,5 +1,7 @@
 package com.exam.natour.Network.Repository;
 
+import android.content.Context;
+
 import androidx.lifecycle.LiveData;
 
 import com.exam.natour.Model.PathsResponse.Path;
@@ -23,7 +25,7 @@ public class PathRepository {
         return pathRepository;
     }
 
-    public LiveData<List<Path>> getPaths(){
-        return pathApiClient.getPaths();
+    public LiveData<List<Path>> getPaths(Context context){
+        return pathApiClient.getPaths(context);
     }
 }

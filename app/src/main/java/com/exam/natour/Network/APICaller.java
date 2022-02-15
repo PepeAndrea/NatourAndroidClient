@@ -5,6 +5,8 @@ import com.exam.natour.Model.AuthUser;
 import com.exam.natour.Model.LoginResponse.LoginResponse;
 import com.exam.natour.Model.PathsResponse.PathsResponse;
 
+import org.json.JSONObject;
+
 import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
@@ -46,4 +48,9 @@ public interface APICaller {
     @POST("login/{provider}")
     Call<LoginResponse> loginProvider(@Path(value = "provider", encoded = true) String provider,
                                       @Field("provider_token") String token);
+
+    //Logout
+    @Headers({"Accept: application/json"})
+    @POST("logout")
+    Call<JSONObject> logout();
 }

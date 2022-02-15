@@ -13,7 +13,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetroInstance {
 
-    public static String BASE_URL = "http://192.168.1.137:8000/api/";
+    public static String BASE_URL = "https://natour.pepeandrea.it/api/";
 
     private static Retrofit retrofit;
 

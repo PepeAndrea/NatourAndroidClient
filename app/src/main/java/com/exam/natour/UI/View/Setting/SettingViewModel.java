@@ -1,19 +1,27 @@
 package com.exam.natour.UI.View.Setting;
 
-import androidx.lifecycle.LiveData;
+import android.content.Context;
+
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.exam.natour.Model.AuthUser;
+import com.exam.natour.Network.Repository.AuthRepository;
+
 public class SettingViewModel extends ViewModel {
 
-    private MutableLiveData<String> mText;
+    private AuthRepository authRepository;
 
     public SettingViewModel() {
-        mText = new MutableLiveData<>();
-        mText.setValue("This is notifications fragment");
+        this.authRepository = AuthRepository.getInstance();
+
     }
 
-    public LiveData<String> getText() {
-        return mText;
+    public AuthUser authUser() {
+        return this.authRepository.getAuthUser();
+    }
+
+    public void logout(Context context) {
+        this.authRepository.logout(context);
     }
 }

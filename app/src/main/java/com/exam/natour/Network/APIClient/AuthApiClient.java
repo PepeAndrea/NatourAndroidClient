@@ -8,6 +8,7 @@ import android.util.Log;
 
 import androidx.appcompat.app.AlertDialog;
 
+import com.exam.natour.Activity.AuthActivity;
 import com.exam.natour.Activity.MainActivity;
 import com.exam.natour.Model.AuthUser;
 import com.exam.natour.Model.LoginResponse.LoginResponse;
@@ -113,7 +114,8 @@ public class AuthApiClient {
                     context.startActivity(new Intent(context, MainActivity.class));
                     ((Activity) context).finish();
                 }else if(response.code() == 404){
-                    Log.i("API 404","Il token fornito è scaduto on non è valido");
+                    deleteLogin(context);
+                    Log.i("API 404","Il token fornito è scaduto o non è valido");
                 }
 
             }
@@ -216,5 +218,55 @@ public class AuthApiClient {
                         .show();
             }
         });
+    }
+
+    public void logout(Context context) {
+        Call<JSONObject> call = apiCaller.logout();
+        call.enqueue(new Callback<JSONObject>() {
+            @Override
+            public void onResponse(Call<JSONObject> call, Response<JSONObject> response) {
+                if(response.isSuccessful()){
+                    Log.i("API 200","Logout eseguito corretamente per l'utente: "+AuthUser.getInstance().getEmail());
+                    deleteLogin(context);
+                    context.startActivity(new Intent(context, AuthActivity.class));
+                    ((Activity) context).finish();
+                }else if(response.code() == 401){
+                    Log.i("API 401","Il token fornito è scaduto o non è valido");
+                    deleteLogin(context);
+                    context.startActivity(new Intent(context, AuthActivity.class));
+                    ((Activity) context).finish();
+                }else if(response.code() == 500|| response.code() == 502){
+                    try {
+                        Log.i("API 500/502",new JSONObject(response.errorBody().string()).toString());
+                    } catch (JSONException | IOException e) {
+                        Log.e("Errore durante chiamata al backend","Messaggio di errore: "+e.getMessage());
+                    }
+                    new AlertDialog.Builder(context)
+                            .setTitle("Errore con il server remoto")
+                            .setMessage("Attualmente la piattaforma non è disponibile.\nRiprovare più tardi.")
+                            .show();
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<JSONObject> call, Throwable t) {
+                Log.i("API Error",t.toString());
+                new AlertDialog.Builder(context)
+                        .setTitle("Errore con il server remoto")
+                        .setMessage("Attualmente la piattaforma non è disponibile.\nRiprovare più tardi.")
+                        .show();
+            }
+        });
+    }
+
+    private void deleteLogin(Context context) {
+        AuthUser.getInstance().inizialize();
+        sharedPreferences = context.getSharedPreferences("AUTH",Context.MODE_PRIVATE);
+        if (sharedPreferences.contains("Token")){
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.remove("Token");
+            editor.apply();
+        }
     }
 }

@@ -1,5 +1,7 @@
 package com.exam.natour.UI.View.Home;
 
+import android.content.Context;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -24,7 +26,7 @@ public class HomeViewModel extends ViewModel {
         return mText;
     }
 
-    public LiveData<List<Path>> getPaths(){
-        return this.pathRepository.getPaths();
+    public LiveData<List<Path>> getPaths(Context context){
+        return this.pathRepository.getPaths(context);
     }
 }
