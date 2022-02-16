@@ -51,7 +51,8 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/pathUser" />
+                app:layout_constraintTop_toBottomOf="@+id/pathUser"
+                android:transitionName="pathImageTransition"/>
 
             <TextView
                 android:id="@+id/pathDifficulty"
@@ -81,7 +82,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toEndOf="@+id/pathDifficulty"
-                app:layout_constraintTop_toBottomOf="@+id/pathImage" />
+                app:layout_constraintTop_toBottomOf="@+id/pathImage"/>
 
             <TextView
                 android:id="@+id/pathLocation"
@@ -101,6 +102,14 @@
                 app:layout_constraintStart_toEndOf="@+id/pathDifficulty"
                 app:layout_constraintTop_toBottomOf="@+id/pathTitle"
                 app:layout_constraintVertical_bias="0.2" />
+
+            <TextView
+                android:id="@+id/pathId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="TextView"
+                android:visibility="gone"
+                tools:ignore="MissingConstraints" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

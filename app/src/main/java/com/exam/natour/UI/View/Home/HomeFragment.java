@@ -1,11 +1,13 @@
 package com.exam.natour.UI.View.Home;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -49,7 +51,7 @@ public class HomeFragment extends Fragment {
     }
 
     private void ObserveChange(){
-        homeViewModel.getPaths(getContext()).observe(this, new Observer<List<Path>>() {
+        homeViewModel.getPaths(getContext()).observe(getViewLifecycleOwner(), new Observer<List<Path>>() {
             @Override
             public void onChanged(List<Path> paths) {
                 pathAdapter.setPaths(paths);

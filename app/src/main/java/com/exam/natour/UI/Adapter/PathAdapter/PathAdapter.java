@@ -35,7 +35,7 @@ public class PathAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         //((PathViewHolder) holder).pathDuration.setText(String.valueOf(mPath.get(position).getDuration())+'h');
         ((PathViewHolder) holder).pathUser.setText("@"+mPath.get(position).getUsername());
         ((PathViewHolder) holder).pathLocation.setText(mPath.get(position).getLocation());
-
+        ((PathViewHolder) holder).pathId.setText(String.valueOf(mPath.get(position).getId()));
 
     }
 

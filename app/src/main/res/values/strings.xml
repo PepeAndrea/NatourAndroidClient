@@ -6,7 +6,8 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
-    <string name="facebook_app_id">4617504791693748</string> <string name="fb_login_protocol_scheme">fb4617504791693748</string>
+    <string name="facebook_app_id">4617504791693748</string>
+    <string name="fb_login_protocol_scheme">fb4617504791693748</string>
     <string name="google_server_client_id">81750195176-esqik5hie0ofg5pfc358h86br4t12fp4.apps.googleusercontent.com</string>
 
 

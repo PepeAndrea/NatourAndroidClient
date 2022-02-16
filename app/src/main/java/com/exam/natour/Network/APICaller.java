@@ -3,6 +3,7 @@ package com.exam.natour.Network;
 
 import com.exam.natour.Model.AuthUser;
 import com.exam.natour.Model.LoginResponse.LoginResponse;
+import com.exam.natour.Model.PathDetailResponse.PathDetailResponse;
 import com.exam.natour.Model.PathsResponse.PathsResponse;
 
 import org.json.JSONObject;
@@ -27,6 +28,11 @@ public interface APICaller {
     @Headers({"Accept: application/json"})
     @GET("paths")
     Call<PathsResponse> getAllPaths();
+
+    //Get path endpoint
+    @Headers({"Accept: application/json"})
+    @GET("path/{id}")
+    Call<PathDetailResponse> getPath(@Path(value = "id", encoded = true) String id);
 
     //CheckToken endpoint
     @Headers({"Accept: application/json"})
