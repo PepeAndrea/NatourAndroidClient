@@ -1,5 +1,6 @@
 package com.exam.natour.UI.View.PathDetail;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -13,19 +14,31 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.exam.natour.Model.PathDetailResponse.Coordinate;
+import com.exam.natour.Model.PathDetailResponse.InterestPoint;
 import com.exam.natour.Model.PathDetailResponse.PathDetail;
 import com.exam.natour.Model.PathsResponse.Path;
 import com.exam.natour.R;
 import com.exam.natour.UI.View.Home.HomeViewModel;
 import com.exam.natour.databinding.ActivityPathDetailBinding;
 import com.exam.natour.databinding.FragmentHomeBinding;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.PointOfInterest;
+import com.google.android.gms.maps.model.Polyline;
+import com.google.android.gms.maps.model.PolylineOptions;
 
 import java.util.List;
 
-public class PathDetailActivity extends AppCompatActivity {
+public class PathDetailActivity extends AppCompatActivity implements OnMapReadyCallback {
 
     private ActivityPathDetailBinding binding;
     private PathDetailViewModel pathDetailViewModel;
+    private GoogleMap map;
 
 
     String imageTransitionName = "pathImageTransition";
@@ -67,6 +80,15 @@ public class PathDetailActivity extends AppCompatActivity {
 
         this.ObserveChange(extras.getString("pathId"));
 
+        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
+        //SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.pathDetailMap);
+        SupportMapFragment mapFragment = SupportMapFragment.newInstance();
+        getSupportFragmentManager()
+                .beginTransaction()
+                .add(R.id.mapContainer, mapFragment)
+                .commit();
+        mapFragment.getMapAsync(this);
+
     }
 
 
@@ -88,15 +110,42 @@ public class PathDetailActivity extends AppCompatActivity {
                 pathDuration.setVisibility(View.VISIBLE);
                 pathLocation.setVisibility(View.VISIBLE);
 
+                setMapCoordinate(pathDetail.getCoordinates(),pathDetail.getInterestPoints());
+
             }
         });
     }
 
+    private void setMapCoordinate(List<Coordinate> coordinates, List<InterestPoint> interestPoints) {
+
+        if(map != null){
+            PolylineOptions path = new PolylineOptions();
+            coordinates.forEach((coordinate -> {
+                path.add(new LatLng(Double.valueOf(coordinate.getLatitude()),Double.valueOf(coordinate.getLongitude()))).clickable(false);
+            }));
+            map.addPolyline(path);
+            interestPoints.forEach(interestPoint -> {
+                Log.i("Analisi coordinate",interestPoint.getLatitude()+" "+interestPoint.getLongitude());
+                map.addMarker(new MarkerOptions()
+                        .position(new LatLng(Double.valueOf(interestPoint.getLatitude()),Double.valueOf(interestPoint.getLongitude())))
+                        .title(interestPoint.getTitle())
+                        .draggable(false));
+            });
+            map.getUiSettings().setZoomGesturesEnabled(true);
+            map.getUiSettings().setScrollGesturesEnabled(false);
+        }
+
+    }
 
 
     @Override
     public void onDestroy() {
         super.onDestroy();
         binding = null;
+    }
+
+    @Override
+    public void onMapReady(@NonNull GoogleMap googleMap) {
+        map = googleMap;
     }
 }
