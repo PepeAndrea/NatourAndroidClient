@@ -24,7 +24,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:src="@drawable/dummypathimage"
-                android:transitionName="pathImageTransition" />
+                android:transitionName="pathImageTransition"
+                android:scaleType="centerCrop"/>
 
             <TextView
                 android:id="@+id/pathTitle"
