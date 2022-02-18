@@ -10,24 +10,30 @@
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="start"
         android:orientation="horizontal"
         tools:ignore="MissingConstraints">
 
         <TextView
             android:id="@+id/appTitle"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="25dp"
             android:layout_marginTop="25dp"
-            android:text="NaTour" />
+            android:layout_weight="1"
+            android:text="NaTour"
+            android:textColor="#669944"
+            android:textSize="28sp"
+            android:textStyle="bold" />
 
         <Button
             android:id="@+id/button2"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="25dp"
             android:layout_marginEnd="25dp"
-            android:text="Button" />
+            android:layout_weight="1"
+            android:text="Filtri da fare" />
 
     </LinearLayout>
 
