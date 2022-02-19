@@ -32,5 +32,48 @@
         android:src="@color/black"
         app:layout_constraintBottom_toBottomOf="@+id/map"
         app:layout_constraintEnd_toEndOf="parent"
-        tools:ignore="MissingConstraints" />
+        tools:ignore="MissingConstraints"/>
+
+    <Button
+        android:id="@+id/fab_registra_percorso"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Registra percorso"
+        android:layout_gravity="end|bottom"
+        android:layout_margin="16dp"
+        android:contentDescription="fab"
+        android:src="@color/black"
+        app:layout_constraintBottom_toBottomOf="@+id/map"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:ignore="MissingConstraints"
+        android:alpha="0.0"/>
+
+    <Button
+        android:id="@+id/fab_upload_file"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Carica da file"
+        android:layout_gravity="end|bottom"
+        android:layout_margin="16dp"
+        android:contentDescription="fab"
+        android:src="@color/black"
+        app:layout_constraintBottom_toBottomOf="@+id/map"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:ignore="MissingConstraints"
+        android:alpha="0.0"/>
+
+    <Button
+        android:id="@+id/fab_inserisci_manualmente"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Inserisci manualmente"
+        android:layout_gravity="end|bottom"
+        android:layout_margin="16dp"
+        android:contentDescription="fab"
+        android:src="@color/black"
+        app:layout_constraintBottom_toBottomOf="@+id/map"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:ignore="MissingConstraints"
+        android:alpha="0.0"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

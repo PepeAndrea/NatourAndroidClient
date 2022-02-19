@@ -41,6 +41,8 @@ import java.util.concurrent.Executor;
 
 public class MapsFragment extends Fragment {
 
+    private boolean isFabOpen = false;
+
     private FusedLocationProviderClient fusedLocationClient;
     private MapsViewModel mapsViewModel;
     private FragmentMapsBinding binding;
@@ -81,6 +83,17 @@ public class MapsFragment extends Fragment {
         mapsViewModel = new ViewModelProvider(this).get(MapsViewModel.class);
         binding = FragmentMapsBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
+        binding.fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (isFabOpen){
+                    closeFab();
+                }else{
+                    openFab();
+                }
+
+            }
+        });
         this.fusedLocationClient = LocationServices.getFusedLocationProviderClient(getContext());
         return root;
     }
@@ -106,12 +119,6 @@ public class MapsFragment extends Fragment {
         }
         Log.i("Coordinate viewmode",String.valueOf(mapsViewModel.isUserRecording()));
         */
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        binding = null;
     }
 
     private void setUserLocation() {
@@ -143,5 +150,25 @@ public class MapsFragment extends Fragment {
                         }
                     }
                 });
+    }
+
+    private void openFab() {
+        isFabOpen = true;
+        binding.fabRegistraPercorso.animate().translationY(-700).alpha(1.0f);
+        binding.fabUploadFile.animate().translationY(-500).alpha(1.0f);
+        binding.fabInserisciManualmente.animate().translationY(-300).alpha(1.0f);
+    }
+
+    private void closeFab() {
+        isFabOpen = false;
+        binding.fabRegistraPercorso.animate().translationY(0).alpha(0.0f);
+        binding.fabUploadFile.animate().translationY(0).alpha(0.0f);
+        binding.fabInserisciManualmente.animate().translationY(0).alpha(0.0f);
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding = null;
     }
 }
