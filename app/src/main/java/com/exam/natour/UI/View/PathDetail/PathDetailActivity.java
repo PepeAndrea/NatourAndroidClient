@@ -4,6 +4,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.transition.TransitionInflater;
 
@@ -19,6 +21,8 @@ import com.exam.natour.Model.PathDetailResponse.InterestPoint;
 import com.exam.natour.Model.PathDetailResponse.PathDetail;
 import com.exam.natour.Model.PathsResponse.Path;
 import com.exam.natour.R;
+import com.exam.natour.UI.Adapter.InterestPointAdapter.InterestPointAdapter;
+import com.exam.natour.UI.Adapter.PathAdapter.PathAdapter;
 import com.exam.natour.UI.View.Home.HomeViewModel;
 import com.exam.natour.databinding.ActivityPathDetailBinding;
 import com.exam.natour.databinding.FragmentHomeBinding;
@@ -42,10 +46,12 @@ public class PathDetailActivity extends AppCompatActivity implements OnMapReadyC
 
 
     String imageTransitionName = "pathImageTransition";
-    String titleTransition = "pathTitleTransition";
 
     TextView pathTitle,pathDescription,pathDifficulty,pathLength,pathDuration,pathUser,pathLocation,pathId;
     ImageView pathImage;
+    RecyclerView interestPointList;
+
+    InterestPointAdapter interestPointAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,7 +64,7 @@ public class PathDetailActivity extends AppCompatActivity implements OnMapReadyC
 
         setContentView(R.layout.activity_path_detail);
 
-        //Bind delle viewa
+        //Bind delle views
         pathImage = findViewById(R.id.pathImage);
         pathTitle = findViewById(R.id.pathTitle);
         pathDescription = findViewById(R.id.pathDescription);
@@ -66,6 +72,7 @@ public class PathDetailActivity extends AppCompatActivity implements OnMapReadyC
         pathLength = findViewById(R.id.pathLength);
         pathDuration = findViewById(R.id.pathDuration);
         pathLocation = findViewById(R.id.pathLocation);
+        interestPointList = findViewById(R.id.interestPointList);
 
 
         //Recupero informazioni da Intent e imposto i dat a disposizione
@@ -78,10 +85,10 @@ public class PathDetailActivity extends AppCompatActivity implements OnMapReadyC
 
         pathImage.setTransitionName(imageTransitionName);
 
+        this.setupInterestPointList();
         this.ObserveChange(extras.getString("pathId"));
 
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-        //SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.pathDetailMap);
+        //Creo fragment di supporto per GMaps
         SupportMapFragment mapFragment = SupportMapFragment.newInstance();
         getSupportFragmentManager()
                 .beginTransaction()
@@ -111,9 +118,16 @@ public class PathDetailActivity extends AppCompatActivity implements OnMapReadyC
                 pathLocation.setVisibility(View.VISIBLE);
 
                 setMapCoordinate(pathDetail.getCoordinates(),pathDetail.getInterestPoints());
+                interestPointAdapter.setInterestPoints(pathDetail.getInterestPoints());
 
             }
         });
+    }
+
+    private void setupInterestPointList(){
+        this.interestPointAdapter = new InterestPointAdapter();
+        interestPointList.setAdapter(this.interestPointAdapter);
+        interestPointList.setLayoutManager(new LinearLayoutManager(this));
     }
 
     private void setMapCoordinate(List<Coordinate> coordinates, List<InterestPoint> interestPoints) {
@@ -125,7 +139,7 @@ public class PathDetailActivity extends AppCompatActivity implements OnMapReadyC
             }));
             map.addPolyline(path);
             interestPoints.forEach(interestPoint -> {
-                Log.i("Analisi coordinate",interestPoint.getLatitude()+" "+interestPoint.getLongitude());
+                Log.i("Analisi coordinate punto interesse",interestPoint.getLatitude()+" "+interestPoint.getLongitude());
                 map.addMarker(new MarkerOptions()
                         .position(new LatLng(Double.valueOf(interestPoint.getLatitude()),Double.valueOf(interestPoint.getLongitude())))
                         .title(interestPoint.getTitle())
@@ -137,15 +151,15 @@ public class PathDetailActivity extends AppCompatActivity implements OnMapReadyC
 
     }
 
+    @Override
+    public void onMapReady(@NonNull GoogleMap googleMap) {
+        map = googleMap;
+    }
+
 
     @Override
     public void onDestroy() {
         super.onDestroy();
         binding = null;
-    }
-
-    @Override
-    public void onMapReady(@NonNull GoogleMap googleMap) {
-        map = googleMap;
     }
 }
