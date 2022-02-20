@@ -32,6 +32,14 @@ public class InterestPoint {
     @Expose
     private String updatedAt;
 
+    public InterestPoint(String title, String description, String categoryId, String latitude, String longitude) {
+        this.title = title;
+        this.description = description;
+        this.categoryId = categoryId;
+        this.latitude = latitude;
+        this.longitude = longitude;
+    }
+
     public Integer getId() {
         return id;
     }

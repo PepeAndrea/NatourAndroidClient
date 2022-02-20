@@ -23,6 +23,7 @@ import androidx.lifecycle.ViewModel;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.exam.natour.Model.PathDetailResponse.Coordinate;
+import com.exam.natour.Model.PathDetailResponse.InterestPoint;
 import com.exam.natour.Model.PathDetailResponse.PathDetail;
 import com.exam.natour.Service.PathRecorderService;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -32,6 +33,7 @@ import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 import com.google.gson.Gson;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 
@@ -39,6 +41,8 @@ public class MapsViewModel extends ViewModel{
 
     private Location currentLocation;
     private MutableLiveData<PathDetail> createdPath;
+    private MutableLiveData<List<InterestPoint>> interestPoints;
+
 
     private LocationCallback locationCallback = new LocationCallback() {
         @Override
@@ -49,17 +53,19 @@ public class MapsViewModel extends ViewModel{
     };
 
     private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            // Get extra data included in the Intent
-            String message = intent.getStringExtra("Path");
-            createdPath.setValue(new Gson().fromJson(message,PathDetail.class));
-        }
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                // Get extra data included in the Intent
+                String message = intent.getStringExtra("Path");
+                createdPath.setValue(new Gson().fromJson(message,PathDetail.class));
+            }
     };
 
 
     public MapsViewModel() {
         createdPath = new MutableLiveData<>();
+        interestPoints = new MutableLiveData<>();
+        interestPoints.setValue(new ArrayList<>());
     }
 
     public void setReceiver(Context context){
@@ -105,4 +111,11 @@ public class MapsViewModel extends ViewModel{
     public MutableLiveData<PathDetail> getCreatedPath() {
         return this.createdPath;
     }
+
+    public void addInterestPoint(InterestPoint interestPoint) {
+        this.interestPoints.getValue().add(interestPoint);
+    }
+
+
+
 }
