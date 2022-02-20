@@ -16,9 +16,9 @@ public class InterestPoint {
     @SerializedName("description")
     @Expose
     private String description;
-    @SerializedName("category_id")
+    @SerializedName("category")
     @Expose
-    private String categoryId;
+    private String category;
     @SerializedName("latitude")
     @Expose
     private String latitude;
@@ -32,10 +32,10 @@ public class InterestPoint {
     @Expose
     private String updatedAt;
 
-    public InterestPoint(String title, String description, String categoryId, String latitude, String longitude) {
+    public InterestPoint(String title, String description, String category, String latitude, String longitude) {
         this.title = title;
         this.description = description;
-        this.categoryId = categoryId;
+        this.category = category;
         this.latitude = latitude;
         this.longitude = longitude;
     }
@@ -64,12 +64,12 @@ public class InterestPoint {
         this.description = description;
     }
 
-    public String getCategoryId() {
-        return categoryId;
+    public String getCategory() {
+        return category;
     }
 
-    public void setCategoryId(String categoryId) {
-        this.categoryId = categoryId;
+    public void setCategory(String category) {
+        this.category = category;
     }
 
     public String getLatitude() {

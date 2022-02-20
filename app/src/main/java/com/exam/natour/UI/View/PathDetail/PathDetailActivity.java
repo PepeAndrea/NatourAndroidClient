@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.transition.TransitionInflater;
 
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -19,21 +18,14 @@ import android.widget.TextView;
 import com.exam.natour.Model.PathDetailResponse.Coordinate;
 import com.exam.natour.Model.PathDetailResponse.InterestPoint;
 import com.exam.natour.Model.PathDetailResponse.PathDetail;
-import com.exam.natour.Model.PathsResponse.Path;
 import com.exam.natour.R;
 import com.exam.natour.UI.Adapter.InterestPointAdapter.InterestPointAdapter;
-import com.exam.natour.UI.Adapter.PathAdapter.PathAdapter;
-import com.exam.natour.UI.View.Home.HomeViewModel;
 import com.exam.natour.databinding.ActivityPathDetailBinding;
-import com.exam.natour.databinding.FragmentHomeBinding;
-import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.maps.model.PointOfInterest;
-import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 
 import java.util.List;
@@ -106,7 +98,7 @@ public class PathDetailActivity extends AppCompatActivity implements OnMapReadyC
                 Log.i("Percorso caricato",pathDetail.getTitle());
                 //Imposto i dati
                 pathDescription.setText(pathDetail.getDescription());
-                pathDifficulty.setText(pathDetail.getDifficultyId());
+                pathDifficulty.setText(pathDetail.getDifficulty());
                 pathLength.setText(String.valueOf(pathDetail.getLength()));
                 pathDuration.setText(String.valueOf(pathDetail.getDuration()));
                 pathLocation.setText(pathDetail.getLocation());

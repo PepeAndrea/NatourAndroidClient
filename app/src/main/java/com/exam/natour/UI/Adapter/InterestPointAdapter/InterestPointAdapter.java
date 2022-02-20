@@ -8,9 +8,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.exam.natour.Model.PathDetailResponse.InterestPoint;
-import com.exam.natour.Model.PathsResponse.Path;
 import com.exam.natour.R;
-import com.exam.natour.UI.Adapter.PathAdapter.PathViewHolder;
 
 import java.util.List;
 
@@ -33,7 +31,7 @@ public class InterestPointAdapter extends RecyclerView.Adapter<RecyclerView.View
 
         ((InterestPointViewHolder) holder).iterestPointTitle.setText(interestPoints.get(position).getTitle());
         ((InterestPointViewHolder) holder).iterestPointDescription.setText(interestPoints.get(position).getDescription());
-        ((InterestPointViewHolder) holder).iterestPointCategory.setText(interestPoints.get(position).getCategoryId());
+        ((InterestPointViewHolder) holder).iterestPointCategory.setText(interestPoints.get(position).getCategory());
 
     }
 

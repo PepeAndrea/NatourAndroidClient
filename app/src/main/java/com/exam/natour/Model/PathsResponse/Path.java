@@ -20,9 +20,9 @@ public class Path {
     @SerializedName("location")
     @Expose
     private String location;
-    @SerializedName("difficulty_id")
+    @SerializedName("difficulty")
     @Expose
-    private String difficultyId;
+    private String difficulty;
     @SerializedName("disability")
     @Expose
     private Integer disability;
@@ -74,12 +74,12 @@ public class Path {
         this.location = location;
     }
 
-    public String getDifficultyId() {
-        return difficultyId;
+    public String getDifficulty() {
+        return difficulty;
     }
 
-    public void setDifficultyId(String difficultyId) {
-        this.difficultyId = difficultyId;
+    public void setDifficulty(String difficulty) {
+        this.difficulty = difficulty;
     }
 
     public Integer getDisability() {
