@@ -6,7 +6,8 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
 
 
     <application
@@ -17,6 +18,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.NaTour"
         android:usesCleartextTraffic="true">
+        <service
+            android:name=".Service.PathRecorderService"
+            android:enabled="true"
+            android:exported="true"></service>
+
         <activity
             android:name=".UI.View.PathDetail.PathDetailActivity"
             android:exported="false" />
@@ -37,7 +43,6 @@
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
-
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
             android:value="AIzaSyBWeXpDFdP00V80CQqIg_uA3UNKryq4r-E" />

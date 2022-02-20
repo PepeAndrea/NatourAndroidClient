@@ -1,10 +1,17 @@
 package com.exam.natour.UI.View.Maps;
 
 import android.Manifest;
+import android.app.ActivityManager;
+import android.app.Application;
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.os.Build;
 import android.os.Looper;
+import android.service.controls.templates.ControlButton;
 import android.util.Log;
 import android.widget.Chronometer;
 
@@ -13,23 +20,25 @@ import androidx.core.app.ActivityCompat;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
+import com.exam.natour.Model.PathDetailResponse.Coordinate;
 import com.exam.natour.Model.PathDetailResponse.PathDetail;
+import com.exam.natour.Service.PathRecorderService;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
+import com.google.gson.Gson;
 
+import java.util.List;
 import java.util.Timer;
 
-public class MapsViewModel extends ViewModel {
+public class MapsViewModel extends ViewModel{
 
-    private FusedLocationProviderClient fusedLocationClient;
-    private boolean isUserRecording;
     private Location currentLocation;
-    private LocationRequest locationRequest;
-    private PathDetail createdPath;
+    private MutableLiveData<PathDetail> createdPath;
 
     private LocationCallback locationCallback = new LocationCallback() {
         @Override
@@ -39,38 +48,61 @@ public class MapsViewModel extends ViewModel {
         }
     };
 
+    private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            // Get extra data included in the Intent
+            String message = intent.getStringExtra("Path");
+            createdPath.setValue(new Gson().fromJson(message,PathDetail.class));
+        }
+    };
+
 
     public MapsViewModel() {
-        locationRequest = LocationRequest.create().setInterval(10000).setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-        Log.i("Coordinate viewmode","creato");
+        createdPath = new MutableLiveData<>();
     }
 
-    public boolean isUserRecording() {
-        return isUserRecording;
+    public void setReceiver(Context context){
+        LocalBroadcastManager.getInstance(context).registerReceiver(
+                mMessageReceiver, new IntentFilter("PathRecordingUpdate"));
     }
 
-    private void setUserRecording(boolean userRecording) {
-        isUserRecording = userRecording;
+    public void unsetReceiver(Context context){
+        LocalBroadcastManager.getInstance(context).unregisterReceiver(mMessageReceiver);
     }
 
-    public void startLocationUpdates(Context context) {
-        if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            Log.e("Servizio registrazione percorso non disponibile","Non è possibile avviare il servizio di registrazione in mancaza dei permessi necessari");
-            return;
+
+    public boolean checkUserRecording(Context context) {
+        final ActivityManager activityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+        final List<ActivityManager.RunningServiceInfo> services = activityManager.getRunningServices(Integer.MAX_VALUE);
+
+        for (ActivityManager.RunningServiceInfo runningServiceInfo : services) {
+            if (runningServiceInfo.service.getClassName().equals("com.exam.natour.Service.PathRecorderService")){
+                Log.i("Service PathRecorder","Il service è attivo");
+                return true;
+            }
         }
-        if (fusedLocationClient == null){
-            this.fusedLocationClient = LocationServices.getFusedLocationProviderClient(context);
-        }
-        setUserRecording(true);
-        fusedLocationClient.requestLocationUpdates(locationRequest,
-                locationCallback,
-                Looper.getMainLooper());
+        Log.i("PathRecorder","Il service è disattivato");
+
+        return false;
     }
 
-    public void stopLocationUpdates() {
-        fusedLocationClient.removeLocationUpdates(locationCallback);
+    public void startPathRecording(Context context){
+        /*
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
+            context.startForegroundService(new Intent(context, PathRecorderService.class));
+        else
+            context.startService(new Intent(context, PathRecorderService.class));
+         */
+        context.startService(new Intent(context, PathRecorderService.class));
+    }
+
+    public void stopPathRecording(Context context){
+        context.stopService(new Intent(context, PathRecorderService.class));
     }
 
 
-
+    public MutableLiveData<PathDetail> getCreatedPath() {
+        return this.createdPath;
+    }
 }

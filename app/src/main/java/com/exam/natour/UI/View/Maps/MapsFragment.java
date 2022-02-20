@@ -2,6 +2,7 @@ package com.exam.natour.UI.View.Maps;
 
 import android.Manifest;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
@@ -32,6 +33,8 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.Polyline;
+import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
 
 import java.io.IOException;
@@ -47,6 +50,7 @@ public class MapsFragment extends Fragment {
     private MapsViewModel mapsViewModel;
     private FragmentMapsBinding binding;
     private GoogleMap map;
+    private Polyline polyline;
 
     private OnMapReadyCallback callback = new OnMapReadyCallback() {
         @Override
@@ -83,18 +87,10 @@ public class MapsFragment extends Fragment {
         mapsViewModel = new ViewModelProvider(this).get(MapsViewModel.class);
         binding = FragmentMapsBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
-        binding.fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (isFabOpen){
-                    closeFab();
-                }else{
-                    openFab();
-                }
 
-            }
-        });
+        this.setFabButtons(getContext());
         this.fusedLocationClient = LocationServices.getFusedLocationProviderClient(getContext());
+        this.setupMapRecordingUpdater();
         return root;
     }
 
@@ -109,16 +105,8 @@ public class MapsFragment extends Fragment {
         if (mapFragment != null) {
             mapFragment.getMapAsync(callback);
         }
-        Log.i("Coordinate viewmode",String.valueOf(mapsViewModel.isUserRecording()));
-
-        //TODO Creare service così da far lavorare il dispositivo anche in background, quindio trasportare il codice scritto qui
-
-        /*
-        if (!mapsViewModel.isUserRecording()){
-            mapsViewModel.startLocationUpdates(getContext());
-        }
-        Log.i("Coordinate viewmode",String.valueOf(mapsViewModel.isUserRecording()));
-        */
+        mapsViewModel.setReceiver(getContext());
+        mapsViewModel.checkUserRecording(getActivity().getApplicationContext());
     }
 
     private void setUserLocation() {
@@ -131,7 +119,11 @@ public class MapsFragment extends Fragment {
                     @Override
                     public void onSuccess(Location location) {
                         if (location != null) {
-                            map.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(),location.getLongitude()),12f),3000,null);
+                            //Animazione mappa
+                            //map.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(),location.getLongitude()),12f),3000,null);
+                            //Spostamento mappa senza animazione
+                            map.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(),location.getLongitude()),12f));
+
                             //Ricerca città
                             String cityName=null;
                             Geocoder gcd = new Geocoder(getContext(),
@@ -152,6 +144,51 @@ public class MapsFragment extends Fragment {
                 });
     }
 
+    private void setupMapRecordingUpdater() {
+        mapsViewModel.getCreatedPath().observe(getViewLifecycleOwner(),pathDetail -> {
+            map.clear();
+            PolylineOptions path = new PolylineOptions();
+            pathDetail.getCoordinates().forEach((coordinate -> {
+                path.add(new LatLng(Double.valueOf(coordinate.getLatitude()),Double.valueOf(coordinate.getLongitude()))).clickable(false);
+            }));
+            polyline = map.addPolyline(path);
+        });
+    }
+
+
+
+    //Action Buttons
+
+    private void setFabButtons(Context context) {
+        binding.fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (isFabOpen){
+                    closeFab();
+                }else{
+                    openFab();
+                }
+
+            }
+        });
+
+        binding.fabRegistraPercorso.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mapsViewModel.startPathRecording(context);
+            }
+        });
+
+        binding.fabInserisciManualmente.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                map.clear();
+                mapsViewModel.stopPathRecording(context);
+            }
+        });
+
+    }
+
     private void openFab() {
         isFabOpen = true;
         binding.fabRegistraPercorso.animate().translationY(-700).alpha(1.0f);
@@ -169,6 +206,7 @@ public class MapsFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        mapsViewModel.unsetReceiver(getContext());
         binding = null;
     }
 }

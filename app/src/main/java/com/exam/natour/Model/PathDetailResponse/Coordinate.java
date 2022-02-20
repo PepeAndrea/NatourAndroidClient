@@ -17,6 +17,11 @@ public class Coordinate {
     @Expose
     private String longitude;
 
+    public Coordinate(String latitude, String longitude) {
+        this.latitude = latitude;
+        this.longitude = longitude;
+    }
+
     public Integer getId() {
         return id;
     }
