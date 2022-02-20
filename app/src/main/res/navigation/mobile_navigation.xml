@@ -12,13 +12,13 @@
         tools:layout="@layout/fragment_home" />
 
     <fragment
-        android:id="@+id/navigation_dashboard"
+        android:id="@+id/navigation_path"
         android:name="com.exam.natour.UI.View.Maps.MapsFragment"
         android:label="@string/title_dashboard"
         tools:layout="@layout/fragment_maps" />
 
     <fragment
-        android:id="@+id/navigation_notifications"
+        android:id="@+id/navigation_settings"
         android:name="com.exam.natour.UI.View.Setting.SettingFragment"
         android:label="@string/title_notifications"
         tools:layout="@layout/fragment_setting" />

@@ -16,10 +16,11 @@
 
         <TextView
             android:id="@+id/appTitle"
-            android:layout_width="0dp"
+            android:layout_width="275dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="25dp"
-            android:layout_marginTop="25dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
             android:layout_weight="1"
             android:text="NaTour"
             android:textColor="#669944"
@@ -29,11 +30,12 @@
         <Button
             android:id="@+id/button2"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="25dp"
-            android:layout_marginEnd="25dp"
+            android:layout_height="22dp"
+            android:layout_marginTop="21dp"
+            android:layout_marginEnd="24dp"
+            android:layout_marginBottom="16dp"
             android:layout_weight="1"
-            android:text="Filtri da fare" />
+            android:background="@drawable/ic_filter" />
 
     </LinearLayout>
 
