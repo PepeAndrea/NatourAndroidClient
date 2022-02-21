@@ -4,8 +4,10 @@ import android.Manifest;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.Service;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.IBinder;
@@ -19,6 +21,7 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.exam.natour.BuildConfig;
 import com.exam.natour.Model.PathDetailResponse.Coordinate;
+import com.exam.natour.Model.PathDetailResponse.InterestPoint;
 import com.exam.natour.Model.PathDetailResponse.PathDetail;
 import com.exam.natour.R;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -27,6 +30,7 @@ import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import java.text.SimpleDateFormat;
 import java.time.Duration;
@@ -41,8 +45,7 @@ public class PathRecorderService extends Service{
     private FusedLocationProviderClient fusedLocationClient;
     private LocationRequest locationRequest;
     private PathDetail createdPath;
-    List<Coordinate> coordinates;
-    private Instant startTime,endTime;
+    private List<Coordinate> coordinates;
 
 
     private LocationCallback locationCallback = new LocationCallback() {
@@ -70,7 +73,6 @@ public class PathRecorderService extends Service{
         Log.i("PathRecorder","Service partito");
         super.onStartCommand(intent, flags, startId);
         locationRequest = LocationRequest.create().setInterval(10000).setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-        this.startTime = Instant.now();
         this.startLocationUpdates();
         this.showNotificationAndStartForegroundService();
         return START_STICKY;
@@ -81,8 +83,6 @@ public class PathRecorderService extends Service{
         super.onDestroy();
         Log.i("PathRecorder","Service interrotto");
         this.stopLocationUpdates();
-        this.endTime = Instant.now();
-        Log.i("Tempo registrato",calculateDuration(this.startTime,this.endTime));
     }
 
     private void showNotificationAndStartForegroundService() {
@@ -145,12 +145,5 @@ public class PathRecorderService extends Service{
         stopSelf();
     }
 
-    private String calculateDuration(Instant start, Instant end){
-        long timeElapsed = Duration.between(start, end).toMillis();
-        return String.valueOf(String.format("%dh:%dmin:%dsec",
-                TimeUnit.MILLISECONDS.toHours(timeElapsed),
-                TimeUnit.MILLISECONDS.toMinutes(timeElapsed),
-                TimeUnit.MILLISECONDS.toSeconds(timeElapsed)
-        ));
-    }
+
 }

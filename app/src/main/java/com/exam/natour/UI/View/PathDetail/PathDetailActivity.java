@@ -103,11 +103,14 @@ public class PathDetailActivity extends AppCompatActivity implements OnMapReadyC
                 pathDuration.setText(String.valueOf(pathDetail.getDuration()));
                 pathLocation.setText(pathDetail.getLocation());
                 //Li rendo visibili
+                /*
                 pathDescription.setVisibility(View.VISIBLE);
                 pathDifficulty.setVisibility(View.VISIBLE);
                 pathLength.setVisibility(View.VISIBLE);
                 pathDuration.setVisibility(View.VISIBLE);
                 pathLocation.setVisibility(View.VISIBLE);
+
+                 */
 
                 setMapCoordinate(pathDetail.getCoordinates(),pathDetail.getInterestPoints());
                 interestPointAdapter.setInterestPoints(pathDetail.getInterestPoints());

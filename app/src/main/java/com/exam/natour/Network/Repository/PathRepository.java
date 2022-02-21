@@ -33,4 +33,8 @@ public class PathRepository {
     public LiveData<PathDetail> getPathDetail(Context context,String id){
         return pathApiClient.getPathDetail(context,id);
     }
+
+    public void savePath(PathDetail newPath, Context context) {
+        pathApiClient.savePath(newPath,context);
+    }
 }

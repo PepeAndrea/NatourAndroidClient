@@ -128,4 +128,52 @@ public class PathApiClient {
     }
 
 
+    public void savePath(PathDetail newPath, Context context) {
+
+        Call<PathDetailResponse> call = service.savePath(
+                newPath.getTitle(),
+                newPath.getDescription(),
+                newPath.getLocation(),
+                newPath.getDifficulty(),
+                newPath.getDisability(),
+                newPath.getLength(),
+                newPath.getDuration(),
+                newPath.getCoordinates(),
+                newPath.getInterestPoints()
+        );
+        call.enqueue(new Callback<PathDetailResponse>() {
+            @Override
+            public void onResponse(Call<PathDetailResponse> call, Response<PathDetailResponse> response) {
+                try {
+                    if(response.isSuccessful()){
+                        //Risposta ok
+                    }else if(response.code() == 401){
+                        Log.i("API 401","Il token fornito è scaduto o non è valido");
+                        context.startActivity(new Intent(context, AuthActivity.class));
+                        ((Activity) context).finish();
+                    }else if(response.code() == 422){
+                        Log.i("API 422",new JSONObject(response.errorBody().string()).toString());
+                        new AlertDialog.Builder(context)
+                                .setTitle("Errore di inserimento")
+                                .setMessage("Non è stato possibile salvare il percorso.\nSi prega di riprovare.")
+                                .show();
+                    }else if(response.code() == 500|| response.code() == 502){
+                        Log.i("API 500/502",new JSONObject(response.errorBody().string()).toString());
+                        new AlertDialog.Builder(context)
+                                .setTitle("Errore con il server remoto")
+                                .setMessage("Attualmente la piattaforma non è disponibile.\nRiprovare più tardi.")
+                                .show();
+                    }
+                }catch (JSONException | IOException e) {
+                    Log.e("Errore durante chiamata al backend","Messaggio di errore: "+e.getMessage());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<PathDetailResponse> call, Throwable t) {
+                Log.i("API Error",t.toString());
+            }
+        });
+
+    }
 }

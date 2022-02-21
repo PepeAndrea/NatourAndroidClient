@@ -16,4 +16,10 @@
         <item>Piazza</item>
     </string-array>
 
+    <string-array name="pathDifficulties">
+        <item>T</item>
+        <item>EEA</item>
+        <item>Altro</item>
+    </string-array>
+
 </resources>

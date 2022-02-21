@@ -3,10 +3,14 @@ package com.exam.natour.Network;
 
 import com.exam.natour.Model.AuthUser;
 import com.exam.natour.Model.LoginResponse.LoginResponse;
+import com.exam.natour.Model.PathDetailResponse.Coordinate;
+import com.exam.natour.Model.PathDetailResponse.InterestPoint;
 import com.exam.natour.Model.PathDetailResponse.PathDetailResponse;
 import com.exam.natour.Model.PathsResponse.PathsResponse;
 
 import org.json.JSONObject;
+
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.Field;
@@ -33,6 +37,21 @@ public interface APICaller {
     @Headers({"Accept: application/json"})
     @GET("path/{id}")
     Call<PathDetailResponse> getPath(@Path(value = "id", encoded = true) String id);
+
+    //Add new path
+    @Headers({"Accept: application/json"})
+    @FormUrlEncoded
+    @POST("path")
+    Call<PathDetailResponse> savePath(@Field("title") String title,
+                                      @Field("description") String description,
+                                      @Field("location") String location,
+                                      @Field("difficulty") String difficulty,
+                                      @Field("disability") Integer disability,
+                                      @Field("length") Double length,
+                                      @Field("duration") String duration,
+                                      @Field("coordinates[]") List<Coordinate> coordinates,
+                                      @Field("interest_points[]") List<InterestPoint> interestPoints);
+
 
     //CheckToken endpoint
     @Headers({"Accept: application/json"})

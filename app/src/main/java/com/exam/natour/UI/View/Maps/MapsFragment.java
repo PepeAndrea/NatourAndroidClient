@@ -1,18 +1,15 @@
 package com.exam.natour.UI.View.Maps;
 
 import android.Manifest;
-import android.app.Dialog;
-import android.content.Context;
+import android.annotation.SuppressLint;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -20,7 +17,6 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.exam.natour.Model.PathDetailResponse.InterestPoint;
@@ -41,7 +37,6 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
-import java.util.concurrent.Executor;
 
 public class MapsFragment extends Fragment {
 
@@ -53,6 +48,7 @@ public class MapsFragment extends Fragment {
     private GoogleMap map;
     private Polyline polyline;
     private LatLng currentPos;
+    private String currentCity;
 
     private OnMapReadyCallback callback = new OnMapReadyCallback() {
         @Override
@@ -122,11 +118,6 @@ public class MapsFragment extends Fragment {
                     @Override
                     public void onSuccess(Location location) {
                         if (location != null) {
-                            //Animazione mappa
-                            //map.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(),location.getLongitude()),12f),3000,null);
-                            //Spostamento mappa senza animazione
-                            map.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()), 12f));
-
                             //Ricerca città
                             String cityName = null;
                             Geocoder gcd = new Geocoder(getContext(),
@@ -137,11 +128,15 @@ public class MapsFragment extends Fragment {
                                         .getLongitude(), 1);
                                 if (addresses.size() > 0)
                                     System.out.println(addresses.get(0).getLocality());
-                                cityName = addresses.get(0).getLocality();
+                                currentCity = addresses.get(0).getLocality();
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }
-                            Toast.makeText(getContext(), cityName, Toast.LENGTH_LONG).show();
+
+                            //Animazione mappa
+                            //map.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(),location.getLongitude()),12f),3000,null);
+                            //Spostamento mappa senza animazione
+                            map.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()), 12f));
                         }
                     }
                 });
@@ -158,6 +153,7 @@ public class MapsFragment extends Fragment {
             polyline = map.addPolyline(path);
         });
     }
+
 
 
     //User Interface
@@ -217,10 +213,8 @@ public class MapsFragment extends Fragment {
         binding.recordingActionButtonsSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //TODO Logica per salvare percorso
-
+                mapsViewModel.saveRecordedPath(getContext(),currentCity);
                 map.clear();
-                mapsViewModel.stopPathRecording(getContext());
                 unsetRecordingInterface();
             }
         });
@@ -247,6 +241,8 @@ public class MapsFragment extends Fragment {
                                 }
                             }
                         });
+                binding.interestPointDescription.setText("");
+                binding.interestPointName.setText("");
                 setInterestPointInterface();
             }
         });
@@ -290,7 +286,7 @@ public class MapsFragment extends Fragment {
                     mapsViewModel.addInterestPoint(
                             new InterestPoint(binding.interestPointName.getText().toString(),
                                     binding.interestPointDescription.getText().toString(),
-                                    binding.interestPointCategory.toString(),
+                                    binding.interestPointCategory.getSelectedItem().toString(),
                                     String.valueOf(currentPos.latitude),
                                     String.valueOf(currentPos.longitude)));
 

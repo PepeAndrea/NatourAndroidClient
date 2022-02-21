@@ -26,6 +26,7 @@ import com.exam.natour.Model.PathDetailResponse.Coordinate;
 import com.exam.natour.Model.PathDetailResponse.InterestPoint;
 import com.exam.natour.Model.PathDetailResponse.PathDetail;
 import com.exam.natour.Service.PathRecorderService;
+import com.exam.natour.UI.View.InsertPath.InsertPathActivity;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
@@ -33,15 +34,19 @@ import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 import com.google.gson.Gson;
 
+import java.time.Duration;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
+import java.util.concurrent.TimeUnit;
 
 public class MapsViewModel extends ViewModel{
 
     private Location currentLocation;
     private MutableLiveData<PathDetail> createdPath;
     private MutableLiveData<List<InterestPoint>> interestPoints;
+    private Instant startTime,endTime;
 
 
     private LocationCallback locationCallback = new LocationCallback() {
@@ -100,6 +105,7 @@ public class MapsViewModel extends ViewModel{
         else
             context.startService(new Intent(context, PathRecorderService.class));
          */
+        this.startTime = Instant.now();
         context.startService(new Intent(context, PathRecorderService.class));
     }
 
@@ -117,5 +123,28 @@ public class MapsViewModel extends ViewModel{
     }
 
 
+    public void saveRecordedPath(Context context,String location) {
+        this.stopPathRecording(context);
+        this.endTime = Instant.now();
+        PathDetail newPath = createdPath.getValue();
+        if (interestPoints.getValue() != null)
+            newPath.setInterestPoints(interestPoints.getValue());
+        newPath.setLocation(location);
+        newPath.calculateLength();
+        newPath.setDuration(this.calculateDuration(this.startTime,this.endTime));
+        String jsonParsedPath = new Gson().toJson(newPath);
+        Intent intent = new Intent(context, InsertPathActivity.class);
+        intent.putExtra("Path",jsonParsedPath);
+        context.startActivity(intent);
+    }
+
+    private String calculateDuration(Instant start, Instant end){
+        long timeElapsed = Duration.between(start, end).toMillis();
+        return String.valueOf(String.format("%dh:%dmin:%dsec",
+                TimeUnit.MILLISECONDS.toHours(timeElapsed),
+                TimeUnit.MILLISECONDS.toMinutes(timeElapsed),
+                TimeUnit.MILLISECONDS.toSeconds(timeElapsed)
+        ));
+    }
 
 }
