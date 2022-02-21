@@ -13,7 +13,6 @@ import android.os.Looper;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
@@ -29,12 +28,13 @@ import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 import com.google.gson.Gson;
 
+import java.text.SimpleDateFormat;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Iterator;
+import java.util.Date;
 import java.util.List;
-import java.util.ListIterator;
+import java.util.concurrent.TimeUnit;
 
 public class PathRecorderService extends Service{
 
@@ -42,6 +42,7 @@ public class PathRecorderService extends Service{
     private LocationRequest locationRequest;
     private PathDetail createdPath;
     List<Coordinate> coordinates;
+    private Instant startTime,endTime;
 
 
     private LocationCallback locationCallback = new LocationCallback() {
@@ -69,6 +70,7 @@ public class PathRecorderService extends Service{
         Log.i("PathRecorder","Service partito");
         super.onStartCommand(intent, flags, startId);
         locationRequest = LocationRequest.create().setInterval(10000).setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+        this.startTime = Instant.now();
         this.startLocationUpdates();
         this.showNotificationAndStartForegroundService();
         return START_STICKY;
@@ -79,6 +81,8 @@ public class PathRecorderService extends Service{
         super.onDestroy();
         Log.i("PathRecorder","Service interrotto");
         this.stopLocationUpdates();
+        this.endTime = Instant.now();
+        Log.i("Tempo registrato",calculateDuration(this.startTime,this.endTime));
     }
 
     private void showNotificationAndStartForegroundService() {
@@ -139,5 +143,14 @@ public class PathRecorderService extends Service{
         super.onTaskRemoved(rootIntent);
         stopForeground(true);
         stopSelf();
+    }
+
+    private String calculateDuration(Instant start, Instant end){
+        long timeElapsed = Duration.between(start, end).toMillis();
+        return String.valueOf(String.format("%dh:%dmin:%dsec",
+                TimeUnit.MILLISECONDS.toHours(timeElapsed),
+                TimeUnit.MILLISECONDS.toMinutes(timeElapsed),
+                TimeUnit.MILLISECONDS.toSeconds(timeElapsed)
+        ));
     }
 }

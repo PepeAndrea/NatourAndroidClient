@@ -185,7 +185,7 @@ public class MapsFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 setRecordingInterface();
-                //mapsViewModel.startPathRecording(getContext());
+                mapsViewModel.startPathRecording(getContext());
             }
         });
 
@@ -220,6 +220,7 @@ public class MapsFragment extends Fragment {
                 //TODO Logica per salvare percorso
 
                 map.clear();
+                mapsViewModel.stopPathRecording(getContext());
                 unsetRecordingInterface();
             }
         });
