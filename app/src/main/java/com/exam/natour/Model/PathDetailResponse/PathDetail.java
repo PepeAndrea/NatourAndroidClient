@@ -1,5 +1,6 @@
 package com.exam.natour.Model.PathDetailResponse;
 
+import java.text.DecimalFormat;
 import java.util.List;
 import javax.annotation.Generated;
 import com.google.gson.annotations.Expose;
@@ -28,10 +29,10 @@ public class PathDetail {
     private Integer disability;
     @SerializedName("length")
     @Expose
-    private Integer length;
+    private Double length;
     @SerializedName("duration")
     @Expose
-    private Double duration;
+    private String duration;
     @SerializedName("created_at")
     @Expose
     private String createdAt;
@@ -96,19 +97,19 @@ public class PathDetail {
         this.disability = disability;
     }
 
-    public Integer getLength() {
+    public Double getLength() {
         return length;
     }
 
-    public void setLength(Integer length) {
+    public void setLength(Double length) {
         this.length = length;
     }
 
-    public Double getDuration() {
+    public String getDuration() {
         return duration;
     }
 
-    public void setDuration(Double duration) {
+    public void setDuration(String duration) {
         this.duration = duration;
     }
 
@@ -150,6 +151,22 @@ public class PathDetail {
 
     public void setInterestPoints(List<InterestPoint> interestPoints) {
         this.interestPoints = interestPoints;
+    }
+
+    public void calculateLength(){
+
+        Double totalDistance = 0.0;
+        double cosAng,ang,dist;
+
+        for(int i = 1; i < this.getCoordinates().size(); i++) {
+            cosAng = (Math.cos(Double.valueOf(this.getCoordinates().get(i-1).getLatitude())) * Math.cos(Double.valueOf(this.getCoordinates().get(i).getLatitude())) * Math.cos(Double.valueOf(this.getCoordinates().get(i).getLongitude())-Double.valueOf(this.getCoordinates().get(i-1).getLongitude()))) + (Math.sin(Double.valueOf(this.getCoordinates().get(i-1).getLatitude())) * Math.sin(Double.valueOf(this.getCoordinates().get(i).getLatitude())));
+            ang = Math.acos(cosAng);
+            dist = ang * 6371f;
+            totalDistance += dist;
+        }
+
+        this.setLength(Double.valueOf(new DecimalFormat("000.00").format(totalDistance).replace(",",".")));
+
     }
 
 }
