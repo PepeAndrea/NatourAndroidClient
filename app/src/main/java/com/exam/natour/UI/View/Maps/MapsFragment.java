@@ -197,9 +197,9 @@ public class MapsFragment extends Fragment {
 
     private void openFab() {
         isFabOpen = true;
-        binding.fabRegistraPercorso.animate().translationY(-700).alpha(1.0f);
-        binding.fabUploadFile.animate().translationY(-500).alpha(1.0f);
-        binding.fabInserisciManualmente.animate().translationY(-300).alpha(1.0f);
+        binding.fabRegistraPercorso.animate().translationY(-380).alpha(1.0f);
+        binding.fabUploadFile.animate().translationY(-280).alpha(1.0f);
+        binding.fabInserisciManualmente.animate().translationY(-180).alpha(1.0f);
     }
 
     private void closeFab() {
