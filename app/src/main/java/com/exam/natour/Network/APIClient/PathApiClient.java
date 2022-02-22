@@ -21,7 +21,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -129,6 +131,26 @@ public class PathApiClient {
 
 
     public void savePath(PathDetail newPath, Context context) {
+        Map<String,String> coordinates = new HashMap<>();
+        Map<String,String> interestPoints = new HashMap<>();
+
+        if (newPath.getCoordinates() != null){
+            for (int i = 0;i<newPath.getCoordinates().size();i++){
+                coordinates.put("coordinates["+i+"][latitude]",newPath.getCoordinates().get(i).getLatitude());
+                coordinates.put("coordinates["+i+"][longitude]",newPath.getCoordinates().get(i).getLongitude());
+            }
+        }
+
+        if (newPath.getInterestPoints() != null){
+            for (int i = 0;i<newPath.getInterestPoints().size();i++){
+                interestPoints.put("interest_points["+i+"][title]",newPath.getInterestPoints().get(i).getTitle());
+                interestPoints.put("interest_points["+i+"][description]",newPath.getInterestPoints().get(i).getDescription());
+                interestPoints.put("interest_points["+i+"][category]",newPath.getInterestPoints().get(i).getCategory());
+                interestPoints.put("interest_points["+i+"][latitude]",newPath.getInterestPoints().get(i).getLatitude());
+                interestPoints.put("interest_points["+i+"][longitude]",newPath.getInterestPoints().get(i).getLongitude());
+            }
+        }
+
 
         Call<PathDetailResponse> call = service.savePath(
                 newPath.getTitle(),
@@ -138,15 +160,20 @@ public class PathApiClient {
                 newPath.getDisability(),
                 newPath.getLength(),
                 newPath.getDuration(),
-                newPath.getCoordinates(),
-                newPath.getInterestPoints()
+                coordinates,
+                interestPoints
         );
         call.enqueue(new Callback<PathDetailResponse>() {
             @Override
             public void onResponse(Call<PathDetailResponse> call, Response<PathDetailResponse> response) {
                 try {
                     if(response.isSuccessful()){
-                        //Risposta ok
+                        new AlertDialog.Builder(context)
+                                .setTitle("Percorso caricato con successo")
+                                .setMessage("Congratulazioni, il percorso è ora online.\n")
+                                .setOnCancelListener(dialogInterface -> ((Activity) context).finish())
+                                .setNeutralButton("Continua",(dialogInterface, i) ->((Activity) context).finish())
+                                .show();
                     }else if(response.code() == 401){
                         Log.i("API 401","Il token fornito è scaduto o non è valido");
                         context.startActivity(new Intent(context, AuthActivity.class));

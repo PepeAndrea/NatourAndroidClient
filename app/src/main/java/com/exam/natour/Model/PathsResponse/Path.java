@@ -31,7 +31,7 @@ public class Path {
     private Double length;
     @SerializedName("duration")
     @Expose
-    private Double duration;
+    private String duration;
     @SerializedName("created_at")
     @Expose
     private String createdAt;
@@ -98,11 +98,11 @@ public class Path {
         this.length = length;
     }
 
-    public Double getDuration() {
+    public String getDuration() {
         return duration;
     }
 
-    public void setDuration(Double duration) {
+    public void setDuration(String duration) {
         this.duration = duration;
     }
 

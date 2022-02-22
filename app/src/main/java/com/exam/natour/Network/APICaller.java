@@ -11,9 +11,11 @@ import com.exam.natour.Model.PathsResponse.PathsResponse;
 import org.json.JSONObject;
 
 import java.util.List;
+import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.http.Field;
+import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Headers;
@@ -49,8 +51,8 @@ public interface APICaller {
                                       @Field("disability") Integer disability,
                                       @Field("length") Double length,
                                       @Field("duration") String duration,
-                                      @Field("coordinates[]") List<Coordinate> coordinates,
-                                      @Field("interest_points[]") List<InterestPoint> interestPoints);
+                                      @FieldMap Map<String,String> coordinates,
+                                      @FieldMap Map<String,String> interestPoints);
 
 
     //CheckToken endpoint
