@@ -17,9 +17,10 @@
     </string-array>
 
     <string-array name="pathDifficulties">
-        <item>T</item>
+        <item>E</item>
+        <item>EE</item>
         <item>EEA</item>
-        <item>Altro</item>
+        <item>T</item>
     </string-array>
 
 </resources>

@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.graphics.Color;
 import android.transition.TransitionInflater;
 
 import android.os.Bundle;
@@ -96,6 +97,10 @@ public class PathDetailActivity extends AppCompatActivity implements OnMapReadyC
                 binding.pathLength.setText(String.valueOf(pathDetail.getLength()));
                 binding.pathDuration.setText(formatDuration(pathDetail.getDuration()));
                 binding.pathLocation.setText(pathDetail.getLocation());
+
+                binding.pathDifficulty.setTextColor(Color.parseColor(selectDifficultyColor(pathDetail.getDifficulty())));
+
+
                 //Li rendo visibili
                 /*
                 pathDescription.setVisibility(View.VISIBLE);
@@ -163,6 +168,20 @@ public class PathDetailActivity extends AppCompatActivity implements OnMapReadyC
         ));
     }
 
+    private String selectDifficultyColor(String diffuculty){
+        switch (diffuculty){
+            case "T":
+                return "#669944";
+            case "EEA":
+                return "#DD4444";
+            case "E":
+                return "#EEBB00";
+            case "EE":
+                return "#E68433";
+            default:
+                return "#ffffff";
+        }
+    }
 
     @Override
     public void onDestroy() {

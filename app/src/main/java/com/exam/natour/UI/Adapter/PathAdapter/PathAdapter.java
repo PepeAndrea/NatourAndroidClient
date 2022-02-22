@@ -1,5 +1,6 @@
 package com.exam.natour.UI.Adapter.PathAdapter;
 
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,6 +32,7 @@ public class PathAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         ((PathViewHolder) holder).pathTitle.setText(mPath.get(position).getTitle());
         //((PathViewHolder) holder).pathDescription.setText(mPath.get(position).getDescription());
         ((PathViewHolder) holder).pathDifficulty.setText(mPath.get(position).getDifficulty());
+        ((PathViewHolder) holder).pathDifficulty.setTextColor(Color.parseColor(this.selectDifficultyColor(mPath.get(position).getDifficulty())));
         //((PathViewHolder) holder).pathLength.setText(String.valueOf(mPath.get(position).getLength())+"Km");
         //((PathViewHolder) holder).pathDuration.setText(String.valueOf(mPath.get(position).getDuration())+'h');
         ((PathViewHolder) holder).pathUser.setText("@"+mPath.get(position).getUsername());
@@ -49,5 +51,20 @@ public class PathAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public void setPaths(List<Path> mPath) {
         this.mPath = mPath;
         notifyDataSetChanged();
+    }
+
+    private String selectDifficultyColor(String diffuculty){
+        switch (diffuculty){
+            case "T":
+                return "#669944";
+            case "EEA":
+                return "#DD4444";
+            case "E":
+                return "#EEBB00";
+            case "EE":
+                return "#E68433";
+            default:
+                return "#ffffff";
+        }
     }
 }
