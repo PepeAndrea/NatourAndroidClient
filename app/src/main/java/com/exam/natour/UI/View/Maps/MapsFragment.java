@@ -61,7 +61,7 @@ public class MapsFragment extends Fragment {
             } else {
                 new AlertDialog.Builder(getContext())
                         .setTitle("Permessi mancanti")
-                        .setMessage("Per utilizzare la funzionalità di tracciamento hai bisogno di abilitare i permessi per la localizzazione")
+                        .setMessage("Per utilizzare la funzionalità di tracciamento hai bisogno di abilitare i permessi per la localizzazione.\n\nPer motivi di privacy non sempre vi è la possibilità di attivare il tracciamento anche quando l'app non è in utilizzo, si prega di attivare tale funzionalità dai permessi dell'app nelle impostazioni per garantire un corretto funzionamento")
                         .setNegativeButton("Annulla", (dialogInterface, i) -> dialogInterface.dismiss())
                         .setPositiveButton("Concedi", (dialogInterface, i) -> requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION}, 101))
                         .show();
