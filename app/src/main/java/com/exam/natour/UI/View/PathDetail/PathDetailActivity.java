@@ -21,10 +21,12 @@ import com.exam.natour.Model.PathDetailResponse.PathDetail;
 import com.exam.natour.R;
 import com.exam.natour.UI.Adapter.InterestPointAdapter.InterestPointAdapter;
 import com.exam.natour.databinding.ActivityPathDetailBinding;
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 
@@ -54,28 +56,17 @@ public class PathDetailActivity extends AppCompatActivity implements OnMapReadyC
         pathDetailViewModel = new ViewModelProvider(this).get(PathDetailViewModel.class);
         binding = ActivityPathDetailBinding.inflate(getLayoutInflater());
 
-        setContentView(R.layout.activity_path_detail);
-
-        //Bind delle views
-        pathImage = findViewById(R.id.pathImage);
-        pathTitle = findViewById(R.id.pathTitle);
-        pathDescription = findViewById(R.id.pathDescription);
-        pathDifficulty = findViewById(R.id.pathDifficulty);
-        pathLength = findViewById(R.id.pathLength);
-        pathDuration = findViewById(R.id.pathDuration);
-        pathLocation = findViewById(R.id.pathLocation);
-        interestPointList = findViewById(R.id.interestPointList);
-
+        setContentView(binding.getRoot());
 
         //Recupero informazioni da Intent e imposto i dat a disposizione
         Bundle extras = getIntent().getExtras();
-        pathTitle.setText(extras.getString("pathTitle",""));
+        binding.pathTitle.setText(extras.getString("pathTitle",""));
 
         //animazione di apertura
         getWindow().setSharedElementEnterTransition(TransitionInflater.from(this)
                                                     .inflateTransition(R.transition.shared_element_transaction));
 
-        pathImage.setTransitionName(imageTransitionName);
+        binding.pathImage.setTransitionName(imageTransitionName);
 
         this.setupInterestPointList();
         this.ObserveChange(extras.getString("pathId"));
@@ -97,11 +88,11 @@ public class PathDetailActivity extends AppCompatActivity implements OnMapReadyC
             public void onChanged(PathDetail pathDetail) {
                 Log.i("Percorso caricato",pathDetail.getTitle());
                 //Imposto i dati
-                pathDescription.setText(pathDetail.getDescription());
-                pathDifficulty.setText(pathDetail.getDifficulty());
-                pathLength.setText(String.valueOf(pathDetail.getLength()));
-                pathDuration.setText(String.valueOf(pathDetail.getDuration()));
-                pathLocation.setText(pathDetail.getLocation());
+                binding.pathDescription.setText(pathDetail.getDescription());
+                binding.pathDifficulty.setText(pathDetail.getDifficulty());
+                binding.pathLength.setText(String.valueOf(pathDetail.getLength()));
+                binding.pathDuration.setText(String.valueOf(pathDetail.getDuration()));
+                binding.pathLocation.setText(pathDetail.getLocation());
                 //Li rendo visibili
                 /*
                 pathDescription.setVisibility(View.VISIBLE);
@@ -121,16 +112,19 @@ public class PathDetailActivity extends AppCompatActivity implements OnMapReadyC
 
     private void setupInterestPointList(){
         this.interestPointAdapter = new InterestPointAdapter();
-        interestPointList.setAdapter(this.interestPointAdapter);
-        interestPointList.setLayoutManager(new LinearLayoutManager(this));
+        binding.interestPointList.setAdapter(this.interestPointAdapter);
+        binding.interestPointList.setLayoutManager(new LinearLayoutManager(this));
     }
 
     private void setMapCoordinate(List<Coordinate> coordinates, List<InterestPoint> interestPoints) {
 
         if(map != null){
+            LatLngBounds.Builder builder = new LatLngBounds.Builder();
             PolylineOptions path = new PolylineOptions();
             coordinates.forEach((coordinate -> {
-                path.add(new LatLng(Double.valueOf(coordinate.getLatitude()),Double.valueOf(coordinate.getLongitude()))).clickable(false);
+                LatLng latLng = new LatLng(Double.valueOf(coordinate.getLatitude()),Double.valueOf(coordinate.getLongitude()));
+                path.add(latLng).clickable(false);
+                builder.include(latLng);
             }));
             map.addPolyline(path);
             interestPoints.forEach(interestPoint -> {
@@ -142,6 +136,8 @@ public class PathDetailActivity extends AppCompatActivity implements OnMapReadyC
             });
             map.getUiSettings().setZoomGesturesEnabled(true);
             map.getUiSettings().setScrollGesturesEnabled(false);
+
+            map.moveCamera(CameraUpdateFactory.newLatLngBounds(builder.build(),20));
         }
 
     }
