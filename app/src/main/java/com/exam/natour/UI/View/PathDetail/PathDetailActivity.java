@@ -30,7 +30,10 @@ import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 
+import java.time.Duration;
+import java.time.Instant;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class PathDetailActivity extends AppCompatActivity implements OnMapReadyCallback {
 
@@ -91,7 +94,7 @@ public class PathDetailActivity extends AppCompatActivity implements OnMapReadyC
                 binding.pathDescription.setText(pathDetail.getDescription());
                 binding.pathDifficulty.setText(pathDetail.getDifficulty());
                 binding.pathLength.setText(String.valueOf(pathDetail.getLength()));
-                binding.pathDuration.setText(String.valueOf(pathDetail.getDuration()));
+                binding.pathDuration.setText(formatDuration(pathDetail.getDuration()));
                 binding.pathLocation.setText(pathDetail.getLocation());
                 //Li rendo visibili
                 /*
@@ -145,6 +148,19 @@ public class PathDetailActivity extends AppCompatActivity implements OnMapReadyC
     @Override
     public void onMapReady(@NonNull GoogleMap googleMap) {
         map = googleMap;
+    }
+
+
+    private String formatDuration(Long duration){
+
+        long HH = duration / 3600;
+        long MM = (duration % 3600) / 60;
+        long SS = duration % 60;
+        return String.valueOf(String.format("%dh:%dmin:%dsec",
+                TimeUnit.MILLISECONDS.toHours(duration),
+                TimeUnit.MILLISECONDS.toMinutes(duration) % 60,
+                TimeUnit.MILLISECONDS.toSeconds(duration) % 60
+        ));
     }
 
 

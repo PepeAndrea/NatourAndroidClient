@@ -127,24 +127,17 @@ public class MapsViewModel extends ViewModel{
         this.stopPathRecording(context);
         this.endTime = Instant.now();
         PathDetail newPath = createdPath.getValue();
-        if (interestPoints.getValue() != null)
-            newPath.setInterestPoints(interestPoints.getValue());
-        newPath.setLocation(location);
-        newPath.calculateLength();
-        newPath.setDuration(this.calculateDuration(this.startTime,this.endTime));
-        String jsonParsedPath = new Gson().toJson(newPath);
-        Intent intent = new Intent(context, InsertPathActivity.class);
-        intent.putExtra("Path",jsonParsedPath);
-        context.startActivity(intent);
-    }
-
-    private String calculateDuration(Instant start, Instant end){
-        long timeElapsed = Duration.between(start, end).toMillis();
-        return String.valueOf(String.format("%dh:%dmin:%dsec",
-                TimeUnit.MILLISECONDS.toHours(timeElapsed),
-                TimeUnit.MILLISECONDS.toMinutes(timeElapsed),
-                TimeUnit.MILLISECONDS.toSeconds(timeElapsed)
-        ));
+        if (newPath != null){
+            if (interestPoints.getValue() != null)
+                newPath.setInterestPoints(interestPoints.getValue());
+            newPath.setLocation(location);
+            newPath.calculateLength();
+            newPath.setDuration(Duration.between(this.startTime, this.endTime).toMillis());
+            String jsonParsedPath = new Gson().toJson(newPath);
+            Intent intent = new Intent(context, InsertPathActivity.class);
+            intent.putExtra("Path",jsonParsedPath);
+            context.startActivity(intent);
+        }
     }
 
 }

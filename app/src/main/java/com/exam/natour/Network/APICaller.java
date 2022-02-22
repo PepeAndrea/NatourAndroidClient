@@ -50,7 +50,7 @@ public interface APICaller {
                                       @Field("difficulty") String difficulty,
                                       @Field("disability") Integer disability,
                                       @Field("length") Double length,
-                                      @Field("duration") String duration,
+                                      @Field("duration") Long duration,
                                       @FieldMap Map<String,String> coordinates,
                                       @FieldMap Map<String,String> interestPoints);
 
