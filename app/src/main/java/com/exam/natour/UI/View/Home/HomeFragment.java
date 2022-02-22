@@ -28,6 +28,7 @@ public class HomeFragment extends Fragment {
 
     private RecyclerView pathList;
     private PathAdapter pathAdapter;
+    private boolean isFilterOpen = false;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -35,6 +36,8 @@ public class HomeFragment extends Fragment {
         homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
+
+        this.setupUserInterface();
 
         this.pathList = root.findViewById(R.id.pathList);
         this.setupPathList();
@@ -64,5 +67,33 @@ public class HomeFragment extends Fragment {
         this.pathAdapter = new PathAdapter();
         pathList.setAdapter(this.pathAdapter);
         pathList.setLayoutManager(new LinearLayoutManager(getContext()));
+    }
+
+
+    //Gestione interfaccia utente
+
+    private void setupUserInterface(){
+        binding.filterButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (isFilterOpen) {
+                    closeFilter();
+                } else {
+                    openFilter();
+                }
+            }
+        });
+    }
+
+    private void openFilter(){
+        this.isFilterOpen = true;
+        binding.filterTab.setVisibility(View.VISIBLE);
+        binding.filterTab.animate().alpha(1.0f).setDuration(100);
+    }
+
+    private void closeFilter(){
+        this.isFilterOpen = false;
+        binding.filterTab.animate().alpha(0.0f).setDuration(100);
+        binding.filterTab.setVisibility(View.GONE);
     }
 }
