@@ -14,21 +14,10 @@ import com.exam.natour.UI.View.Auth.AuthViewModel;
 
 public class AuthActivity extends AppCompatActivity {
 
-    SharedPreferences sharedPreferences;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getSupportActionBar().hide();
-
-        //Verifica se è salvato l'accesso nel dispositivo
-
-        sharedPreferences = getSharedPreferences("AUTH",MODE_PRIVATE);
-        if(sharedPreferences.contains("Token")){
-            Log.i("Token salvato",sharedPreferences.getString("Token",""));
-            new AuthViewModel().checkSavedToken(this,sharedPreferences.getString("Token",""));
-        }
-
 
         setContentView(R.layout.activity_auth);
 

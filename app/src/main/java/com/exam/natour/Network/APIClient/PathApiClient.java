@@ -59,8 +59,11 @@ public class PathApiClient {
                     mPaths.setValue(response.body().getData().getPaths());
                 }else if(response.code() == 401){
                     Log.i("API 401","Il token fornito è scaduto o non è valido");
-                    context.startActivity(new Intent(context, AuthActivity.class));
-                    ((Activity) context).finish();
+                    Intent i = new Intent(context, AuthActivity.class);
+                    i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP |
+                            Intent.FLAG_ACTIVITY_CLEAR_TASK |
+                            Intent.FLAG_ACTIVITY_NEW_TASK);
+                    context.startActivity(i);
                 }else if(response.code() == 500|| response.code() == 502){
                     try {
                         Log.i("API 500/502",new JSONObject(response.errorBody().string()).toString());
@@ -95,8 +98,11 @@ public class PathApiClient {
                     mPathDetail.setValue(response.body().getPathDetail());
                 }else if(response.code() == 401){
                     Log.i("API 401","Il token fornito è scaduto o non è valido");
-                    context.startActivity(new Intent(context, AuthActivity.class));
-                    ((Activity) context).finish();
+                    Intent i = new Intent(context, AuthActivity.class);
+                    i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP |
+                            Intent.FLAG_ACTIVITY_CLEAR_TASK |
+                            Intent.FLAG_ACTIVITY_NEW_TASK);
+                    context.startActivity(i);
                 }else if(response.code() == 404){
                     Log.i("API 404","Il percorso richiesto non è stato trovato");
                     new AlertDialog.Builder(context)
@@ -176,8 +182,11 @@ public class PathApiClient {
                                 .show();
                     }else if(response.code() == 401){
                         Log.i("API 401","Il token fornito è scaduto o non è valido");
-                        context.startActivity(new Intent(context, AuthActivity.class));
-                        ((Activity) context).finish();
+                        Intent i = new Intent(context, AuthActivity.class);
+                        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP |
+                                Intent.FLAG_ACTIVITY_CLEAR_TASK |
+                                Intent.FLAG_ACTIVITY_NEW_TASK);
+                        context.startActivity(i);
                     }else if(response.code() == 422){
                         Log.i("API 422",new JSONObject(response.errorBody().string()).toString());
                         new AlertDialog.Builder(context)

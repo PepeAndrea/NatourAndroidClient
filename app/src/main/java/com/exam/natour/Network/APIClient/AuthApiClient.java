@@ -103,7 +103,6 @@ public class AuthApiClient {
     }
 
     public void checkSavedToken(Context context, String token) {
-        AuthUser.getInstance().setToken(token);
         Call<LoginResponse> call = apiCaller.checkToken();
         call.enqueue(new Callback<LoginResponse>() {
             @Override
@@ -111,8 +110,6 @@ public class AuthApiClient {
                 if(response.isSuccessful()){
                     Log.i("API 200","Login riuscito correttamente per il token: "+token);
                     setSavedUser(response.body());
-                    context.startActivity(new Intent(context, MainActivity.class));
-                    ((Activity) context).finish();
                 }else if(response.code() == 404){
                     deleteLogin(context);
                     Log.i("API 404","Il token fornito è scaduto o non è valido");
