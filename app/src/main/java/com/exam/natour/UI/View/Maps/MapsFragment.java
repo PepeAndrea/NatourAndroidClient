@@ -282,7 +282,7 @@ public class MapsFragment extends Fragment {
         binding.interestPointSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (validateInterestPointInput(binding.interestPointName.getText().toString())){
+                if (validateInterestPointInput(binding.interestPointName.getText().toString(),binding.interestPointDescription.getText().toString())){
                     mapsViewModel.addInterestPoint(
                             new InterestPoint(binding.interestPointName.getText().toString(),
                                     binding.interestPointDescription.getText().toString(),
@@ -309,11 +309,15 @@ public class MapsFragment extends Fragment {
 
     }
 
-    private boolean validateInterestPointInput(String name) {
+    private boolean validateInterestPointInput(String name,String description) {
         boolean validated = true;
 
         if(name.length() == 0){
             binding.interestPointName.setError("Il campo Titolo non può essere vuoto");
+            validated = false;
+        }
+        if(description.length() == 0){
+            binding.interestPointDescription.setError("Il campo Descrizione non può essere vuoto");
             validated = false;
         }
         return validated;

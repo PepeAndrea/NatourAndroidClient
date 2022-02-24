@@ -106,6 +106,7 @@ public class MapsViewModel extends ViewModel{
             context.startService(new Intent(context, PathRecorderService.class));
          */
         this.startTime = Instant.now();
+        interestPoints.setValue(new ArrayList<>());
         context.startService(new Intent(context, PathRecorderService.class));
     }
 
