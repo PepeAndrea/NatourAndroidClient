@@ -7,6 +7,7 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -148,13 +149,25 @@ public class MapsFragment extends Fragment {
 
     private void setupMapRecordingUpdater() {
         mapsViewModel.getCreatedPath().observe(getViewLifecycleOwner(), pathDetail -> {
-            if (polyline != null)
-                polyline.remove();
-            PolylineOptions path = new PolylineOptions();
-            pathDetail.getCoordinates().forEach((coordinate -> {
-                path.add(new LatLng(Double.valueOf(coordinate.getLatitude()), Double.valueOf(coordinate.getLongitude()))).clickable(false);
-            }));
-            polyline = map.addPolyline(path);
+            if (map != null){
+                map.clear();
+                PolylineOptions path = new PolylineOptions();
+                if (pathDetail.getCoordinates() != null){
+                    pathDetail.getCoordinates().forEach((coordinate -> {
+                        path.add(new LatLng(Double.valueOf(coordinate.getLatitude()), Double.valueOf(coordinate.getLongitude()))).clickable(false);
+                    }));
+                    map.addPolyline(path);
+                }
+
+                if (pathDetail.getInterestPoints() != null){
+                    pathDetail.getInterestPoints().forEach(interestPoint -> {
+                        map.addMarker(new MarkerOptions()
+                                .position(new LatLng(Double.valueOf(interestPoint.getLatitude()),Double.valueOf(interestPoint.getLongitude())))
+                                .title(interestPoint.getTitle())
+                                .draggable(false));
+                    });
+                }
+            }
         });
     }
 
@@ -294,6 +307,7 @@ public class MapsFragment extends Fragment {
                                     String.valueOf(currentPos.latitude),
                                     String.valueOf(currentPos.longitude)));
 
+                    //Lascio la riga sotto solo per non fare aspettare l'utente l'aggiornamento della mappa per vedere il marker creato
                     map.addMarker(new MarkerOptions().position(currentPos).title(binding.interestPointName.getText().toString()));
                     unsetInterestPointInterface();
                 }

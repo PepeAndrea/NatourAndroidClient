@@ -20,6 +20,7 @@ import androidx.core.app.NotificationCompat;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.exam.natour.BuildConfig;
+import com.exam.natour.Model.LiveRecordingData;
 import com.exam.natour.Model.PathDetailResponse.Coordinate;
 import com.exam.natour.Model.PathDetailResponse.InterestPoint;
 import com.exam.natour.Model.PathDetailResponse.PathDetail;
@@ -53,14 +54,8 @@ public class PathRecorderService extends Service{
         @Override
         public void onLocationResult(@NonNull LocationResult locationResult) {
             super.onLocationResult(locationResult);
-            if (createdPath == null)
-                createdPath = new PathDetail();
-            if (coordinates == null)
-               coordinates  = new ArrayList<Coordinate>();
-
-            coordinates.add(new Coordinate(String.valueOf(locationResult.getLastLocation().getLatitude()),String.valueOf(locationResult.getLastLocation().getLongitude())));
-            createdPath.setCoordinates(coordinates);
-            sendMessage(createdPath);
+            LiveRecordingData.getInstance().addCoordinate(new Coordinate(String.valueOf(locationResult.getLastLocation().getLatitude()),String.valueOf(locationResult.getLastLocation().getLongitude())));
+            sendMessage();
         }
     };
 
@@ -125,10 +120,8 @@ public class PathRecorderService extends Service{
         fusedLocationClient.removeLocationUpdates(locationCallback);
     }
 
-    private void sendMessage(PathDetail path) {
+    private void sendMessage() {
         Intent intent = new Intent("PathRecordingUpdate");
-        // You can also include some extra data.
-        intent.putExtra("Path", new Gson().toJson(path));
         LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
     }
 

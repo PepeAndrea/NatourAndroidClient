@@ -22,6 +22,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
+import com.exam.natour.Model.LiveRecordingData;
 import com.exam.natour.Model.PathDetailResponse.Coordinate;
 import com.exam.natour.Model.PathDetailResponse.InterestPoint;
 import com.exam.natour.Model.PathDetailResponse.PathDetail;
@@ -43,10 +44,8 @@ import java.util.concurrent.TimeUnit;
 
 public class MapsViewModel extends ViewModel{
 
-    private Location currentLocation;
+    private PathDetail pathUpdateContainer;
     private MutableLiveData<PathDetail> createdPath;
-    private MutableLiveData<List<InterestPoint>> interestPoints;
-    private Instant startTime,endTime;
 
 
     private LocationCallback locationCallback = new LocationCallback() {
@@ -60,17 +59,15 @@ public class MapsViewModel extends ViewModel{
     private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-                // Get extra data included in the Intent
-                String message = intent.getStringExtra("Path");
-                createdPath.setValue(new Gson().fromJson(message,PathDetail.class));
+                pathUpdateContainer.setInterestPoints(LiveRecordingData.getInstance().getInterestPoints());
+                pathUpdateContainer.setCoordinates(LiveRecordingData.getInstance().getCoordinates());
+                createdPath.setValue(pathUpdateContainer);
             }
     };
 
 
     public MapsViewModel() {
         createdPath = new MutableLiveData<>();
-        interestPoints = new MutableLiveData<>();
-        interestPoints.setValue(new ArrayList<>());
     }
 
     public void setReceiver(Context context){
@@ -90,6 +87,7 @@ public class MapsViewModel extends ViewModel{
         for (ActivityManager.RunningServiceInfo runningServiceInfo : services) {
             if (runningServiceInfo.service.getClassName().equals("com.exam.natour.Service.PathRecorderService")){
                 Log.i("Service PathRecorder","Il service è attivo");
+                this.pathUpdateContainer = new PathDetail();
                 return true;
             }
         }
@@ -105,8 +103,8 @@ public class MapsViewModel extends ViewModel{
         else
             context.startService(new Intent(context, PathRecorderService.class));
          */
-        this.startTime = Instant.now();
-        interestPoints.setValue(new ArrayList<>());
+        pathUpdateContainer = new PathDetail();
+        LiveRecordingData.getInstance().setStartTime();
         context.startService(new Intent(context, PathRecorderService.class));
     }
 
@@ -119,22 +117,24 @@ public class MapsViewModel extends ViewModel{
         return this.createdPath;
     }
 
+
     public void addInterestPoint(InterestPoint interestPoint) {
-        this.interestPoints.getValue().add(interestPoint);
+        LiveRecordingData.getInstance().addInterestPoint(interestPoint);
+        this.createdPath.getValue().setInterestPoints(LiveRecordingData.getInstance().getInterestPoints());
     }
 
 
     public void saveRecordedPath(Context context,String location) {
         this.stopPathRecording(context);
-        this.endTime = Instant.now();
+        LiveRecordingData.getInstance().setEndTime();
         PathDetail newPath = createdPath.getValue();
         if (newPath != null){
-            if (interestPoints.getValue() != null)
-                newPath.setInterestPoints(interestPoints.getValue());
             newPath.setLocation(location);
             newPath.calculateLength();
-            newPath.setDuration(Duration.between(this.startTime, this.endTime).toMillis());
+            newPath.setDuration(Duration.between(LiveRecordingData.getInstance().getStartTime(), LiveRecordingData.getInstance().getEndTime()).toMillis());
             String jsonParsedPath = new Gson().toJson(newPath);
+            LiveRecordingData.getInstance().destroy();
+            pathUpdateContainer = null;
             Intent intent = new Intent(context, InsertPathActivity.class);
             intent.putExtra("Path",jsonParsedPath);
             context.startActivity(intent);

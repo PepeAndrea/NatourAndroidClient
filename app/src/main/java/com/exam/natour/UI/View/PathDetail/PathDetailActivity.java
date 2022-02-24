@@ -30,6 +30,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
+import com.google.android.gms.maps.model.SquareCap;
 
 import java.time.Duration;
 import java.time.Instant;
@@ -129,16 +130,24 @@ public class PathDetailActivity extends AppCompatActivity implements OnMapReadyC
         if(map != null){
             LatLngBounds.Builder builder = new LatLngBounds.Builder();
             PolylineOptions path = new PolylineOptions().clickable(false);
+
             coordinates.forEach((coordinate -> {
                 LatLng latLng = new LatLng(Double.valueOf(coordinate.getLatitude()),Double.valueOf(coordinate.getLongitude()));
                 path.add(latLng);
                 builder.include(latLng);
             }));
-            for(int i = 0;i<coordinates.size();i++){
-                LatLng latLng = new LatLng(Double.valueOf(coordinates.get(i).getLatitude()),Double.valueOf(coordinates.get(i).getLongitude()));
-                path.add(latLng);
-                builder.include(latLng);
-            }
+
+            /*
+            path.add(new LatLng(40.857591, 14.259518));
+            path.add(new LatLng(40.856844, 14.261414));
+            path.add(new LatLng(40.855284, 14.265532));
+            path.add(new LatLng(40.855479, 14.266148));
+            path.add(new LatLng(40.856031, 14.267414));
+            path.add(new LatLng(40.858556, 14.267000));
+            path.add(new LatLng(40.858613, 14.265316));
+            path.add(new LatLng(40.860033, 14.264898));
+             */
+
             map.addPolyline(path);
             interestPoints.forEach(interestPoint -> {
                 Log.i("Analisi coordinate punto interesse",interestPoint.getLatitude()+" "+interestPoint.getLongitude());
@@ -150,6 +159,7 @@ public class PathDetailActivity extends AppCompatActivity implements OnMapReadyC
             map.getUiSettings().setZoomGesturesEnabled(true);
             map.getUiSettings().setScrollGesturesEnabled(false);
 
+            //map.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(40.857591, 14.259518),13f));
             map.moveCamera(CameraUpdateFactory.newLatLngBounds(builder.build(),20));
         }
 
