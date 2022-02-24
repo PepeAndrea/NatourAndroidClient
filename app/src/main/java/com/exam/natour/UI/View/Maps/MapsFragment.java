@@ -105,7 +105,11 @@ public class MapsFragment extends Fragment {
             mapFragment.getMapAsync(callback);
         }
         mapsViewModel.setReceiver(getContext());
-        mapsViewModel.checkUserRecording(getActivity().getApplicationContext());
+        if (mapsViewModel.checkUserRecording(getActivity().getApplicationContext())){
+            setRecordingInterface();
+        }
+
+
     }
 
     private void setUserLocation() {
