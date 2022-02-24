@@ -128,12 +128,17 @@ public class PathDetailActivity extends AppCompatActivity implements OnMapReadyC
 
         if(map != null){
             LatLngBounds.Builder builder = new LatLngBounds.Builder();
-            PolylineOptions path = new PolylineOptions();
+            PolylineOptions path = new PolylineOptions().clickable(false);
             coordinates.forEach((coordinate -> {
                 LatLng latLng = new LatLng(Double.valueOf(coordinate.getLatitude()),Double.valueOf(coordinate.getLongitude()));
-                path.add(latLng).clickable(false);
+                path.add(latLng);
                 builder.include(latLng);
             }));
+            for(int i = 0;i<coordinates.size();i++){
+                LatLng latLng = new LatLng(Double.valueOf(coordinates.get(i).getLatitude()),Double.valueOf(coordinates.get(i).getLongitude()));
+                path.add(latLng);
+                builder.include(latLng);
+            }
             map.addPolyline(path);
             interestPoints.forEach(interestPoint -> {
                 Log.i("Analisi coordinate punto interesse",interestPoint.getLatitude()+" "+interestPoint.getLongitude());

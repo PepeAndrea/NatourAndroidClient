@@ -16,6 +16,7 @@ import com.exam.natour.Model.PathsResponse.Path;
 import com.exam.natour.Model.PathsResponse.PathsResponse;
 import com.exam.natour.Network.APICaller;
 import com.exam.natour.Network.RetroInstance;
+import com.google.android.gms.maps.model.LatLng;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -211,5 +212,60 @@ public class PathApiClient {
             }
         });
 
+    }
+
+    public void filterPathResult(Context context, String raggio, String distanza, String durata, boolean disability, List<String> difficultiesOptionSelected, LatLng currentPos) {
+        Map<String,String> difficulties = new HashMap<>();
+        Map<String, Double> userCoordinates = new HashMap<>();
+
+        if (difficultiesOptionSelected != null){
+            for (int i = 0;i<difficultiesOptionSelected.size();i++){
+                difficulties.put("difficulty[]",difficultiesOptionSelected.get(i));
+            }
+        }
+
+        if (currentPos != null){
+                userCoordinates.put("userCoordinate[latitude]",currentPos.latitude);
+                userCoordinates.put("userCoordinate[longitude]", currentPos.longitude);
+        }
+
+        Call<PathsResponse> call = service.filterPath(
+               raggio,
+               distanza,
+               durata,
+               disability ? 1 : null,
+               difficulties,
+               userCoordinates
+        );
+        call.enqueue(new Callback<PathsResponse>() {
+            @Override
+            public void onResponse(Call<PathsResponse> call, Response<PathsResponse> response) {
+                if(response.isSuccessful()){
+                    mPaths.setValue(response.body().getData().getPaths());
+                }else if(response.code() == 401){
+                    Log.i("API 401","Il token fornito è scaduto o non è valido");
+                    Intent i = new Intent(context, AuthActivity.class);
+                    i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP |
+                            Intent.FLAG_ACTIVITY_CLEAR_TASK |
+                            Intent.FLAG_ACTIVITY_NEW_TASK);
+                    context.startActivity(i);
+                }else if(response.code() == 500|| response.code() == 502){
+                    try {
+                        Log.i("API 500/502",new JSONObject(response.errorBody().string()).toString());
+                    } catch (JSONException | IOException e) {
+                        Log.e("Errore durante chiamata al backend","Messaggio di errore: "+e.getMessage());
+                    }
+                    new AlertDialog.Builder(context)
+                            .setTitle("Errore con il server remoto")
+                            .setMessage("Attualmente la piattaforma non è disponibile.\nRiprovare più tardi.")
+                            .show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<PathsResponse> call, Throwable t) {
+                Log.i("API Error",t.toString());
+            }
+        });
     }
 }

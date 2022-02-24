@@ -21,6 +21,8 @@ import retrofit2.http.GET;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
+import retrofit2.http.QueryMap;
 
 public interface APICaller {
     //Login endpoint
@@ -34,6 +36,16 @@ public interface APICaller {
     @Headers({"Accept: application/json"})
     @GET("paths")
     Call<PathsResponse> getAllPaths();
+
+    @Headers({"Accept: application/json"})
+    @GET("paths/filter")
+    Call<PathsResponse> filterPath(@Query("distance") String raggio,
+                                   @Query("length") String distanza,
+                                   @Query("duration") String durata,
+                                   @Query("disability") Integer disability,
+                                   @QueryMap Map<String, String> difficulties,
+                                   @QueryMap Map<String, Double> userCoordinates);
+
 
     //Get path endpoint
     @Headers({"Accept: application/json"})
@@ -80,4 +92,5 @@ public interface APICaller {
     @Headers({"Accept: application/json"})
     @POST("logout")
     Call<JSONObject> logout();
+
 }

@@ -12,7 +12,8 @@
         android:layout_width="411dp"
         android:layout_height="80dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <TextView
             android:id="@+id/appTitle"
@@ -67,11 +68,11 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:alpha="0.0"
+        android:translationX="-600dp"
         android:background="#212121"
         android:clickable="true"
         android:orientation="vertical"
         android:translationZ="40dp"
-        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -203,6 +204,26 @@
                 android:layout_weight="1"
                 android:text="EEA"
                 android:textColor="#FFFFFF" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/clearFilterButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Pulisci filtri" />
+
+            <Button
+                android:id="@+id/updateFilterButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Aggiorna risultati" />
         </LinearLayout>
 
 

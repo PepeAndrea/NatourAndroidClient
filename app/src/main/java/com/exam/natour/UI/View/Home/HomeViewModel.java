@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModel;
 
 import com.exam.natour.Model.PathsResponse.Path;
 import com.exam.natour.Network.Repository.PathRepository;
+import com.google.android.gms.maps.model.LatLng;
 
 import java.util.List;
 
@@ -21,5 +22,9 @@ public class HomeViewModel extends ViewModel {
 
     public LiveData<List<Path>> getPaths(Context context){
         return this.pathRepository.getPaths(context);
+    }
+
+    public void filterPathResult(Context context, String raggio, String distanza, String durata, boolean disability, List<String> difficultiesOptionSelected, LatLng currentPos) {
+        pathRepository.filterPathResult(context,raggio,distanza,durata,disability,difficultiesOptionSelected,currentPos);
     }
 }
