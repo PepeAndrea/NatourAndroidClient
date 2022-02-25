@@ -20,6 +20,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.exam.natour.Model.PathDetailResponse.Coordinate;
 import com.exam.natour.Model.PathDetailResponse.InterestPoint;
 import com.exam.natour.R;
 import com.exam.natour.databinding.FragmentMapsBinding;
@@ -41,13 +42,18 @@ import java.util.Locale;
 
 public class MapsFragment extends Fragment {
 
+    private final int COORDINATE = 1;
+    private final int INTERESTPOINT = 0;
+
+    private Integer insertManualMode = COORDINATE;
+
     private boolean isFabOpen = false;
 
     private FusedLocationProviderClient fusedLocationClient;
     private MapsViewModel mapsViewModel;
     private FragmentMapsBinding binding;
     private GoogleMap map;
-    private Polyline polyline;
+    private PolylineOptions polyline;
     private LatLng currentPos;
     private String currentCity;
 
@@ -55,7 +61,6 @@ public class MapsFragment extends Fragment {
         @Override
         public void onMapReady(GoogleMap googleMap) {
             map = googleMap;
-
             //Verifia permessi
             if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
                 setUserLocation();
@@ -179,6 +184,7 @@ public class MapsFragment extends Fragment {
         this.setFabButtons();
         this.setRecordingButtons();
         this.setInterestPointButtons();
+        this.setManualRecordingButtons();
     }
 
     private void setFabButtons() {
@@ -197,6 +203,7 @@ public class MapsFragment extends Fragment {
         binding.fabRegistraPercorso.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                map.clear();
                 setRecordingInterface();
                 mapsViewModel.startPathRecording(getContext());
             }
@@ -206,7 +213,10 @@ public class MapsFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 map.clear();
-                mapsViewModel.stopPathRecording(getContext());
+                polyline = new PolylineOptions();
+                mapsViewModel.startManualPathRecording();
+                setMapListener();
+                setManualRecordingInterface();
             }
         });
 
@@ -322,6 +332,86 @@ public class MapsFragment extends Fragment {
                 binding.interestPointName.setText("");
                 binding.interestPointDescription.setText("");
                 unsetInterestPointInterface();
+            }
+        });
+
+    }
+
+    private void setManualRecordingInterface() {
+        closeFab();
+        binding.fab.animate().alpha(0.0f);
+        binding.fab.setVisibility(View.GONE);
+        binding.fabRegistraPercorso.setVisibility(View.GONE);
+        binding.fabInserisciManualmente.setVisibility(View.GONE);
+        binding.fabUploadFile.setVisibility(View.GONE);
+        binding.manualRecordingActionButtons.setVisibility(View.VISIBLE);
+        binding.manualRecordingActionButtons.animate().alpha(1.0f);
+    }
+
+    private void unsetManualRecordingInterface() {
+        binding.manualRecordingActionButtons.animate().alpha(0.0f);
+        binding.manualRecordingActionButtons.setVisibility(View.GONE);
+        binding.fab.animate().alpha(1.0f);
+        binding.fab.setVisibility(View.VISIBLE);
+        binding.fabRegistraPercorso.setVisibility(View.VISIBLE);
+        binding.fabInserisciManualmente.setVisibility(View.VISIBLE);
+        binding.fabUploadFile.setVisibility(View.VISIBLE);
+    }
+
+    private void setMapListener(){
+        map.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+            @Override
+            public void onMapClick(@NonNull LatLng latLng) {
+                currentPos = latLng;
+
+                if(insertManualMode == INTERESTPOINT){
+                    binding.interestPointDescription.setText("");
+                    binding.interestPointName.setText("");
+                    setInterestPointInterface();
+                }
+                if (insertManualMode == COORDINATE){
+                    polyline.add(latLng);
+                    map.addPolyline(polyline);
+                    mapsViewModel.addCoordinate(new Coordinate(String.valueOf(latLng.latitude),String.valueOf(latLng.longitude)));
+                }
+            }
+        });
+    }
+
+    private void unsetMapListener(){
+        map.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+            @Override
+            public void onMapClick(@NonNull LatLng latLng) {
+                return;
+            }
+        });
+    }
+
+    private void setManualRecordingButtons() {
+        binding.manualRecordingActionButtonsSave.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                polyline = null;
+                unsetMapListener();
+                mapsViewModel.saveManualPathRecording(getContext(),currentCity);
+                map.clear();
+                unsetManualRecordingInterface();
+            }
+        });
+
+        binding.manualRecordingActionButtonsCoordinate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                insertManualMode = COORDINATE;
+            }
+        });
+
+        binding.manualRecordingActionButtonsInterestpoint.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                insertManualMode = INTERESTPOINT;
+                binding.interestPointDescription.setText("");
+                binding.interestPointName.setText("");
             }
         });
 

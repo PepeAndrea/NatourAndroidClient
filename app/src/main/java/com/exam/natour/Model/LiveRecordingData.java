@@ -14,6 +14,7 @@ public class LiveRecordingData {
     private List<Coordinate> coordinates;
     private List<InterestPoint> interestPoints;
     private Instant startTime,endTime;
+    private boolean isManualRecording;
 
 
     public static LiveRecordingData getInstance(){
@@ -62,10 +63,19 @@ public class LiveRecordingData {
         return endTime;
     }
 
+    public boolean isManualRecording() {
+        return isManualRecording;
+    }
+
+    public void setManualRecording(boolean manualRecording) {
+        isManualRecording = manualRecording;
+    }
+
     public void destroy(){
         coordinates = null;
         interestPoints = null;
         startTime = null;
         endTime = null;
+        isManualRecording = false;
     }
 }

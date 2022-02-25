@@ -50,6 +50,9 @@ public class InsertPathActivity extends AppCompatActivity implements OnMapReadyC
         //Faccio il parsing del Json
         newPath = new Gson().fromJson(getIntent().getExtras().getString("Path"),PathDetail.class);
 
+        if (newPath.getDuration() == null){
+            binding.InsertPathDuration.setVisibility(View.VISIBLE);
+        }
 
         binding.InsertPathSave.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -59,6 +62,9 @@ public class InsertPathActivity extends AppCompatActivity implements OnMapReadyC
                     newPath.setDescription(binding.InsertPathDescription.getText().toString());
                     newPath.setDifficulty(binding.InsertPathDifficulty.getSelectedItem().toString());
                     newPath.setDisability(Boolean.compare(binding.InsertPathDisability.isChecked(),false));
+                    if (newPath.getDuration() == null && binding.InsertPathDuration.getVisibility() == View.VISIBLE){
+                        newPath.setDuration(Long.valueOf(Integer.parseInt(binding.InsertPathDuration.getText().toString())*60000));
+                    }
                     insertPathViewModel.savePath(newPath,view.getContext());
                 }
             }
@@ -98,18 +104,22 @@ public class InsertPathActivity extends AppCompatActivity implements OnMapReadyC
 
         if(map != null){
             PolylineOptions path = new PolylineOptions();
-            coordinates.forEach((coordinate -> {
-                path.add(new LatLng(Double.valueOf(coordinate.getLatitude()),Double.valueOf(coordinate.getLongitude()))).clickable(false);
-            }));
-            map.addPolyline(path);
-            interestPoints.forEach(interestPoint -> {
-                Log.i("Analisi coordinate punto interesse",interestPoint.getLatitude()+" "+interestPoint.getLongitude());
-                map.addMarker(new MarkerOptions()
-                        .position(new LatLng(Double.valueOf(interestPoint.getLatitude()),Double.valueOf(interestPoint.getLongitude())))
-                        .title(interestPoint.getTitle())
-                        .draggable(false));
-            });
-            map.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(Double.valueOf(coordinates.get(0).getLatitude()),Double.valueOf(coordinates.get(0).getLongitude())),13f));
+            if (coordinates != null){
+                coordinates.forEach((coordinate -> {
+                    path.add(new LatLng(Double.valueOf(coordinate.getLatitude()),Double.valueOf(coordinate.getLongitude()))).clickable(false);
+                }));
+                map.addPolyline(path);
+                map.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(Double.valueOf(coordinates.get(0).getLatitude()),Double.valueOf(coordinates.get(0).getLongitude())),13f));
+            }
+            if (interestPoints != null){
+                interestPoints.forEach(interestPoint -> {
+                    Log.i("Analisi coordinate punto interesse",interestPoint.getLatitude()+" "+interestPoint.getLongitude());
+                    map.addMarker(new MarkerOptions()
+                            .position(new LatLng(Double.valueOf(interestPoint.getLatitude()),Double.valueOf(interestPoint.getLongitude())))
+                            .title(interestPoint.getTitle())
+                            .draggable(false));
+                });
+            }
         }
 
     }
@@ -125,6 +135,15 @@ public class InsertPathActivity extends AppCompatActivity implements OnMapReadyC
             binding.InsertPathDescription.setError("Il campo Descrizione non può essere vuoto");
             validated = false;
         }
+        if (binding.InsertPathDuration.getVisibility() == View.VISIBLE){
+            try {
+                Integer.parseInt(binding.InsertPathDuration.getText().toString());
+            } catch (NumberFormatException e) {
+                    binding.InsertPathDuration.setError("Sono accettati solo numeri interi");
+                    validated = false;
+                }
+        }
+
         return validated;
     }
 

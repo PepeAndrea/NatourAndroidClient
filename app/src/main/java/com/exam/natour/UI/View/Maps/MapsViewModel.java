@@ -81,13 +81,27 @@ public class MapsViewModel extends ViewModel{
 
 
     public boolean checkUserRecording(Context context) {
+        if (isServiceRunning(context)){
+            this.pathUpdateContainer = new PathDetail();
+            return true;
+        }
+        if (LiveRecordingData.getInstance().isManualRecording()){
+            this.pathUpdateContainer = new PathDetail();
+            this.pathUpdateContainer.setCoordinates(LiveRecordingData.getInstance().getCoordinates());
+            this.pathUpdateContainer.setInterestPoints(LiveRecordingData.getInstance().getInterestPoints());
+            this.createdPath.setValue(this.pathUpdateContainer);
+            return true;
+        }
+        return false;
+    }
+
+    private boolean isServiceRunning(Context context){
         final ActivityManager activityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
         final List<ActivityManager.RunningServiceInfo> services = activityManager.getRunningServices(Integer.MAX_VALUE);
 
         for (ActivityManager.RunningServiceInfo runningServiceInfo : services) {
             if (runningServiceInfo.service.getClassName().equals("com.exam.natour.Service.PathRecorderService")){
                 Log.i("Service PathRecorder","Il service è attivo");
-                this.pathUpdateContainer = new PathDetail();
                 return true;
             }
         }
@@ -112,18 +126,6 @@ public class MapsViewModel extends ViewModel{
         context.stopService(new Intent(context, PathRecorderService.class));
     }
 
-
-    public MutableLiveData<PathDetail> getCreatedPath() {
-        return this.createdPath;
-    }
-
-
-    public void addInterestPoint(InterestPoint interestPoint) {
-        LiveRecordingData.getInstance().addInterestPoint(interestPoint);
-        this.createdPath.getValue().setInterestPoints(LiveRecordingData.getInstance().getInterestPoints());
-    }
-
-
     public void saveRecordedPath(Context context,String location) {
         this.stopPathRecording(context);
         LiveRecordingData.getInstance().setEndTime();
@@ -140,5 +142,42 @@ public class MapsViewModel extends ViewModel{
             context.startActivity(intent);
         }
     }
+
+    public void startManualPathRecording(){
+        pathUpdateContainer = new PathDetail();
+        createdPath.setValue(pathUpdateContainer);
+    }
+
+    public void saveManualPathRecording(Context context,String location){
+        PathDetail newPath = createdPath.getValue();
+        if (newPath != null){
+            newPath.setLocation(location);
+            newPath.calculateLength();
+            String jsonParsedPath = new Gson().toJson(newPath);
+            LiveRecordingData.getInstance().destroy();
+            pathUpdateContainer = null;
+            Intent intent = new Intent(context, InsertPathActivity.class);
+            intent.putExtra("Path",jsonParsedPath);
+            context.startActivity(intent);
+        }
+    }
+
+
+    public MutableLiveData<PathDetail> getCreatedPath() {
+        return this.createdPath;
+    }
+
+
+    public void addInterestPoint(InterestPoint interestPoint) {
+        LiveRecordingData.getInstance().addInterestPoint(interestPoint);
+        this.createdPath.getValue().setInterestPoints(LiveRecordingData.getInstance().getInterestPoints());
+    }
+
+    public void addCoordinate(Coordinate coordinate) {
+        LiveRecordingData.getInstance().addCoordinate(coordinate);
+        this.createdPath.getValue().setCoordinates(LiveRecordingData.getInstance().getCoordinates());
+    }
+
+
 
 }

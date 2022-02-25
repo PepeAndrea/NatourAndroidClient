@@ -131,6 +131,46 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/manualRecordingActionButtons"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="40dp"
+        android:background="#212121"
+        android:orientation="horizontal"
+        android:paddingHorizontal="5dp"
+        android:paddingVertical="5dp"
+        app:layout_constraintBottom_toBottomOf="@+id/map"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:alpha="0.0"
+        android:visibility="gone">
+
+        <Button
+            android:id="@+id/manualRecordingActionButtons_save"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:paddingHorizontal="13dp"
+            android:text="Salva" />
+
+        <Button
+            android:id="@+id/manualRecordingActionButtons_Coordinate"
+            android:paddingHorizontal="13dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Coordinate" />
+
+        <Button
+            android:id="@+id/manualRecordingActionButtons_interestpoint"
+            android:paddingHorizontal="13dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="IP" />
+    </LinearLayout>
+
+    <LinearLayout
         android:id="@+id/interestPoint_Form"
         android:translationY="300dp"
         android:layout_width="match_parent"

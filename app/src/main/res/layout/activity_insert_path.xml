@@ -33,6 +33,15 @@
                 android:inputType="textPersonName"
                 android:minHeight="48dp" />
 
+            <EditText
+                android:id="@+id/InsertPath_Duration"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="Durata in minuti"
+                android:inputType="time"
+                android:visibility="gone" />
+
             <Spinner
                 android:id="@+id/InsertPath_difficulty"
                 android:layout_width="match_parent"
