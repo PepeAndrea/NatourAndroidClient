@@ -220,7 +220,8 @@ public class PathApiClient {
 
         if (difficultiesOptionSelected != null){
             for (int i = 0;i<difficultiesOptionSelected.size();i++){
-                difficulties.put("difficulty[]",difficultiesOptionSelected.get(i));
+                Log.i("diffi", "filterPathResult: "+difficultiesOptionSelected.get(i));
+                difficulties.put("difficulty["+i+"]",difficultiesOptionSelected.get(i));
             }
         }
 
