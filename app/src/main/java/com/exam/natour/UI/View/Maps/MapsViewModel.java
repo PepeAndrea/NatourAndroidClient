@@ -2,6 +2,7 @@ package com.exam.natour.UI.View.Maps;
 
 import android.Manifest;
 import android.app.ActivityManager;
+import android.app.AlertDialog;
 import android.app.Application;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -80,19 +81,19 @@ public class MapsViewModel extends ViewModel{
     }
 
 
-    public boolean checkUserRecording(Context context) {
+    public String checkUserRecording(Context context) {
         if (isServiceRunning(context)){
             this.pathUpdateContainer = new PathDetail();
-            return true;
+            return "gpsRecording";
         }
         if (LiveRecordingData.getInstance().isManualRecording()){
             this.pathUpdateContainer = new PathDetail();
             this.pathUpdateContainer.setCoordinates(LiveRecordingData.getInstance().getCoordinates());
             this.pathUpdateContainer.setInterestPoints(LiveRecordingData.getInstance().getInterestPoints());
             this.createdPath.setValue(this.pathUpdateContainer);
-            return true;
+            return "manualRecording";
         }
-        return false;
+        return "";
     }
 
     private boolean isServiceRunning(Context context){
@@ -117,6 +118,7 @@ public class MapsViewModel extends ViewModel{
         else
             context.startService(new Intent(context, PathRecorderService.class));
          */
+        LiveRecordingData.getInstance().destroy();
         pathUpdateContainer = new PathDetail();
         LiveRecordingData.getInstance().setStartTime();
         context.startService(new Intent(context, PathRecorderService.class));
@@ -132,6 +134,13 @@ public class MapsViewModel extends ViewModel{
         PathDetail newPath = createdPath.getValue();
         if (newPath != null){
             newPath.setLocation(location);
+            if (newPath.getCoordinates() == null){
+                new AlertDialog.Builder(context)
+                        .setTitle("Errore")
+                        .setMessage("Impossibile salvare percorso senza coordinate")
+                        .show();
+                return;
+            }
             newPath.calculateLength();
             newPath.setDuration(Duration.between(LiveRecordingData.getInstance().getStartTime(), LiveRecordingData.getInstance().getEndTime()).toMillis());
             String jsonParsedPath = new Gson().toJson(newPath);
@@ -144,14 +153,23 @@ public class MapsViewModel extends ViewModel{
     }
 
     public void startManualPathRecording(){
+        LiveRecordingData.getInstance().destroy();
         pathUpdateContainer = new PathDetail();
         createdPath.setValue(pathUpdateContainer);
+        LiveRecordingData.getInstance().setManualRecording(true);
     }
 
     public void saveManualPathRecording(Context context,String location){
         PathDetail newPath = createdPath.getValue();
         if (newPath != null){
             newPath.setLocation(location);
+            if (newPath.getCoordinates() == null){
+                new AlertDialog.Builder(context)
+                        .setTitle("Errore")
+                        .setMessage("Impossibile salvare percorso senza coordinate")
+                        .show();
+                return;
+            }
             newPath.calculateLength();
             String jsonParsedPath = new Gson().toJson(newPath);
             LiveRecordingData.getInstance().destroy();

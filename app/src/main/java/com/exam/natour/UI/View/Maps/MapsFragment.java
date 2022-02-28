@@ -22,6 +22,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.exam.natour.Model.PathDetailResponse.Coordinate;
 import com.exam.natour.Model.PathDetailResponse.InterestPoint;
+import com.exam.natour.Model.PathDetailResponse.PathDetail;
 import com.exam.natour.R;
 import com.exam.natour.databinding.FragmentMapsBinding;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -73,6 +74,18 @@ public class MapsFragment extends Fragment {
                         .show();
             }
 
+            switch (mapsViewModel.checkUserRecording(getActivity().getApplicationContext())){
+                case "gpsRecording":
+                    setRecordingInterface();
+                    break;
+                case "manualRecording":
+                    setMapListener();
+                    setManualRecordingInterface();
+                    break;
+                default:
+                    break;
+            }
+
 
         }
     };
@@ -111,11 +124,6 @@ public class MapsFragment extends Fragment {
             mapFragment.getMapAsync(callback);
         }
         mapsViewModel.setReceiver(getContext());
-        if (mapsViewModel.checkUserRecording(getActivity().getApplicationContext())){
-            setRecordingInterface();
-        }
-
-
     }
 
     private void setUserLocation() {
@@ -156,12 +164,12 @@ public class MapsFragment extends Fragment {
         mapsViewModel.getCreatedPath().observe(getViewLifecycleOwner(), pathDetail -> {
             if (map != null){
                 map.clear();
-                PolylineOptions path = new PolylineOptions();
+                polyline = new PolylineOptions();
                 if (pathDetail.getCoordinates() != null){
                     pathDetail.getCoordinates().forEach((coordinate -> {
-                        path.add(new LatLng(Double.valueOf(coordinate.getLatitude()), Double.valueOf(coordinate.getLongitude()))).clickable(false);
+                        polyline.add(new LatLng(Double.valueOf(coordinate.getLatitude()), Double.valueOf(coordinate.getLongitude()))).clickable(false);
                     }));
-                    map.addPolyline(path);
+                    map.addPolyline(polyline);
                 }
 
                 if (pathDetail.getInterestPoints() != null){
@@ -175,6 +183,7 @@ public class MapsFragment extends Fragment {
             }
         });
     }
+
 
 
 
