@@ -2,11 +2,18 @@ package com.exam.natour.UI.View.Maps;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -37,7 +44,12 @@ import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Locale;
 
@@ -226,6 +238,27 @@ public class MapsFragment extends Fragment {
                 mapsViewModel.startManualPathRecording();
                 setMapListener();
                 setManualRecordingInterface();
+            }
+        });
+
+        binding.fabUploadFile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+                    uploadGpxFile();
+                } else {
+                    new AlertDialog.Builder(getContext())
+                            .setTitle("Permessi mancanti")
+                            .setMessage("Per utilizzare la funzionalità di upload del tracciato hai bisogno di abilitare i permessi per l'accesso alla memoria.\nSi prega di selezionare l'accesso a tutti i file")
+                            .setNegativeButton("Annulla", (dialogInterface, i) -> dialogInterface.dismiss())
+                            .setPositiveButton("Concedi", (dialogInterface, i) -> {
+                                        Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                                        Uri uri = Uri.fromParts("package", getContext().getPackageName(), null);
+                                        intent.setData(uri);
+                                        startActivity(intent);
+                                    })
+                            .show();
+                }
             }
         });
 
@@ -440,10 +473,48 @@ public class MapsFragment extends Fragment {
         return validated;
     }
 
+    private void uploadGpxFile() {
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        intent.setType("application/pdf");
+        startActivityForResult(
+                Intent.createChooser(intent, "Seleziona file da caricare"),
+                1232);
+    }
+
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         mapsViewModel.unsetReceiver(getContext());
         binding = null;
     }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent resultData) {
+        if (requestCode == 1232 && resultCode == Activity.RESULT_OK) {
+            // The result data contains a URI for the document or directory that
+            // the user selected.
+            Uri uri = null;
+            if (resultData != null) {
+                uri = resultData.getData();
+                try {
+                    String path = Environment.getExternalStorageDirectory()+"/"+new File(uri.getPath()).getPath().split(":")[1];
+                    InputStream in = new FileInputStream(path);
+                } catch (FileNotFoundException e) {
+                    new AlertDialog.Builder(getContext())
+                            .setTitle("Permessi mancanti")
+                            .setMessage("Per utilizzare la funzionalità di upload del tracciato hai bisogno di abilitare i permessi per l'accesso alla memoria.\nSi prega di selezionare l'accesso a tutti i file")
+                            .setNegativeButton("Annulla", (dialogInterface, i) -> dialogInterface.dismiss())
+                            .setPositiveButton("Concedi", (dialogInterface, i) -> {
+                                Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                                Uri settinguri = Uri.fromParts("package", getContext().getPackageName(), null);
+                                intent.setData(settinguri);
+                                startActivity(intent);
+                            })
+                            .show();
+                }
+            }
+        }
+    }
+
 }
