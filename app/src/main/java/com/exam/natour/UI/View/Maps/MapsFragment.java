@@ -373,6 +373,8 @@ public class MapsFragment extends Fragment {
             public void onClick(View view) {
                 binding.interestPointName.setText("");
                 binding.interestPointDescription.setText("");
+                binding.interestPointName.setError(null);
+                binding.interestPointDescription.setError(null);
                 unsetInterestPointInterface();
             }
         });
