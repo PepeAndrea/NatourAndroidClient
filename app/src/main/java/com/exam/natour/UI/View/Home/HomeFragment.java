@@ -146,7 +146,7 @@ public class HomeFragment extends Fragment {
                     String distanza = (binding.distanzaFilterInput.getText().toString().length() > 0) ? binding.distanzaFilterInput.getText().toString() : null;
                     String durata = (binding.durataFilterInput.getText().toString().length() > 0) ? binding.durataFilterInput.getText().toString() : null;
                     homeViewModel.filterPathResult(getContext(),raggio,distanza,durata,binding.disabiliFilterInput.isChecked(),difficultiesOptionSelected(),currentPos);
-                    binding.filterButton.setTextColor(Color.parseColor("#669944"));
+                    binding.filterButton.setImageResource(R.drawable.ic_filter_green);
                     closeFilter();
                 }
             }
@@ -158,7 +158,7 @@ public class HomeFragment extends Fragment {
             public void onClick(View view) {
                 resetFilterInput();
                 homeViewModel.filterPathResult(getContext(),null,null,null,false, null,null);
-                binding.filterButton.setTextColor(Color.parseColor("#FFFFFF"));
+                binding.filterButton.setImageResource(R.drawable.ic_filter_white);
                 closeFilter();
             }
         });
