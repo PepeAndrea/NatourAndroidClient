@@ -216,33 +216,52 @@ public class MapsViewModel extends ViewModel{
         try{
             InputStream input = new FileInputStream(path);
             parsedGpx = parser.parse(input);
+
+            if (parsedGpx == null) {
+                new AlertDialog.Builder(context)
+                        .setTitle("Errore apertura file")
+                        .setMessage("Non è stato possibile aprire il file!\n\nSi prega di riprovare")
+                        .show();
+            } else {
+                LiveRecordingData.getInstance().destroy();
+                PathDetail newPath = new PathDetail();
+
+                if (parsedGpx.getTracks().get(0)!=null && parsedGpx.getTracks().get(0).getTrackSegments() != null){
+                    for (int i = 0;i<parsedGpx.getTracks().get(0).getTrackSegments().size();i++){
+                        if (i%10 == 0 && parsedGpx.getTracks().get(0).getTrackSegments().get(i).getTrackPoints() != null){
+                            parsedGpx.getTracks().get(0).getTrackSegments().get(i).getTrackPoints().forEach(trackPoint ->
+                                    LiveRecordingData.getInstance().addCoordinate(
+                                            new Coordinate(String.valueOf(trackPoint.getLatitude()),
+                                                    String.valueOf(trackPoint.getLongitude())))
+                            );
+                        }
+                    }
+                }
+
+                /*
+                parsedGpx.getTracks().get(0).getTrackSegments().forEach(trackSegment -> {
+                    trackSegment.getTrackPoints().forEach(trackPoint ->{
+                        if (trackPoint.getLatitude() != null && trackPoint.getLongitude() != null)
+                            LiveRecordingData.getInstance().addCoordinate(new Coordinate(String.valueOf(trackPoint.getLatitude()),String.valueOf(trackPoint.getLongitude())));
+                    });
+                });*/
+
+                newPath.setLocation(location);
+                String jsonParsedPath = new Gson().toJson(newPath);
+                Intent intent = new Intent(context, InsertPathActivity.class);
+                intent.putExtra("Path",jsonParsedPath);
+                intent.putExtra("updateCoordinateAfter","updateCoordinateAfter");
+                Log.i("JSON", "uploadGpxPath: "+jsonParsedPath);
+                context.startActivity(intent);
+            }
+
         } catch (IOException | XmlPullParserException e) {
             new AlertDialog.Builder(context)
                     .setTitle("Si è verificato un errore")
                     .setMessage("Si è verificato un errore durante la lettura del file.\n\nSi prega di riprovare")
                     .show();
         }
-        if (parsedGpx == null) {
-            new AlertDialog.Builder(context)
-                    .setTitle("Errore apertura file")
-                    .setMessage("Non è stato possibile aprire il file!\n\nSi prega di riprovare")
-                    .show();
-        } else {
-            LiveRecordingData.getInstance().destroy();
-            PathDetail newPath = new PathDetail();
-            parsedGpx.getTracks().get(0).getTrackSegments().forEach(trackSegment -> {
-                trackSegment.getTrackPoints().forEach(trackPoint ->{
-                    LiveRecordingData.getInstance().addCoordinate(new Coordinate(String.valueOf(trackPoint.getLatitude()),String.valueOf(trackPoint.getLongitude())));
-                });
-            });
-            newPath.setLocation(location);
-            String jsonParsedPath = new Gson().toJson(newPath);
-            Intent intent = new Intent(context, InsertPathActivity.class);
-            intent.putExtra("Path",jsonParsedPath);
-            intent.putExtra("updateCoordinateAfter","updateCoordinateAfter");
-            Log.i("JSON", "uploadGpxPath: "+jsonParsedPath);
-            context.startActivity(intent);
-        }
+
     }
 
 }

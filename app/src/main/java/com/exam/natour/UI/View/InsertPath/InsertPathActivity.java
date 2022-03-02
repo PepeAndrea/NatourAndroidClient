@@ -53,6 +53,9 @@ public class InsertPathActivity extends AppCompatActivity implements OnMapReadyC
 
         if (getIntent().getExtras().containsKey("updateCoordinateAfter")){
             newPath.setCoordinates(LiveRecordingData.getInstance().getCoordinates());
+            //Log.i("Coordinate lette", "uploadGpxPath: "+trackPoint.getLatitude()+"  "+trackPoint.getLongitude());
+
+
             newPath.calculateLength();
             LiveRecordingData.getInstance().destroy();
         }
