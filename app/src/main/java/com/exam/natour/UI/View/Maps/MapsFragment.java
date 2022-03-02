@@ -476,7 +476,7 @@ public class MapsFragment extends Fragment {
     private void uploadGpxFile() {
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
         intent.addCategory(Intent.CATEGORY_OPENABLE);
-        intent.setType("application/pdf");
+        intent.setType("application/octet-stream");
         startActivityForResult(
                 Intent.createChooser(intent, "Seleziona file da caricare"),
                 1232);
@@ -499,7 +499,9 @@ public class MapsFragment extends Fragment {
                 uri = resultData.getData();
                 try {
                     String path = Environment.getExternalStorageDirectory()+"/"+new File(uri.getPath()).getPath().split(":")[1];
-                    InputStream in = new FileInputStream(path);
+                    InputStream input = new FileInputStream(path);
+                    Log.i("GPXFILE", "onActivityResult: "+path);
+                    mapsViewModel.uploadGpxPath(getContext(),path,currentCity);
                 } catch (FileNotFoundException e) {
                     new AlertDialog.Builder(getContext())
                             .setTitle("Permessi mancanti")
