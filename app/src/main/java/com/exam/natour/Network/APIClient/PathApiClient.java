@@ -23,6 +23,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -138,7 +139,7 @@ public class PathApiClient {
 
 
     public void savePath(PathDetail newPath, Context context) {
-        Map<String,String> coordinates = new HashMap<>();
+        Map<String,String> coordinates = new LinkedHashMap<>();
         Map<String,String> interestPoints = new HashMap<>();
 
         if (newPath.getCoordinates() != null){
