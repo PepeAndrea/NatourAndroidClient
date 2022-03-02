@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
+import com.exam.natour.Model.LiveRecordingData;
 import com.exam.natour.Model.PathDetailResponse.Coordinate;
 import com.exam.natour.Model.PathDetailResponse.InterestPoint;
 import com.exam.natour.Model.PathDetailResponse.PathDetail;
@@ -49,6 +50,15 @@ public class InsertPathActivity extends AppCompatActivity implements OnMapReadyC
 
         //Faccio il parsing del Json
         newPath = new Gson().fromJson(getIntent().getExtras().getString("Path"),PathDetail.class);
+
+        if (getIntent().getExtras().containsKey("updateCoordinateAfter")){
+            newPath.setCoordinates(LiveRecordingData.getInstance().getCoordinates());
+            //Log.i("Coordinate lette", "uploadGpxPath: "+trackPoint.getLatitude()+"  "+trackPoint.getLongitude());
+
+
+            newPath.calculateLength();
+            LiveRecordingData.getInstance().destroy();
+        }
 
         if (newPath.getDuration() == null){
             binding.InsertPathDuration.setVisibility(View.VISIBLE);

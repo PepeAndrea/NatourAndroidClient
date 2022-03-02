@@ -2,6 +2,7 @@ package com.exam.natour.UI.View.Home;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
@@ -145,6 +146,7 @@ public class HomeFragment extends Fragment {
                     String distanza = (binding.distanzaFilterInput.getText().toString().length() > 0) ? binding.distanzaFilterInput.getText().toString() : null;
                     String durata = (binding.durataFilterInput.getText().toString().length() > 0) ? binding.durataFilterInput.getText().toString() : null;
                     homeViewModel.filterPathResult(getContext(),raggio,distanza,durata,binding.disabiliFilterInput.isChecked(),difficultiesOptionSelected(),currentPos);
+                    binding.filterButton.setTextColor(Color.parseColor("#669944"));
                     closeFilter();
                 }
             }
@@ -156,6 +158,7 @@ public class HomeFragment extends Fragment {
             public void onClick(View view) {
                 resetFilterInput();
                 homeViewModel.filterPathResult(getContext(),null,null,null,false, null,null);
+                binding.filterButton.setTextColor(Color.parseColor("#FFFFFF"));
                 closeFilter();
             }
         });
