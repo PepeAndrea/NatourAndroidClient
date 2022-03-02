@@ -29,13 +29,14 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <Button
+        <ImageButton
             android:id="@+id/filterButton"
-            android:layout_width="22dp"
-            android:layout_height="16dp"
-            android:layout_marginEnd="42dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="44dp"
             android:layout_weight="1"
-            android:background="@drawable/ic_filter"
+            android:background="@android:color/transparent"
+            android:src="@drawable/ic_filter_white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

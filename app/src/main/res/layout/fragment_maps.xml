@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".UI.View.Maps.MapsFragment"
-    android:paddingBottom="55dp">
+    android:paddingBottom="55dp"
+    tools:context=".UI.View.Maps.MapsFragment">
 
 
     <FrameLayout
@@ -28,7 +28,6 @@
         android:layout_gravity="end|bottom"
         android:layout_margin="16dp"
         android:contentDescription="fab"
-        android:tint="@android:color/white"
         android:src="@drawable/ic_fabicon"
         app:backgroundTint="#669944"
         app:layout_constraintBottom_toBottomOf="@+id/map"
@@ -42,8 +41,8 @@
         android:layout_gravity="end|bottom"
         android:layout_margin="16dp"
         android:alpha="0.0"
-        android:contentDescription="fab"
         android:backgroundTint="#669944"
+        android:contentDescription="fab"
         android:src="@color/white"
         android:text="Registra percorso"
         android:textColor="#FFFFFF"
@@ -100,38 +99,44 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="40dp"
+        android:alpha="0.0"
         android:background="#212121"
         android:orientation="horizontal"
-        android:paddingHorizontal="5dp"
-        android:paddingVertical="5dp"
+        android:paddingHorizontal="10dp"
+        android:paddingVertical="10dp"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@+id/map"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:alpha="0.0"
-        android:visibility="gone">
+        app:layout_constraintStart_toStartOf="parent">
 
         <Button
             android:id="@+id/recordingActionButtons_save"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:insetTop="0dp"
+            android:insetBottom="0dp"
             android:paddingHorizontal="13dp"
             android:text="⏹" />
 
         <Button
             android:id="@+id/recordingActionButtons_pause"
-            android:paddingHorizontal="13dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:insetTop="0dp"
+            android:insetBottom="0dp"
+            android:paddingHorizontal="13dp"
             android:text="⏸" />
 
         <Button
             android:id="@+id/recordingActionButtons_interestpoint"
-            android:paddingHorizontal="13dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:insetTop="0dp"
+            android:insetBottom="0dp"
+            android:paddingHorizontal="13dp"
             android:text="⏬" />
     </LinearLayout>
 
@@ -140,15 +145,15 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="40dp"
+        android:alpha="0.0"
         android:background="#212121"
         android:orientation="horizontal"
         android:paddingHorizontal="5dp"
         android:paddingVertical="5dp"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@+id/map"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:alpha="0.0"
-        android:visibility="gone">
+        app:layout_constraintStart_toStartOf="parent">
 
         <Button
             android:id="@+id/manualRecordingActionButtons_save"
@@ -160,84 +165,177 @@
 
         <Button
             android:id="@+id/manualRecordingActionButtons_Coordinate"
-            android:paddingHorizontal="13dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:paddingHorizontal="13dp"
             android:text="Coordinate" />
 
         <Button
             android:id="@+id/manualRecordingActionButtons_interestpoint"
-            android:paddingHorizontal="13dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:paddingHorizontal="13dp"
             android:text="IP" />
     </LinearLayout>
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/interestPoint_Form"
-        android:translationY="300dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:layout_height="400dp"
         android:background="#212121"
         android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:translationY="400dp"
+        app:layout_constraintBottom_toBottomOf="@+id/map"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
+        <ImageButton
+            android:id="@+id/interestPoint_Cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="18dp"
+            android:layout_marginTop="18dp"
+            android:background="@android:color/transparent"
+            android:insetTop="0dp"
+            android:insetBottom="0dp"
+            android:src="@drawable/ic_cross"
+            android:theme="@style/whiteDrawableButton"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <TextView
             android:id="@+id/interestPoint_Text"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Punto di interesse" />
+            android:layout_marginTop="16dp"
+            android:text="Punto di interesse"
+            android:textColor="#FFFFFF"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/interestPoint_Save"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginTop="19dp"
+            android:layout_marginEnd="21dp"
+            android:background="@drawable/ic_check"
+            android:insetTop="0dp"
+            android:insetBottom="0dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="24dp"
+            android:text="Nome"
+            android:textColor="#FFFFFF"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/interestPoint_Text" />
+
+        <EditText
+            android:id="@+id/interestPoint_Name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="32dp"
+            android:backgroundTint="#FFFFFF"
+            android:ems="10"
+            android:hint="Aggiungi un nome"
+            android:inputType="textPersonName"
+            android:textColor="#FFFFFF"
+            android:textColorHint="#FFFFFF"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/textView4"
+            app:layout_constraintTop_toBottomOf="@+id/textView4" />
+
+        <TextView
+            android:id="@+id/textView6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="Descrizione"
+            android:textColor="#FFFFFF"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@+id/interestPoint_Name"
+            app:layout_constraintTop_toBottomOf="@+id/interestPoint_Name" />
+
+        <EditText
+            android:id="@+id/interestPoint_Description"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="32dp"
+            android:backgroundTint="#FFFFFF"
+            android:ems="10"
+            android:hint="Descrizione"
+            android:inputType="textPersonName"
+            android:textColor="#FFFFFF"
+            android:textColorHint="#FFFFFF"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/textView6"
+            app:layout_constraintTop_toBottomOf="@+id/textView6" />
+
+        <TextView
+            android:id="@+id/textView7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="Categoria"
+            android:textColor="#FFFFFF"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@+id/interestPoint_Description"
+            app:layout_constraintTop_toBottomOf="@+id/interestPoint_Description" />
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="32dp"
+            android:background="#333333"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/textView7"
+            app:layout_constraintTop_toBottomOf="@+id/textView7">
+
+            <Spinner
+                android:id="@+id/interestPoint_Category"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawSelectorOnTop="true"
+                android:entries="@array/interestPointCategories"
+                android:spinnerMode="dropdown"
+                android:theme="@style/spinnerTheme" />
+
+        </RelativeLayout>
 
         <TextView
             android:id="@+id/interestPoint_Latitude"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:visibility="gone" />
+            android:textColor="#FFFFFF"
+            android:visibility="gone"
+            tools:layout_editor_absoluteY="152dp" />
 
         <TextView
             android:id="@+id/interestPoint_Longitude"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:visibility="gone" />
+            android:textColor="#FFFFFF"
+            android:visibility="gone"
+            tools:layout_editor_absoluteY="152dp" />
 
-        <EditText
-            android:id="@+id/interestPoint_Name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="textPersonName"
-            android:hint="Titolo" />
-
-        <EditText
-            android:id="@+id/interestPoint_Description"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="textPersonName"
-            android:hint="Descrizione" />
-
-        <Spinner
-            android:id="@+id/interestPoint_Category"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:drawSelectorOnTop="true"
-            android:entries="@array/interestPointCategories" />
-
-        <Button
-            android:id="@+id/interestPoint_Cancel"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Annulla" />
-
-        <Button
-            android:id="@+id/interestPoint_Save"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Salva" />
-    </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
