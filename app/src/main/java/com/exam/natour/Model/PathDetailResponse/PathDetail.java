@@ -1,5 +1,7 @@
 package com.exam.natour.Model.PathDetailResponse;
 
+import android.util.Log;
+
 import java.text.DecimalFormat;
 import java.util.List;
 import javax.annotation.Generated;
@@ -159,14 +161,32 @@ public class PathDetail {
         double cosAng,ang,dist;
 
         for(int i = 1; i < this.getCoordinates().size(); i++) {
-            cosAng = (Math.cos(Double.valueOf(this.getCoordinates().get(i-1).getLatitude())) * Math.cos(Double.valueOf(this.getCoordinates().get(i).getLatitude())) * Math.cos(Double.valueOf(this.getCoordinates().get(i).getLongitude())-Double.valueOf(this.getCoordinates().get(i-1).getLongitude()))) + (Math.sin(Double.valueOf(this.getCoordinates().get(i-1).getLatitude())) * Math.sin(Double.valueOf(this.getCoordinates().get(i).getLatitude())));
-            ang = Math.acos(cosAng);
-            dist = ang * 6371f;
-            totalDistance += dist;
+            totalDistance += this.twoPointDistance(
+                    Double.valueOf(this.getCoordinates().get(i-1).getLatitude()),
+                    Double.valueOf(this.getCoordinates().get(i-1).getLongitude()),
+                    Double.valueOf(this.getCoordinates().get(i).getLatitude()),
+                    Double.valueOf(this.getCoordinates().get(i).getLongitude()));
         }
 
-        this.setLength(Double.valueOf(new DecimalFormat("000.00").format(totalDistance).replace(",",".")));
+        Log.i("Distanza", "calculateLength:"+totalDistance);
+        this.setLength(((double) totalDistance.intValue())/1000);
 
+    }
+
+    private Double twoPointDistance(Double lat1,Double lng1,Double lat2,Double lng2){
+        Double radius = 6371e3; // metres
+        Double p1 = lat1 * Math.PI/180; // φ, λ in radians
+        Double p2 = lat2 * Math.PI/180;
+        Double dLat = (lat2-lat1) * Math.PI/180;
+        Double dLng = (lng2-lng1) * Math.PI/180;
+
+        Double a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+                        Math.cos(p1) * Math.cos(p2) *
+                                Math.sin(dLng/2) * Math.sin(dLng/2);
+        Double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+
+        Double d = radius * c;
+        return d;
     }
 
 }
