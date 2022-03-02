@@ -201,7 +201,6 @@
             android:insetTop="0dp"
             android:insetBottom="0dp"
             android:src="@drawable/ic_cross"
-            android:theme="@style/whiteDrawableButton"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 

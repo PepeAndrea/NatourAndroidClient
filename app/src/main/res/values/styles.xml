@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="whiteDrawableButton">
-        <item name="color">@color/white</item>
+    <style name="bottomMenu">
+        <item name="android:background">#333333</item>
+        <item name="android:itemBackground">#FFFFFF</item>
     </style>
 
     <style name="spinnerTheme">
