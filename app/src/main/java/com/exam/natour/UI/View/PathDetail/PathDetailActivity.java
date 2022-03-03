@@ -73,6 +73,8 @@ public class PathDetailActivity extends AppCompatActivity implements OnMapReadyC
 
         binding.pathImage.setTransitionName(imageTransitionName);
 
+        this.setupExportButtons(extras.getString("pathId"));
+
         this.setupInterestPointList();
         this.ObserveChange(extras.getString("pathId"));
 
@@ -84,6 +86,23 @@ public class PathDetailActivity extends AppCompatActivity implements OnMapReadyC
                 .commit();
         mapFragment.getMapAsync(this);
 
+    }
+
+    private void setupExportButtons(String pathId) {
+
+        binding.exportPdfButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                pathDetailViewModel.exportDetail(binding.getRoot().getContext(), "pdf",pathId);
+            }
+        });
+
+        binding.exportGpxButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                pathDetailViewModel.exportDetail(binding.getRoot().getContext(),"gpx",pathId);
+            }
+        });
     }
 
 

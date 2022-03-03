@@ -1,10 +1,15 @@
 package com.exam.natour.UI.View.PathDetail;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
+import android.os.Bundle;
+import android.provider.Browser;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.exam.natour.Model.AuthUser;
 import com.exam.natour.Model.PathDetailResponse.PathDetail;
 import com.exam.natour.Model.PathsResponse.Path;
 import com.exam.natour.Network.Repository.PathRepository;
@@ -28,4 +33,14 @@ public class PathDetailViewModel extends ViewModel {
     }
 
 
+    public void exportDetail(Context context,String fileType, String pathId) {
+
+        Intent browserIntent = new Intent(
+                Intent.ACTION_VIEW, Uri.parse("https://natour.pepeandrea.it/api/export/"+fileType+"/"+pathId));
+        Bundle bundle = new Bundle();
+        bundle.putString("Authorization", "Bearer "+ AuthUser.getInstance().getToken());
+        browserIntent.putExtra(Browser.EXTRA_HEADERS, bundle);
+        context.startActivity(browserIntent);
+
+    }
 }
