@@ -9,8 +9,8 @@
         <item name="colorPrimaryVariant">#669944</item>
         <item name="colorOnPrimary">#212121</item>
         <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/teal_200</item>
-        <item name="colorSecondaryVariant">@color/teal_200</item>
+        <item name="colorSecondary">#669944</item>
+        <item name="colorSecondaryVariant">#669944</item>
         <item name="colorOnSecondary">#FFFFFF</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">#212121</item>

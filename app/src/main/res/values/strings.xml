@@ -11,16 +11,24 @@
     <string name="google_server_client_id">81750195176-esqik5hie0ofg5pfc358h86br4t12fp4.apps.googleusercontent.com</string>
 
     <string-array name="interestPointCategories">
+        <item>Sorgente</item>
+        <item>Punto panoramico</item>
+        <item>Area pic-nic</item>
+        <item>Baita</item>
+        <item>Flora</item>
+        <item>Grotta</item>
+        <item>Luogo di interesse artistico</item>
         <item>Chiesa</item>
         <item>Museo</item>
         <item>Piazza</item>
+        <item>Altro</item>
     </string-array>
 
     <string-array name="pathDifficulties">
+        <item>T</item>
         <item>E</item>
         <item>EE</item>
         <item>EEA</item>
-        <item>T</item>
     </string-array>
 
 </resources>

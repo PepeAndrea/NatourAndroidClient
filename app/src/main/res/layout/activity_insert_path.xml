@@ -4,89 +4,211 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#212121"
     tools:context=".UI.View.InsertPath.InsertPathActivity">
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
 
-        <LinearLayout
+    <ImageButton
+        android:id="@+id/InsertPath_Cancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:layout_marginStart="18dp"
+        android:layout_marginTop="18dp"
+        android:insetTop="0dp"
+        android:insetBottom="0dp"
+        android:src="@drawable/ic_cross"
+        tools:layout_editor_absoluteX="18dp"
+        tools:layout_editor_absoluteY="18dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/riepilogo_Text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Riepilogo"
+        android:layout_marginTop="16dp"
+        android:textColor="#FFFFFF"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/InsertPath_Save"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="19dp"
+        android:layout_marginEnd="21dp"
+        android:background="@drawable/ic_check"
+        android:insetTop="0dp"
+        android:insetBottom="0dp"
+        tools:layout_editor_absoluteX="360dp"
+        tools:layout_editor_absoluteY="19dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+    <ScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="32dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/riepilogo_Text">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical" >
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/textView8"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:text="Nome"
+                android:textColor="#FFFFFF"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <EditText
                 android:id="@+id/InsertPath_name"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="32dp"
+                android:backgroundTint="#FFFFFF"
                 android:ems="10"
-                android:hint="Titolo"
+                android:hint="Inserisci un nome"
                 android:inputType="textPersonName"
-                android:minHeight="32dp" />
+                android:minHeight="32dp"
+                android:textColor="#FFFFFF"
+                android:textColorHint="#FFFFFF"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/textView8"
+                app:layout_constraintTop_toBottomOf="@+id/textView8" />
+
+            <TextView
+                android:id="@+id/textView9"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:text="Descrizione"
+                android:textColor="#FFFFFF"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="@+id/InsertPath_name"
+                app:layout_constraintTop_toBottomOf="@+id/InsertPath_name" />
 
             <EditText
                 android:id="@+id/InsertPath_description"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="32dp"
+                android:backgroundTint="#FFFFFF"
                 android:ems="10"
-                android:hint="Descrizione"
-                android:inputType="textPersonName"
-                android:minHeight="48dp" />
+                android:hint="Inserisci una descrizione"
+                android:inputType="textMultiLine"
+                android:minHeight="48dp"
+                android:textColor="#FFFFFF"
+                android:textColorHint="#FFFFFF"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/textView9"
+                app:layout_constraintTop_toBottomOf="@+id/textView9" />
+
+            <TextView
+                android:id="@+id/textView11"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:text="Difficoltà"
+                android:textColor="#FFFFFF"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="@+id/InsertPath_description"
+                app:layout_constraintTop_toBottomOf="@+id/InsertPath_description" />
+
+            <TextView
+                android:id="@+id/disabiliText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:layout_weight="1"
+                android:text="Accessibilità a disabili"
+                android:textColor="#FFFFFF"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="@+id/relativeLayout"
+                app:layout_constraintTop_toBottomOf="@+id/relativeLayout" />
+
+            <Switch
+                android:id="@+id/InsertPath_Disability"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="29dp"
+                android:layout_weight="1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/relativeLayout"
+                tools:ignore="UseSwitchCompatOrMaterialXml" />
 
             <EditText
                 android:id="@+id/InsertPath_Duration"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="32dp"
+                android:backgroundTint="#FFFFFF"
                 android:ems="10"
                 android:hint="Durata in minuti"
                 android:inputType="time"
-                android:visibility="gone" />
-
-            <Spinner
-                android:id="@+id/InsertPath_difficulty"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawSelectorOnTop="true"
-                android:entries="@array/pathDifficulties"
-                android:minHeight="48dp" />
-
-
-            <CheckBox
-                android:id="@+id/InsertPath_Disability"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Accesso disabili" />
+                android:textColor="#FFFFFF"
+                android:textColorHint="#FFFFFF"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/disabiliText"
+                app:layout_constraintTop_toBottomOf="@+id/disabiliText" />
 
             <FrameLayout
                 android:id="@+id/InsertPath_mapContainer"
                 android:layout_width="match_parent"
                 android:layout_height="343dp"
+                android:layout_marginTop="20dp"
                 android:paddingHorizontal="15dp"
-                android:paddingVertical="20dp">
+                android:paddingVertical="20dp"
+                app:layout_constraintTop_toBottomOf="@+id/InsertPath_Duration"
+                tools:layout_editor_absoluteX="0dp">
 
             </FrameLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal">
+            <RelativeLayout
+                android:id="@+id/relativeLayout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="32dp"
+                android:background="#333333"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/textView11"
+                app:layout_constraintTop_toBottomOf="@+id/textView11">
 
+                <Spinner
+                    android:id="@+id/InsertPath_difficulty"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:drawSelectorOnTop="true"
+                    android:entries="@array/pathDifficulties"
+                    android:spinnerMode="dropdown"
+                    android:theme="@style/spinnerTheme" />
 
-                <Button
-                    android:id="@+id/InsertPath_Cancel"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Annulla" />
+            </RelativeLayout>
 
-                <Button
-                    android:id="@+id/InsertPath_Save"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Salva" />
-            </LinearLayout>
-        </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

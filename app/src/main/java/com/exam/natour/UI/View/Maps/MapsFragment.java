@@ -344,7 +344,7 @@ public class MapsFragment extends Fragment {
     }
 
     private void unsetInterestPointInterface(){
-        binding.interestPointForm.animate().translationY(1200);
+        binding.interestPointForm.animate().translationY(1400);
     }
 
     private void setInterestPointButtons() {

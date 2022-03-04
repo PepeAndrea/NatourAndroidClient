@@ -183,10 +183,10 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/interestPoint_Form"
         android:layout_width="0dp"
-        android:layout_height="400dp"
+        android:layout_height="408dp"
         android:background="#212121"
         android:orientation="vertical"
-        android:translationY="400dp"
+        android:translationY="408dp"
         app:layout_constraintBottom_toBottomOf="@+id/map"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
@@ -205,7 +205,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/interestPoint_Text"
+            android:id="@+id/riepilogo_Text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
@@ -234,13 +234,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="32dp"
             android:text="Nome"
             android:textColor="#FFFFFF"
             android:textSize="18sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/interestPoint_Text" />
+            app:layout_constraintTop_toBottomOf="@+id/riepilogo_Text" />
 
         <EditText
             android:id="@+id/interestPoint_Name"
@@ -250,7 +250,7 @@
             android:layout_marginEnd="32dp"
             android:backgroundTint="#FFFFFF"
             android:ems="10"
-            android:hint="Aggiungi un nome"
+            android:hint="Inserisci un nome"
             android:inputType="textPersonName"
             android:textColor="#FFFFFF"
             android:textColorHint="#FFFFFF"
@@ -278,8 +278,8 @@
             android:layout_marginEnd="32dp"
             android:backgroundTint="#FFFFFF"
             android:ems="10"
-            android:hint="Descrizione"
-            android:inputType="textPersonName"
+            android:hint="Inserisci una descrizione"
+            android:inputType="textMultiLine"
             android:textColor="#FFFFFF"
             android:textColorHint="#FFFFFF"
             app:layout_constraintEnd_toEndOf="parent"
