@@ -8,32 +8,42 @@
     android:background="#212121"
     tools:context=".UI.View.Auth.Login">
 
-    <Button
-        android:id="@+id/back_button_login"
-        android:layout_width="20dp"
-        android:layout_height="36dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="32dp"
-        android:background="@drawable/ic_angle_left_solid"
-        android:insetTop="0dp"
-        android:insetBottom="0dp"
-        app:backgroundTint="#ffffff"
-        app:iconPadding="0dp"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout5"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <Button
+            android:id="@+id/back_button_path_detail"
+            android:layout_width="20dp"
+            android:layout_height="36dp"
+            android:layout_marginStart="32dp"
+            android:background="@drawable/ic_angle_left_solid"
+            android:insetTop="0dp"
+            android:insetBottom="0dp"
+            app:backgroundTint="#ffffff"
+            app:iconPadding="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.52" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <TextView
         android:id="@+id/login_welcome_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="8dp"
         android:text="Bentornato"
         android:textColor="#FFFFFF"
         android:textSize="24sp"
         android:textStyle="normal"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/back_button_login" />
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout5" />
 
     <EditText
         android:id="@+id/email_login_input"
@@ -41,7 +51,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="24dp"
         android:layout_marginEnd="32dp"
         android:backgroundTint="#FFFFFF"
         android:ems="10"
