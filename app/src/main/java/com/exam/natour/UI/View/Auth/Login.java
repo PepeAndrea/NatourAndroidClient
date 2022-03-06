@@ -40,7 +40,7 @@ public class Login extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_login, container, false);
-        backButton = view.findViewById(R.id.back_button_login);
+        backButton = view.findViewById(R.id.back_button_path_detail);
         loginButton = view.findViewById(R.id.login_button);
         goToSignUpButton = view.findViewById(R.id.go_to_signup_button);
         emailInput = view.findViewById(R.id.email_login_input);
