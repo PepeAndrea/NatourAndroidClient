@@ -86,6 +86,13 @@ public class PathDetailActivity extends AppCompatActivity implements OnMapReadyC
                 .commit();
         mapFragment.getMapAsync(this);
 
+        binding.backButtonPathDetail.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
+
     }
 
     private void setupExportButtons(String pathId) {
@@ -117,8 +124,8 @@ public class PathDetailActivity extends AppCompatActivity implements OnMapReadyC
                 binding.pathLength.setText(String.valueOf(pathDetail.getLength()));
                 binding.pathDuration.setText(formatDuration(pathDetail.getDuration()));
                 binding.pathLocation.setText(pathDetail.getLocation());
-
                 binding.pathDifficulty.setTextColor(Color.parseColor(selectDifficultyColor(pathDetail.getDifficulty())));
+                binding.pathUser.setText("@"+pathDetail.getUsername());
 
 
                 //Li rendo visibili
