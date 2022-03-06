@@ -210,7 +210,7 @@ public class MapsViewModel extends ViewModel{
     }
 
 
-    public void uploadGpxPath(Context context, String path,String location){
+    public void uploadGpxPath(Context context, String path){
         GPXParser parser = new GPXParser();
         Gpx parsedGpx = null;
         try{
@@ -238,15 +238,11 @@ public class MapsViewModel extends ViewModel{
                     }
                 }
 
-                /*
-                parsedGpx.getTracks().get(0).getTrackSegments().forEach(trackSegment -> {
-                    trackSegment.getTrackPoints().forEach(trackPoint ->{
-                        if (trackPoint.getLatitude() != null && trackPoint.getLongitude() != null)
-                            LiveRecordingData.getInstance().addCoordinate(new Coordinate(String.valueOf(trackPoint.getLatitude()),String.valueOf(trackPoint.getLongitude())));
-                    });
-                });*/
 
-                newPath.setLocation(location);
+                if (LiveRecordingData.getInstance().getCoordinates() != null){
+                    newPath.setLocation(this.getGpxCity(context,Double.valueOf(LiveRecordingData.getInstance().getCoordinates().get(0).getLatitude()),Double.valueOf(LiveRecordingData.getInstance().getCoordinates().get(0).getLongitude())));
+                }
+
                 String jsonParsedPath = new Gson().toJson(newPath);
                 Intent intent = new Intent(context, InsertPathActivity.class);
                 intent.putExtra("Path",jsonParsedPath);
@@ -262,6 +258,21 @@ public class MapsViewModel extends ViewModel{
                     .show();
         }
 
+    }
+
+    private String getGpxCity(Context context,Double latitude,Double longitude){
+        Geocoder gcd = new Geocoder(context,
+                Locale.getDefault());
+        List<Address> addresses;
+        try {
+            addresses = gcd.getFromLocation(latitude, longitude, 1);
+            if (addresses.size() > 0)
+                System.out.println(addresses.get(0).getLocality());
+            return addresses.get(0).getLocality();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return "null";
+        }
     }
 
 }

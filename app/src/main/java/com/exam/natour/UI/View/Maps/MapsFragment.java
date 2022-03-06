@@ -503,7 +503,7 @@ public class MapsFragment extends Fragment {
                     String path = Environment.getExternalStorageDirectory()+"/"+new File(uri.getPath()).getPath().split(":")[1];
                     InputStream input = new FileInputStream(path);
                     Log.i("GPXFILE", "onActivityResult: "+path);
-                    mapsViewModel.uploadGpxPath(getContext(),path,currentCity);
+                    mapsViewModel.uploadGpxPath(getContext(),path);
                 } catch (FileNotFoundException e) {
                     new AlertDialog.Builder(getContext())
                             .setTitle("Permessi mancanti")
