@@ -288,13 +288,6 @@ public class MapsFragment extends Fragment {
             }
         });
 
-        binding.recordingActionButtonsPause.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(getContext(), "Funzione di pausa non ancora disponibile", Toast.LENGTH_SHORT).show();
-            }
-        });
-
         binding.recordingActionButtonsInterestpoint.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

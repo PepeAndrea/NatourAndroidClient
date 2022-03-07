@@ -100,7 +100,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="40dp"
         android:alpha="0.0"
-        android:background="#212121"
+        android:background="@drawable/rounded_layout"
         android:orientation="horizontal"
         android:paddingHorizontal="10dp"
         android:paddingVertical="10dp"
@@ -111,33 +111,35 @@
 
         <Button
             android:id="@+id/recordingActionButtons_save"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginEnd="5dp"
             android:layout_weight="1"
+            app:cornerRadius="35dp"
+            app:icon="@drawable/ic_stop"
+            app:iconTint="#FFFFFF"
+            app:iconPadding="0dp"
+            app:iconGravity="textStart"
+            android:insetLeft="0dp"
             android:insetTop="0dp"
-            android:insetBottom="0dp"
-            android:paddingHorizontal="13dp"
-            android:text="⏹" />
-
-        <Button
-            android:id="@+id/recordingActionButtons_pause"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:insetTop="0dp"
-            android:insetBottom="0dp"
-            android:paddingHorizontal="13dp"
-            android:text="⏸" />
+            android:insetRight="0dp"
+            android:insetBottom="0dp" />
 
         <Button
             android:id="@+id/recordingActionButtons_interestpoint"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginStart="5dp"
             android:layout_weight="1"
+            app:cornerRadius="35dp"
+            app:icon="@drawable/ic_interest_point"
+            app:iconTint="#FFFFFF"
+            app:iconPadding="0dp"
+            app:iconGravity="textStart"
+            android:insetLeft="0dp"
             android:insetTop="0dp"
-            android:insetBottom="0dp"
-            android:paddingHorizontal="13dp"
-            android:text="⏬" />
+            android:insetRight="0dp"
+            android:insetBottom="0dp" />
     </LinearLayout>
 
     <LinearLayout
@@ -145,11 +147,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="40dp"
-        android:alpha="0.0"
-        android:background="#212121"
+        android:background="@drawable/rounded_layout"
         android:orientation="horizontal"
-        android:paddingHorizontal="5dp"
-        android:paddingVertical="5dp"
+        android:paddingHorizontal="10dp"
+        android:paddingVertical="10dp"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@+id/map"
         app:layout_constraintEnd_toEndOf="parent"
@@ -157,27 +158,52 @@
 
         <Button
             android:id="@+id/manualRecordingActionButtons_save"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginEnd="5dp"
             android:layout_weight="1"
-            android:paddingHorizontal="13dp"
-            android:text="Salva" />
+            app:cornerRadius="35dp"
+            app:icon="@drawable/ic_stop"
+            app:iconTint="#FFFFFF"
+            app:iconPadding="0dp"
+            app:iconGravity="textStart"
+            android:insetLeft="0dp"
+            android:insetTop="0dp"
+            android:insetRight="0dp"
+            android:insetBottom="0dp" />
 
         <Button
             android:id="@+id/manualRecordingActionButtons_Coordinate"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="5dp"
             android:layout_weight="1"
-            android:paddingHorizontal="13dp"
-            android:text="Coordinate" />
+            app:cornerRadius="35dp"
+            app:icon="@drawable/ic_route"
+            app:iconTint="#FFFFFF"
+            app:iconPadding="0dp"
+            app:iconGravity="textStart"
+            android:insetLeft="0dp"
+            android:insetTop="0dp"
+            android:insetRight="0dp"
+            android:insetBottom="0dp" />
 
         <Button
             android:id="@+id/manualRecordingActionButtons_interestpoint"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginStart="5dp"
             android:layout_weight="1"
-            android:paddingHorizontal="13dp"
-            android:text="IP" />
+            app:cornerRadius="35dp"
+            app:icon="@drawable/ic_interest_point"
+            app:iconTint="#FFFFFF"
+            app:iconPadding="0dp"
+            app:iconGravity="textStart"
+            android:insetLeft="0dp"
+            android:insetTop="0dp"
+            android:insetRight="0dp"
+            android:insetBottom="0dp" />
     </LinearLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -323,7 +349,6 @@
             android:id="@+id/interestPoint_Latitude"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="#FFFFFF"
             android:visibility="gone"
             tools:layout_editor_absoluteY="152dp" />
 
@@ -331,7 +356,6 @@
             android:id="@+id/interestPoint_Longitude"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="#FFFFFF"
             android:visibility="gone"
             tools:layout_editor_absoluteY="152dp" />
 
