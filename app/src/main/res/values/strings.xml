@@ -9,6 +9,11 @@
     <string name="facebook_app_id">4617504791693748</string>
     <string name="fb_login_protocol_scheme">fb4617504791693748</string>
     <string name="google_server_client_id">81750195176-esqik5hie0ofg5pfc358h86br4t12fp4.apps.googleusercontent.com</string>
+    <string name="carica_da_file">Carica da file</string>
+    <string name="inserisci_manualmente">Inserisci manualmente</string>
+    <string name="registra_percorso">Registra percorso</string>
+    <string name="aggiorna">Aggiorna</string>
+    <string name="azzera">Azzera</string>
 
     <string-array name="interestPointCategories">
         <item>Sorgente</item>
