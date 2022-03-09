@@ -85,9 +85,9 @@ public class InsertPathActivity extends AppCompatActivity implements OnMapReadyC
             public void onClick(View view) {
                 new AlertDialog.Builder(view.getContext())
                         .setTitle("Attenzione")
-                        .setMessage("Sicuro di voler annullare l'inserimento?\nTutti i dati andranno persi.")
-                        .setNegativeButton("Continua inserimento", (dialogInterface, i) -> dialogInterface.dismiss())
-                        .setPositiveButton("Annulla", (dialogInterface, i) -> finish())
+                        .setMessage("Sicuro di voler tornare indietro?\nTutti i dati andranno persi.")
+                        .setPositiveButton("Torna indietro", (dialogInterface, i) -> finish())
+                        .setNegativeButton("Annulla", (dialogInterface, i) -> dialogInterface.dismiss())
                         .show();
             }
         });
@@ -138,7 +138,7 @@ public class InsertPathActivity extends AppCompatActivity implements OnMapReadyC
         boolean validated = true;
 
         if(title.length() == 0){
-            binding.InsertPathName.setError("Il campo Titolo non può essere vuoto");
+            binding.InsertPathName.setError("Il campo Nome non può essere vuoto");
             validated = false;
         }
         if(description.length() == 0){

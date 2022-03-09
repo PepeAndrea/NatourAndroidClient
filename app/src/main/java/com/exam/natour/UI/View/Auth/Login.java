@@ -83,14 +83,14 @@ public class Login extends Fragment {
         boolean validated = true;
 
         if(email.length() == 0){
-            this.emailInput.setError("Il campo email non può essere vuoto");
+            this.emailInput.setError("Il campo Email non può essere vuoto");
             validated = false;
         }else if(!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()){
-            this.emailInput.setError("Inserire una mail valida");
+            this.emailInput.setError("Inserire una Email valida");
             validated = false;
         }
         if(password.length() == 0){
-            this.passwordInput.setError("Il campo password non può essere vuoto");
+            this.passwordInput.setError("Il campo Password non può essere vuoto");
             validated = false;
         }
         return validated;

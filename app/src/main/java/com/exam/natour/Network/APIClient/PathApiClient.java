@@ -178,7 +178,7 @@ public class PathApiClient {
                     if(response.isSuccessful()){
                         new AlertDialog.Builder(context)
                                 .setTitle("Percorso caricato con successo")
-                                .setMessage("Congratulazioni, il percorso è ora online.\n")
+                                .setMessage("Congratulazioni, il percorso è stato caricato correttamente.\n")
                                 .setOnCancelListener(dialogInterface -> ((Activity) context).finish())
                                 .setNeutralButton("Continua",(dialogInterface, i) ->((Activity) context).finish())
                                 .show();

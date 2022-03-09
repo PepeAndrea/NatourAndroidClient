@@ -84,28 +84,28 @@ public class Signup extends Fragment {
         boolean validated = true;
 
         if(email.length() == 0){
-            this.emailInput.setError("Il campo email non può essere vuoto");
+            this.emailInput.setError("Il campo Email non può essere vuoto");
             validated = false;
         }else if(!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()){
-            this.emailInput.setError("Inserire una mail valida");
+            this.emailInput.setError("Inserire una Email valida");
             validated = false;
         }
         if(username.length() == 0){
-            this.usernameInput.setError("Il campo username non può essere vuoto");
+            this.usernameInput.setError("Il campo Username non può essere vuoto");
             validated = false;
         }
         if(password.length() == 0){
-            this.passwordInput.setError("Il campo password non può essere vuoto");
+            this.passwordInput.setError("Il campo Password non può essere vuoto");
             validated = false;
         }else if(password.length() < 8){
-            this.passwordInput.setError("Il campo password deve avere un minimo di 8 caratteri");
+            this.passwordInput.setError("Il campo Password deve avere almeno 8 caratteri");
             validated = false;
         }
         if(passwordConfirmation.length() == 0){
-            this.passwordConfirmationInput.setError("Il campo conferma password non può essere vuoto");
+            this.passwordConfirmationInput.setError("Il campo Conferma password non può essere vuoto");
             validated = false;
         }else if(!passwordConfirmation.equals(password)){
-            this.passwordConfirmationInput.setError("Il campo conferma password non coincide");
+            this.passwordConfirmationInput.setError("Il campo Conferma password non coincide con la Password");
             validated = false;
         }
         return validated;

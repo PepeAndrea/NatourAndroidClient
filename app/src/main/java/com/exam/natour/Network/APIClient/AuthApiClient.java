@@ -58,7 +58,7 @@ public class AuthApiClient {
                         Log.i("API 422",new JSONObject(response.errorBody().string()).toString());
                         new AlertDialog.Builder(context)
                                 .setTitle("Si è verificato un errore")
-                                .setMessage("La invitiamo a controllare i dati inseriti e riprovare")
+                                .setMessage("Controlla i dati inseriti e riprova.")
                                 .show();
                     }else if(response.code() == 401){
                         Log.i("API 401",new JSONObject(response.errorBody().string()).toString());
@@ -149,7 +149,7 @@ public class AuthApiClient {
                     }else if(response.code() == 422){
                         Log.i("API 422",new JSONObject(response.errorBody().string()).toString());
                         new AlertDialog.Builder(context)
-                                .setTitle("Errore registrazione")
+                                .setTitle("Errore di registrazione")
                                 .setMessage("L'indirizzo email risulta già registrato!\nAccedere premendo il tasto \"Accedi\"")
                                 .show();
                     }else if(response.code() == 500|| response.code() == 502){
@@ -191,8 +191,8 @@ public class AuthApiClient {
                     }else if(response.code() == 422){
                         Log.i("API 422",new JSONObject(response.errorBody().string()).toString());
                         new AlertDialog.Builder(context)
-                                .setTitle("Errore trasferimento dati")
-                                .setMessage("Si è verificato un errore di comnicazione con il provider, la invitiamo a riprovare")
+                                .setTitle("Errore con il trasferimento dei dati")
+                                .setMessage("Si è verificato un errore di comnicazione con il provider, riprova più tardi")
                                 .show();
                     }else if(response.code() == 500|| response.code() == 502){
                         Log.i("API 500/502",new JSONObject(response.errorBody().string()).toString());

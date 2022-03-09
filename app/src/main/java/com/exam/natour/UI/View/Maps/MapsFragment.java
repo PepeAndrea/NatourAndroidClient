@@ -80,9 +80,9 @@ public class MapsFragment extends Fragment {
             } else {
                 new AlertDialog.Builder(getContext())
                         .setTitle("Permessi mancanti")
-                        .setMessage("Per utilizzare la funzionalità di tracciamento hai bisogno di abilitare i permessi per la localizzazione.\n\nPer motivi di privacy non sempre vi è la possibilità di attivare il tracciamento anche quando l'app non è in utilizzo, si prega di attivare tale funzionalità dai permessi dell'app nelle impostazioni per garantire un corretto funzionamento")
-                        .setNegativeButton("Annulla", (dialogInterface, i) -> dialogInterface.dismiss())
+                        .setMessage("Per utilizzare la funzionalità di tracciamento è necessario abilitare i permessi per la localizzazione.\nPer fare in modo che l'app funzioni anche in background, seleziona \"Consenti sempre\"")
                         .setPositiveButton("Concedi", (dialogInterface, i) -> requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION}, 101))
+                        .setNegativeButton("Annulla", (dialogInterface, i) -> dialogInterface.dismiss())
                         .show();
             }
 
@@ -249,14 +249,14 @@ public class MapsFragment extends Fragment {
                 } else {
                     new AlertDialog.Builder(getContext())
                             .setTitle("Permessi mancanti")
-                            .setMessage("Per utilizzare la funzionalità di upload del tracciato hai bisogno di abilitare i permessi per l'accesso alla memoria.\nSi prega di selezionare l'accesso a tutti i file")
-                            .setNegativeButton("Annulla", (dialogInterface, i) -> dialogInterface.dismiss())
+                            .setMessage("Per utilizzare la funzionalità di upload del percorso è necessario abilitare i permessi per l'accesso alla memoria.\nSi prega di selezionare l'accesso a tutti i file")
                             .setPositiveButton("Concedi", (dialogInterface, i) -> {
-                                        Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-                                        Uri uri = Uri.fromParts("package", getContext().getPackageName(), null);
-                                        intent.setData(uri);
-                                        startActivity(intent);
-                                    })
+                                Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                                Uri uri = Uri.fromParts("package", getContext().getPackageName(), null);
+                                intent.setData(uri);
+                                startActivity(intent);
+                            })
+                            .setNegativeButton("Annulla", (dialogInterface, i) -> dialogInterface.dismiss())
                             .show();
                 }
             }
@@ -458,7 +458,7 @@ public class MapsFragment extends Fragment {
         boolean validated = true;
 
         if(name.length() == 0){
-            binding.interestPointName.setError("Il campo Titolo non può essere vuoto");
+            binding.interestPointName.setError("Il campo Nome non può essere vuoto");
             validated = false;
         }
         if(description.length() == 0){
@@ -500,14 +500,14 @@ public class MapsFragment extends Fragment {
                 } catch (FileNotFoundException e) {
                     new AlertDialog.Builder(getContext())
                             .setTitle("Permessi mancanti")
-                            .setMessage("Per utilizzare la funzionalità di upload del tracciato hai bisogno di abilitare i permessi per l'accesso alla memoria.\nSi prega di selezionare l'accesso a tutti i file")
-                            .setNegativeButton("Annulla", (dialogInterface, i) -> dialogInterface.dismiss())
+                            .setMessage("Per utilizzare la funzionalità di upload del tracciato è necessario abilitare i permessi per l'accesso alla memoria.\nSi prega di selezionare l'accesso a tutti i file")
                             .setPositiveButton("Concedi", (dialogInterface, i) -> {
                                 Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
                                 Uri settinguri = Uri.fromParts("package", getContext().getPackageName(), null);
                                 intent.setData(settinguri);
                                 startActivity(intent);
                             })
+                            .setNegativeButton("Annulla", (dialogInterface, i) -> dialogInterface.dismiss())
                             .show();
                 }
             }
