@@ -68,7 +68,6 @@ public class MapsFragment extends Fragment {
     private GoogleMap map;
     private PolylineOptions polyline;
     private LatLng currentPos;
-    private String currentCity;
 
     private OnMapReadyCallback callback = new OnMapReadyCallback() {
         @Override
@@ -148,21 +147,6 @@ public class MapsFragment extends Fragment {
                     @Override
                     public void onSuccess(Location location) {
                         if (location != null) {
-                            //Ricerca città
-                            String cityName = null;
-                            Geocoder gcd = new Geocoder(getContext(),
-                                    Locale.getDefault());
-                            List<Address> addresses;
-                            try {
-                                addresses = gcd.getFromLocation(location.getLatitude(), location
-                                        .getLongitude(), 1);
-                                if (addresses.size() > 0)
-                                    System.out.println(addresses.get(0).getLocality());
-                                currentCity = addresses.get(0).getLocality();
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
-
                             //Animazione mappa
                             //map.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(),location.getLongitude()),12f),3000,null);
                             //Spostamento mappa senza animazione
@@ -282,7 +266,7 @@ public class MapsFragment extends Fragment {
         binding.recordingActionButtonsSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mapsViewModel.saveRecordedPath(getContext(),currentCity);
+                mapsViewModel.saveRecordedPath(getContext());
                 map.clear();
                 unsetRecordingInterface();
             }
@@ -430,7 +414,7 @@ public class MapsFragment extends Fragment {
             public void onClick(View view) {
                 polyline = null;
                 unsetMapListener();
-                mapsViewModel.saveManualPathRecording(getContext(),currentCity);
+                mapsViewModel.saveManualPathRecording(getContext());
                 map.clear();
                 unsetManualRecordingInterface();
             }
