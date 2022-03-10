@@ -5,6 +5,7 @@ import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,6 +50,7 @@ public class Login extends Fragment {
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Log.i("LoginPage", "Torno alla pagina main di autenticazione");
                 goToAuthPage();
             }
         });
@@ -56,6 +58,7 @@ public class Login extends Fragment {
         goToSignUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Log.i("LoginPage", "Passo alla pagina di registrazione");
                 goToSignupPage();
             }
         });
@@ -63,12 +66,14 @@ public class Login extends Fragment {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Log.i("LoginPage", "Provo ad effettuare il login");
                 loginButton.setEnabled(false);
                 String email = emailInput.getText().toString();
                 String password = passwordInput.getText().toString();
                 if(validateLoginInput(email,password)){
                     authViewModel.login(view.getContext(),email,password);
                 }else{
+                    Log.e("Validazione input login", "I campi non risultano validi");
                     loginButton.setEnabled(true);
                 }
 

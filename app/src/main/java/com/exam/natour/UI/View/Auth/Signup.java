@@ -1,6 +1,7 @@
 package com.exam.natour.UI.View.Auth;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -51,12 +52,14 @@ public class Signup extends Fragment {
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Log.i("SignUpPage", "Torno alla pagina main di autenticazione");
                 goToAuthPage();
             }
         });
         goToLoginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Log.i("SignUpPage", "Passo alla pagina di login");
                 goToLoginPage();
             }
         });
@@ -64,6 +67,7 @@ public class Signup extends Fragment {
         signupButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Log.i("SignUpPage", "Provo ad effettuare la registrazione");
                 signupButton.setEnabled(false);
                 String email = emailInput.getText().toString();
                 String username = usernameInput.getText().toString();
@@ -72,6 +76,7 @@ public class Signup extends Fragment {
                 if(validateSignupInput(email,username,password,passwordConfirmation)){
                     authViewModel.signup(view.getContext(),email,username,password,passwordConfirmation);
                 }else{
+                    Log.e("Validazione input registrazione", "I campi non risultano validi");
                     signupButton.setEnabled(true);
                 }
             }

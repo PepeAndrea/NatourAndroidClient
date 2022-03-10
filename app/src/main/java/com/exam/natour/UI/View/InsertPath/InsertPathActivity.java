@@ -16,6 +16,7 @@ import com.exam.natour.Model.PathDetailResponse.Coordinate;
 import com.exam.natour.Model.PathDetailResponse.InterestPoint;
 import com.exam.natour.Model.PathDetailResponse.PathDetail;
 import com.exam.natour.R;
+import com.exam.natour.UI.View.Auth.Login;
 import com.exam.natour.UI.View.PathDetail.PathDetailViewModel;
 import com.exam.natour.databinding.ActivityInsertPathBinding;
 import com.exam.natour.databinding.ActivityPathDetailBinding;
@@ -48,14 +49,13 @@ public class InsertPathActivity extends AppCompatActivity implements OnMapReadyC
 
         setContentView(binding.getRoot());
 
+        Log.i("InsertPathActivity", "Faccio il parsing del seguente json: "+getIntent().getExtras().getString("Path"));
         //Faccio il parsing del Json
         newPath = new Gson().fromJson(getIntent().getExtras().getString("Path"),PathDetail.class);
 
         if (getIntent().getExtras().containsKey("updateCoordinateAfter")){
+            Log.i("InsertPathActivity", "Recupero le coordinate del path e provvedo a resettare l'istanza di registrazione");
             newPath.setCoordinates(LiveRecordingData.getInstance().getCoordinates());
-            //Log.i("Coordinate lette", "uploadGpxPath: "+trackPoint.getLatitude()+"  "+trackPoint.getLongitude());
-
-
             newPath.calculateLength();
             LiveRecordingData.getInstance().destroy();
         }
@@ -67,6 +67,8 @@ public class InsertPathActivity extends AppCompatActivity implements OnMapReadyC
         binding.InsertPathSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Log.i("InsertPathActivity", "Premuto tasto per confermare l'inseriemento");
+                binding.InsertPathSave.setEnabled(false);
                 if (validateInsertPathInput(binding.InsertPathName.getText().toString(),binding.InsertPathDescription.getText().toString())){
                     newPath.setTitle(binding.InsertPathName.getText().toString());
                     newPath.setDescription(binding.InsertPathDescription.getText().toString());
@@ -76,6 +78,9 @@ public class InsertPathActivity extends AppCompatActivity implements OnMapReadyC
                         newPath.setDuration(Long.valueOf(Integer.parseInt(binding.InsertPathDuration.getText().toString())*60000));
                     }
                     insertPathViewModel.savePath(newPath,view.getContext());
+                }else{
+                    binding.InsertPathSave.setEnabled(true);
+                    Log.e("Errore validazione input inserimento percorso", "Input non valido");
                 }
             }
         });
@@ -83,6 +88,7 @@ public class InsertPathActivity extends AppCompatActivity implements OnMapReadyC
         binding.InsertPathCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Log.i("InsertPathActivity", "Premuto tasto per annullare l'inseriemento");
                 new AlertDialog.Builder(view.getContext())
                         .setTitle("Attenzione")
                         .setMessage("Sicuro di voler tornare indietro?\nTutti i dati andranno persi.")
@@ -116,6 +122,7 @@ public class InsertPathActivity extends AppCompatActivity implements OnMapReadyC
             PolylineOptions path = new PolylineOptions();
             if (coordinates != null){
                 coordinates.forEach((coordinate -> {
+                    Log.i("Carico coordinate", "Coodinate caricate: Lat:"+coordinate.getLatitude()+" Lng:"+coordinate.getLongitude());
                     path.add(new LatLng(Double.valueOf(coordinate.getLatitude()),Double.valueOf(coordinate.getLongitude()))).clickable(false);
                 }));
                 map.addPolyline(path);
@@ -123,7 +130,7 @@ public class InsertPathActivity extends AppCompatActivity implements OnMapReadyC
             }
             if (interestPoints != null){
                 interestPoints.forEach(interestPoint -> {
-                    Log.i("Analisi coordinate punto interesse",interestPoint.getLatitude()+" "+interestPoint.getLongitude());
+                    Log.i("Carico coordinate punto interesse",interestPoint.getLatitude()+" "+interestPoint.getLongitude());
                     map.addMarker(new MarkerOptions()
                             .position(new LatLng(Double.valueOf(interestPoint.getLatitude()),Double.valueOf(interestPoint.getLongitude())))
                             .title(interestPoint.getTitle())

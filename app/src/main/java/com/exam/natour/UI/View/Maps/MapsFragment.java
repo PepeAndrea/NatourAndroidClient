@@ -77,6 +77,7 @@ public class MapsFragment extends Fragment {
             if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
                 setUserLocation();
             } else {
+                Log.e("Permessi mancanti", "Mancano permessi di localizzazione e mostro popup di richiesta");
                 new AlertDialog.Builder(getContext())
                         .setTitle("Permessi mancanti")
                         .setMessage("Per utilizzare la funzionalità di tracciamento è necessario abilitare i permessi per la localizzazione.\nPer fare in modo che l'app funzioni anche in background, seleziona \"Consenti sempre\"")
@@ -105,6 +106,7 @@ public class MapsFragment extends Fragment {
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == 101) {
+            Log.i("Permessi concessi", "Permessi concessi: procedo a localizzare l'utente sulla mappa");
             setUserLocation();
         }
     }
@@ -158,6 +160,7 @@ public class MapsFragment extends Fragment {
 
     private void setupMapRecordingUpdater() {
         mapsViewModel.getCreatedPath().observe(getViewLifecycleOwner(), pathDetail -> {
+            Log.i("MapRecordingUpdater", "Ho ricevuto un aggiornamento dal viewmodel dell'oggetto PathDetail");
             if (map != null){
                 map.clear();
                 polyline = new PolylineOptions();
@@ -231,6 +234,7 @@ public class MapsFragment extends Fragment {
                 if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
                     uploadGpxFile();
                 } else {
+                    Log.e("Permessi mancanti", "Mancano permessi di accesso alla memoria e mostro popup di richiesta");
                     new AlertDialog.Builder(getContext())
                             .setTitle("Permessi mancanti")
                             .setMessage("Per utilizzare la funzionalità di upload del percorso è necessario abilitare i permessi per l'accesso alla memoria.\nSi prega di selezionare l'accesso a tutti i file")
@@ -471,6 +475,7 @@ public class MapsFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent resultData) {
         if (requestCode == 1232 && resultCode == Activity.RESULT_OK) {
+            Log.i("Permessi concessi", "Permessi concessi: l'utente può ora selezionare un file");
             // The result data contains a URI for the document or directory that
             // the user selected.
             Uri uri = null;
@@ -479,9 +484,10 @@ public class MapsFragment extends Fragment {
                 try {
                     String path = Environment.getExternalStorageDirectory()+"/"+new File(uri.getPath()).getPath().split(":")[1];
                     InputStream input = new FileInputStream(path);
-                    Log.i("GPXFILE", "onActivityResult: "+path);
+                    Log.i("GPXFILE", "File caricato: "+path);
                     mapsViewModel.uploadGpxPath(getContext(),path);
                 } catch (FileNotFoundException e) {
+                    Log.e("Errore lettura file", "Errore nel caricare il file: "+e.getMessage());
                     new AlertDialog.Builder(getContext())
                             .setTitle("Permessi mancanti")
                             .setMessage("Per utilizzare la funzionalità di upload del tracciato è necessario abilitare i permessi per l'accesso alla memoria.\nSi prega di selezionare l'accesso a tutti i file")

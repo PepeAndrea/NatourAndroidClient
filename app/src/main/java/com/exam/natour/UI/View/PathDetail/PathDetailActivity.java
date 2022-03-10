@@ -158,6 +158,7 @@ public class PathDetailActivity extends AppCompatActivity implements OnMapReadyC
             PolylineOptions path = new PolylineOptions().clickable(false);
 
             coordinates.forEach((coordinate -> {
+                Log.i("Carico coordinate",coordinate.getLatitude()+" "+coordinate.getLongitude());
                 LatLng latLng = new LatLng(Double.valueOf(coordinate.getLatitude()),Double.valueOf(coordinate.getLongitude()));
                 path.add(latLng);
                 builder.include(latLng);
@@ -176,7 +177,7 @@ public class PathDetailActivity extends AppCompatActivity implements OnMapReadyC
 
             map.addPolyline(path);
             interestPoints.forEach(interestPoint -> {
-                Log.i("Analisi coordinate punto interesse",interestPoint.getLatitude()+" "+interestPoint.getLongitude());
+                Log.i("Carico coordinate punto interesse",interestPoint.getLatitude()+" "+interestPoint.getLongitude());
                 map.addMarker(new MarkerOptions()
                         .position(new LatLng(Double.valueOf(interestPoint.getLatitude()),Double.valueOf(interestPoint.getLongitude())))
                         .title(interestPoint.getTitle())

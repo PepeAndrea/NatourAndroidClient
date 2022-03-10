@@ -1,6 +1,7 @@
 package com.exam.natour.UI.View.Setting;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,6 +41,7 @@ public class SettingFragment extends Fragment {
         logoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Log.i("SettingFragment", "Premuto tasto per eseguire logout");
                 settingViewModel.logout(view.getContext());
             }
         });

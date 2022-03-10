@@ -71,6 +71,7 @@ public class AuthMainPage extends Fragment {
         this.EmailLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Log.i("AuthMainPage", "Redirect alla pagina login");
                 goToLoginPage();
             }
         });
@@ -100,6 +101,7 @@ public class AuthMainPage extends Fragment {
         this.FacebookLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Log.i("AuthMainPage", "Inizio login con Facebook");
                 fbLoginButton.performClick();
             }
         });
@@ -122,7 +124,7 @@ public class AuthMainPage extends Fragment {
             @Override
             public void onError(FacebookException exception) {
                 // App code
-                Log.i("Facebook Error",exception.getMessage());
+                Log.i("Facebook Errore",exception.getMessage());
 
             }
         });
@@ -140,6 +142,7 @@ public class AuthMainPage extends Fragment {
         this.GoogleLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Log.i("AuthMainPage", "Inizio login con Google");
                 Intent signInIntent = googleSignInClient.getSignInIntent();
                 startActivityForResult(signInIntent, 101);
             }
@@ -152,6 +155,7 @@ public class AuthMainPage extends Fragment {
     private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
         try {
             GoogleSignInAccount account = completedTask.getResult(ApiException.class);
+            Log.i("Login google eseguito", "Accesso eseguito correttamente: Utente autenticato "+account.getEmail());
             authViewModel.loginProvider(getContext(),"google",account.getServerAuthCode());
         } catch (ApiException e) {
             // The ApiException status code indicates the detailed failure reason.

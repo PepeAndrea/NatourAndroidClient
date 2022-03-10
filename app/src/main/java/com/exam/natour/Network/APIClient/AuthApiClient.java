@@ -92,6 +92,7 @@ public class AuthApiClient {
     }
 
     private void saveLogin(Context context, LoginResponse response) {
+        Log.i("AuthApiClient", "Salvo nelle preferenze il token di accesso dell'utente appena autenticato");
         AuthUser authUser = AuthUser.getInstance();
         authUser.setEmail(response.getData().getUser().getEmail());
         authUser.setName(response.getData().getUser().getName());
@@ -103,6 +104,7 @@ public class AuthApiClient {
     }
 
     public void checkSavedToken(Context context, String token) {
+        Log.i("AuthApiClient", "Verifico token salvato");
         Call<LoginResponse> call = apiCaller.checkToken();
         call.enqueue(new Callback<LoginResponse>() {
             @Override

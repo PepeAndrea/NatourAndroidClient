@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Browser;
+import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
@@ -34,7 +35,7 @@ public class PathDetailViewModel extends ViewModel {
 
 
     public void exportDetail(Context context,String fileType, String pathId) {
-
+        Log.i("Download dettaglio percorso", "Esporto dettagli in formato "+fileType);
         Intent browserIntent = new Intent(
                 Intent.ACTION_VIEW, Uri.parse("https://natour.pepeandrea.it/api/export/"+fileType+"/"+pathId));
         Bundle bundle = new Bundle();
