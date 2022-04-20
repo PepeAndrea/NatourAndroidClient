@@ -3,6 +3,7 @@ package com.exam.natour.Network;
 import com.exam.natour.Network.Interceptor.AuthInterceptor;
 
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
@@ -34,6 +35,8 @@ public class RetroInstance {
         return new OkHttpClient.Builder()
                 .addInterceptor(new AuthInterceptor())
                 .addInterceptor(logging)
+                .writeTimeout(5, TimeUnit.MINUTES)
+                .readTimeout(5, TimeUnit.MINUTES)
                 .build();
     }
 

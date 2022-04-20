@@ -2,6 +2,7 @@ package com.exam.natour.Model;
 
 public class AuthUser {
     private String name,email,token;
+    private Integer isAdmin;
     private static AuthUser instance;
 
     public AuthUser() {
@@ -38,9 +39,18 @@ public class AuthUser {
         this.token = token;
     }
 
+    public Integer getIsAdmin() {
+        return isAdmin;
+    }
+
+    public void setAdmin(Integer admin) {
+        isAdmin = admin;
+    }
+
     public void inizialize(){
         this.setToken(null);
         this.setEmail(null);
         this.setName(null);
+        this.setAdmin(null);
     }
 }

@@ -18,6 +18,9 @@ public class User {
     @SerializedName("email")
     @Expose
     private String email;
+    @SerializedName("isAdmin")
+    @Expose
+    private Integer isAdmin;
     @SerializedName("email_verified_at")
     @Expose
     private Object emailVerifiedAt;
@@ -76,4 +79,11 @@ public class User {
         this.updatedAt = updatedAt;
     }
 
+    public Integer isAdmin() {
+        return isAdmin;
+    }
+
+    public void setIsAdmin(Integer isAdmin) {
+        this.isAdmin = isAdmin;
+    }
 }

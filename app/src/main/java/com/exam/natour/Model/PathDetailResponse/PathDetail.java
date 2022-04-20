@@ -44,6 +44,9 @@ public class PathDetail {
     @SerializedName("username")
     @Expose
     private String username;
+    @SerializedName("isReported")
+    @Expose
+    private Integer isReported;
     @SerializedName("coordinates")
     @Expose
     private List<Coordinate> coordinates = null;
@@ -137,6 +140,14 @@ public class PathDetail {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public Integer getIsReported() {
+        return isReported;
+    }
+
+    public void setIsReported(Integer isReported) {
+        this.isReported = isReported;
     }
 
     public List<Coordinate> getCoordinates() {

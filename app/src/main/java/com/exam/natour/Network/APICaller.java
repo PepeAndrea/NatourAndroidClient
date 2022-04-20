@@ -93,4 +93,10 @@ public interface APICaller {
     @POST("logout")
     Call<JSONObject> logout();
 
+
+    //Send Email
+    @Headers({"Accept: application/json"})
+    @FormUrlEncoded
+    @POST("sendemail")
+    Call<JSONObject> sendEmail(@Field("title") String title,@Field("content") String content);
 }

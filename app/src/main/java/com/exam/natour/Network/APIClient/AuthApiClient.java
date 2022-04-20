@@ -97,6 +97,7 @@ public class AuthApiClient {
         authUser.setEmail(response.getData().getUser().getEmail());
         authUser.setName(response.getData().getUser().getName());
         authUser.setToken(response.getData().getToken());
+        authUser.setAdmin((response.getData().getUser().isAdmin() != null) ? response.getData().getUser().isAdmin() : 0);
         sharedPreferences = context.getSharedPreferences("AUTH",Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString("Token",response.getData().getToken());
@@ -135,6 +136,8 @@ public class AuthApiClient {
         authUser.setEmail(response.getData().getUser().getEmail());
         authUser.setName(response.getData().getUser().getName());
         authUser.setToken(response.getData().getToken());
+        authUser.setAdmin((response.getData().getUser().isAdmin() != null) ? response.getData().getUser().isAdmin() : 0);
+
     }
 
     public void signup(Context context, String email, String username, String password, String passwordConfirmation) {
