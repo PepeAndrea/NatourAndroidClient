@@ -201,70 +201,80 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/interestPoint_Form"
         android:layout_width="0dp"
-        android:layout_height="408dp"
+        android:layout_height="400dp"
         android:background="#212121"
         android:orientation="vertical"
-        android:translationY="408dp"
+        android:translationY="400dp"
         app:layout_constraintBottom_toBottomOf="@+id/map"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
-        <ImageButton
-            android:id="@+id/interestPoint_Cancel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="18dp"
-            android:layout_marginTop="18dp"
-            android:background="@android:color/transparent"
-            android:insetTop="0dp"
-            android:insetBottom="0dp"
-            android:src="@drawable/ic_cross"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/riepilogo_Text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="Punto di interesse"
-            android:textColor="#FFFFFF"
-            android:textSize="24sp"
-            android:textStyle="bold"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayout10"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent">
 
-        <Button
-            android:id="@+id/interestPoint_Save"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_marginTop="19dp"
-            android:layout_marginEnd="21dp"
-            android:background="@drawable/ic_check"
-            android:insetTop="0dp"
-            android:insetBottom="0dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            <ImageButton
+                android:id="@+id/interestPoint_Cancel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="3dp"
+                android:background="@android:color/transparent"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
+                android:src="@drawable/ic_cross"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/riepilogo_Text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Punto di interesse"
+                android:textColor="#FFFFFF"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <Button
+                android:id="@+id/interestPoint_Save"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginEnd="24dp"
+                android:background="@drawable/ic_check"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <TextView
             android:id="@+id/textView4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
-            android:layout_marginTop="32dp"
             android:text="Nome"
             android:textColor="#FFFFFF"
             android:textSize="18sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/riepilogo_Text" />
+            app:layout_constraintTop_toBottomOf="@+id/constraintLayout10" />
 
         <EditText
             android:id="@+id/interestPoint_Name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="12dp"
             android:layout_marginEnd="32dp"
             android:backgroundTint="#FFFFFF"
             android:ems="10"
@@ -292,7 +302,7 @@
             android:id="@+id/interestPoint_Description"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="12dp"
             android:layout_marginEnd="32dp"
             android:backgroundTint="#FFFFFF"
             android:ems="10"

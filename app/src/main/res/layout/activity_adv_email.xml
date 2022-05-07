@@ -7,107 +7,129 @@
     android:background="#212121"
     tools:context=".UI.View.SendAdvEmail.AdvEmailActivity">
 
-    <ImageButton
-        android:id="@+id/goBackBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@android:color/transparent"
-        android:layout_marginStart="18dp"
-        android:layout_marginTop="18dp"
-        android:insetTop="0dp"
-        android:insetBottom="0dp"
-        android:src="@drawable/ic_cross"
-        tools:layout_editor_absoluteX="18dp"
-        tools:layout_editor_absoluteY="18dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/riepilogo_Text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Email promozionale"
-        android:layout_marginTop="16dp"
-        android:textColor="#FFFFFF"
-        android:textSize="24sp"
-        android:textStyle="bold"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout8"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
 
-    <Button
-        android:id="@+id/sendEmailBtn"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_marginTop="19dp"
-        android:layout_marginEnd="21dp"
-        android:background="@drawable/ic_check"
-        android:insetTop="0dp"
-        android:insetBottom="0dp"
-        tools:layout_editor_absoluteX="360dp"
-        tools:layout_editor_absoluteY="19dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        <Button
+            android:id="@+id/sendEmailBtn"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="24dp"
+            android:background="@drawable/ic_check"
+            android:insetTop="0dp"
+            android:insetBottom="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageButton
+            android:id="@+id/goBackBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="3dp"
+            android:background="@android:color/transparent"
+            android:insetTop="0dp"
+            android:insetBottom="0dp"
+            android:src="@drawable/ic_cross"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/impostazioni_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Email promozionale"
+            android:textColor="#FFFFFF"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-    <TextView
-        android:id="@+id/textView12"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="24dp"
-        android:text="Oggetto"
-        android:textColor="#FFFFFF"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/riepilogo_Text" />
-
-    <EditText
-        android:id="@+id/emailTitle"
+    <ScrollView
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="32dp"
-        android:backgroundTint="#ffffff"
-        android:ems="10"
-        android:hint="Inserisci un oggetto"
-        android:inputType="textPersonName"
-        android:shadowColor="#FFFFFF"
-        android:textColor="#ffffff"
-        android:textColorHint="#aaaaaa"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/textView12"
-        app:layout_constraintTop_toBottomOf="@+id/textView12" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout8" >
 
-    <TextView
-        android:id="@+id/textView13"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:text="Corpo"
-        android:textColor="#FFFFFF"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="@+id/emailTitle"
-        app:layout_constraintTop_toBottomOf="@+id/emailTitle" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-    <EditText
-        android:id="@+id/emailContent"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:backgroundTint="#ffffff"
-        android:ems="10"
-        android:gravity="start|top"
-        android:hint="Inserisci un corpo"
-        android:inputType="textMultiLine"
-        android:shadowColor="#FFFFFF"
-        android:textColor="#ffffff"
-        android:textColorHint="#aaaaaa"
-        app:layout_constraintEnd_toEndOf="@+id/emailTitle"
-        app:layout_constraintStart_toStartOf="@+id/textView13"
-        app:layout_constraintTop_toBottomOf="@+id/textView13" />
+            <TextView
+                android:id="@+id/textView12"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginEnd="32dp"
+                android:text="Titolo"
+                android:textColor="#FFFFFF"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <EditText
+                android:id="@+id/emailTitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:backgroundTint="#ffffff"
+                android:ems="10"
+                android:hint="Inserisci un titolo"
+                android:inputType="textPersonName"
+                android:shadowColor="#FFFFFF"
+                android:textColor="#ffffff"
+                android:textColorHint="#aaaaaa"
+                app:layout_constraintEnd_toEndOf="@+id/textView12"
+                app:layout_constraintStart_toStartOf="@+id/textView12"
+                app:layout_constraintTop_toBottomOf="@+id/textView12" />
+
+            <TextView
+                android:id="@+id/textView13"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:text="Corpo"
+                android:textColor="#FFFFFF"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="@+id/emailTitle"
+                app:layout_constraintStart_toStartOf="@+id/emailTitle"
+                app:layout_constraintTop_toBottomOf="@+id/emailTitle" />
+
+            <EditText
+                android:id="@+id/emailContent"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:backgroundTint="#ffffff"
+                android:ems="10"
+                android:gravity="start|top"
+                android:hint="Inserisci un corpo"
+                android:inputType="textMultiLine"
+                android:shadowColor="#FFFFFF"
+                android:textColor="#ffffff"
+                android:textColorHint="#aaaaaa"
+                app:layout_constraintEnd_toEndOf="@+id/textView13"
+                app:layout_constraintStart_toStartOf="@+id/textView13"
+                app:layout_constraintTop_toBottomOf="@+id/textView13" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

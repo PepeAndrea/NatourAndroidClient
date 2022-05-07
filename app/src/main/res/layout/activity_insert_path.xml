@@ -8,56 +8,62 @@
     tools:context=".UI.View.InsertPath.InsertPathActivity">
 
 
-    <ImageButton
-        android:id="@+id/InsertPath_Cancel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@android:color/transparent"
-        android:layout_marginStart="18dp"
-        android:layout_marginTop="18dp"
-        android:insetTop="0dp"
-        android:insetBottom="0dp"
-        android:src="@drawable/ic_cross"
-        tools:layout_editor_absoluteX="18dp"
-        tools:layout_editor_absoluteY="18dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/riepilogo_Text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Riepilogo"
-        android:layout_marginTop="16dp"
-        android:textColor="#FFFFFF"
-        android:textSize="24sp"
-        android:textStyle="bold"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout9"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
 
-    <Button
-        android:id="@+id/InsertPath_Save"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_marginTop="19dp"
-        android:layout_marginEnd="21dp"
-        android:background="@drawable/ic_check"
-        android:insetTop="0dp"
-        android:insetBottom="0dp"
-        tools:layout_editor_absoluteX="360dp"
-        tools:layout_editor_absoluteY="19dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        <ImageButton
+            android:id="@+id/InsertPath_Cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="3dp"
+            android:background="@android:color/transparent"
+            android:insetTop="0dp"
+            android:insetBottom="0dp"
+            android:src="@drawable/ic_cross"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/impostazioni_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Riepilogo"
+            android:textColor="#FFFFFF"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/InsertPath_Save"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="24dp"
+            android:background="@drawable/ic_check"
+            android:insetTop="0dp"
+            android:insetBottom="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <ScrollView
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="24dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/riepilogo_Text">
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout9">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/constraintLayout"
@@ -80,7 +86,7 @@
                 android:id="@+id/InsertPath_name"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="12dp"
                 android:layout_marginEnd="32dp"
                 android:backgroundTint="#FFFFFF"
                 android:ems="10"
@@ -109,7 +115,7 @@
                 android:id="@+id/InsertPath_description"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="12dp"
                 android:layout_marginEnd="32dp"
                 android:backgroundTint="#FFFFFF"
                 android:ems="10"

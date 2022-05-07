@@ -57,7 +57,7 @@ public class AdvEmailActivity extends AppCompatActivity {
             validated = false;
         }
         if(binding.emailContent.getText().toString().length() == 0){
-            binding.emailContent.setError("Il campo Contenuto non può essere vuoto");
+            binding.emailContent.setError("Il campo Corpo non può essere vuoto");
             validated = false;
         }
         return validated;
