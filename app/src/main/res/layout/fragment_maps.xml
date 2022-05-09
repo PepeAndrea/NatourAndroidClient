@@ -264,7 +264,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/constraintLayout10">
+            app:layout_constraintTop_toBottomOf="@+id/constraintLayout10" >
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -282,7 +282,7 @@
                     android:textStyle="bold"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <EditText
                     android:id="@+id/interestPoint_Name"
@@ -341,6 +341,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/interestPoint_Description" />
 
                 <RelativeLayout
+                    android:id="@+id/relativeLayout2"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
@@ -357,7 +358,6 @@
                         android:entries="@array/interestPointCategories"
                         android:spinnerMode="dropdown"
                         android:theme="@style/spinnerTheme" />
-
                 </RelativeLayout>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
