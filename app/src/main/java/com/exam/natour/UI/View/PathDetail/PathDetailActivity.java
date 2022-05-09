@@ -2,11 +2,14 @@ package com.exam.natour.UI.View.PathDetail;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityOptionsCompat;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Color;
 import android.transition.TransitionInflater;
 
@@ -21,6 +24,7 @@ import com.exam.natour.Model.PathDetailResponse.InterestPoint;
 import com.exam.natour.Model.PathDetailResponse.PathDetail;
 import com.exam.natour.R;
 import com.exam.natour.UI.Adapter.InterestPointAdapter.InterestPointAdapter;
+import com.exam.natour.UI.View.PathReport.PathReportActivity;
 import com.exam.natour.databinding.ActivityPathDetailBinding;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -74,6 +78,7 @@ public class PathDetailActivity extends AppCompatActivity implements OnMapReadyC
         binding.pathImage.setTransitionName(imageTransitionName);
 
         this.setupExportButtons(extras.getString("pathId"));
+        this.setupReportButton(extras.getString("pathId"));
 
         this.setupInterestPointList();
         this.ObserveChange(extras.getString("pathId"));
@@ -112,6 +117,21 @@ public class PathDetailActivity extends AppCompatActivity implements OnMapReadyC
         });
     }
 
+    private void setupReportButton(String pathId) {
+
+        binding.errorBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(view.getContext(), PathReportActivity.class);
+                // Pass data object in the bundle and populate details activity.
+                intent.putExtra("pathId", pathId);
+                view.getContext().startActivity(intent);
+
+                Log.i("Segnalazione percorso", "id percorso: "+pathId);
+            }
+        });
+    }
+
 
     private void ObserveChange(String id){
         this.pathDetailViewModel.getLoadedPath(this,id).observe(this, new Observer<PathDetail>() {
@@ -126,6 +146,9 @@ public class PathDetailActivity extends AppCompatActivity implements OnMapReadyC
                 binding.pathLocation.setText(pathDetail.getLocation());
                 binding.pathDifficulty.setTextColor(Color.parseColor(selectDifficultyColor(pathDetail.getDifficulty())));
                 binding.pathUser.setText("@"+pathDetail.getUsername());
+                if (pathDetail.getIsReported() == 1){
+                    binding.reportText.setVisibility(View.VISIBLE);
+                }
 
 
                 //Li rendo visibili

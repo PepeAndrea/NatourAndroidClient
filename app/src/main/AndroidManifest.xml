@@ -22,6 +22,9 @@
         android:theme="@style/Theme.NaTour"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".UI.View.PathReport.PathReportActivity"
+            android:exported="false" />
+        <activity
             android:name=".UI.View.SendAdvEmail.AdvEmailActivity"
             android:exported="false" />
         <activity
@@ -38,7 +41,7 @@
             android:exported="false" />
         <activity
             android:name=".Activity.AuthActivity"
-            android:exported="true"></activity>
+            android:exported="true" />
         <activity
             android:name=".Activity.MainActivity"
             android:exported="true"

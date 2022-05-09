@@ -42,4 +42,8 @@ public class PathRepository {
     public void filterPathResult(Context context, String raggio, String distanza, String durata, boolean disability, List<String> difficultiesOptionSelected, LatLng currentPos) {
         pathApiClient.filterPathResult(context,raggio,distanza,durata,disability,difficultiesOptionSelected,currentPos);
     }
+
+    public void reportPath(Context context, String id) {
+        this.pathApiClient.reportPath(context,id);
+    }
 }

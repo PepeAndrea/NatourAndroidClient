@@ -99,4 +99,9 @@ public interface APICaller {
     @FormUrlEncoded
     @POST("sendemail")
     Call<JSONObject> sendEmail(@Field("title") String title,@Field("content") String content);
+
+    //Report Path
+    @Headers({"Accept: application/json"})
+    @POST("report/{path}")
+    Call<JSONObject> reportPath(@Path(value = "path", encoded = true) String path);
 }

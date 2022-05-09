@@ -279,4 +279,60 @@ public class PathApiClient {
             }
         });
     }
+
+    public void reportPath(Context context, String id) {
+
+        Call<JSONObject> call = service.reportPath(id);
+        call.enqueue(new Callback<JSONObject>() {
+            @Override
+            public void onResponse(Call<JSONObject> call, Response<JSONObject> response) {
+                try {
+                    if(response.isSuccessful()){
+                        Log.i("API 200","Segnalazione effettuata correttamente per id path "+id);
+                        new AlertDialog.Builder(context)
+                                .setTitle("Segnalazione effettuata correttamente")
+                                .setMessage("Grazie per il tuo contributo. Il nostro team verificherà la correttezza delle informazioni\n")
+                                .setOnCancelListener(dialogInterface -> ((Activity) context).finish())
+                                .setNeutralButton("Continua",(dialogInterface, i) ->((Activity) context).finish())
+                                .show();
+                    }else if(response.code() == 401){
+                        Log.i("API 401","Il token fornito è scaduto o non è valido");
+                        Intent i = new Intent(context, AuthActivity.class);
+                        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP |
+                                Intent.FLAG_ACTIVITY_CLEAR_TASK |
+                                Intent.FLAG_ACTIVITY_NEW_TASK);
+                        context.startActivity(i);
+                    }else if(response.code() == 422){
+                        Log.i("API 422",new JSONObject(response.errorBody().string()).toString());
+                        new AlertDialog.Builder(context)
+                                .setTitle("Errore")
+                                .setMessage("Non è stato possibile segnalare il percorso.\nSi prega di riprovare.")
+                                .show();
+                        ((Activity) context).findViewById(R.id.sendReportBtn).setEnabled(true);
+                        ((Activity) context).findViewById(R.id.goBackBtn).setEnabled(true);
+                    }else if(response.code() == 500|| response.code() == 502){
+                        Log.i("API 500/502",new JSONObject(response.errorBody().string()).toString());
+                        new AlertDialog.Builder(context)
+                                .setTitle("Errore con il server remoto")
+                                .setMessage("Attualmente la piattaforma non è disponibile.\nRiprovare più tardi.")
+                                .show();
+                        ((Activity) context).findViewById(R.id.sendReportBtn).setEnabled(true);
+                        ((Activity) context).findViewById(R.id.goBackBtn).setEnabled(true);
+                    }
+                }catch (JSONException | IOException e) {
+                    Log.e("Errore durante chiamata al backend","Messaggio di errore: "+e.getMessage());
+                    ((Activity) context).findViewById(R.id.sendReportBtn).setEnabled(true);
+                    ((Activity) context).findViewById(R.id.goBackBtn).setEnabled(true);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<JSONObject> call, Throwable t) {
+                Log.i("API Error",t.toString());
+                ((Activity) context).findViewById(R.id.sendReportBtn).setEnabled(true);
+                ((Activity) context).findViewById(R.id.goBackBtn).setEnabled(true);
+            }
+        });
+
+    }
 }
