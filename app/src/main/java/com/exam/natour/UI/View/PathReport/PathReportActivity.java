@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 
 import com.exam.natour.databinding.ActivityPathReportBinding;
 
@@ -31,7 +32,13 @@ public class PathReportActivity extends AppCompatActivity {
             Log.i("Report Inviato", "Inizio invio report");
             binding.sendReportBtn.setEnabled(false);
             binding.goBackBtn.setEnabled(false);
-            pathReportViewModel.reportPath(view.getContext(),extras.getString("pathId",""));
+            if (validateReportInput()){
+                pathReportViewModel.reportPath(view.getContext(),extras.getString("pathId",""));
+            }else{
+                binding.sendReportBtn.setEnabled(true);
+                binding.goBackBtn.setEnabled(true);
+                Log.e("Errore validazione input report", "Input non valido");
+            }
         });
 
 
@@ -40,7 +47,20 @@ public class PathReportActivity extends AppCompatActivity {
     }
 
 
+    private boolean validateReportInput() {
+        boolean validated = true;
 
+        if(binding.reportTitle.length() == 0){
+            binding.reportTitle.setError("Il campo titolo non può essere vuoto");
+            validated = false;
+        }
+        if(binding.reportContent.length() == 0){
+            binding.reportContent.setError("Il campo descrizione non può essere vuoto");
+            validated = false;
+        }
+
+        return validated;
+    }
 
     @Override
     public void onDestroy() {
