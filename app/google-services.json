@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "81750195176",
+    "project_id": "natour-339417",
+    "storage_bucket": "natour-339417.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:81750195176:android:ada09e187025e6c982425d",
+        "android_client_info": {
+          "package_name": "com.exam.natour"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "81750195176-3jrt44lp3rupdkul16nahd9oljp7qt7k.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.exam.natour",
+            "certificate_hash": "5820d581b6965fd6d47aa01c6451cefd288d941b"
+          }
+        },
+        {
+          "client_id": "81750195176-99mg3p3690s7i8v2ht0p9er1c7cqmasi.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA3aPhRBT8EMW3NJJb6DAaN8tXixpPfjFg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "81750195176-99mg3p3690s7i8v2ht0p9er1c7cqmasi.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
