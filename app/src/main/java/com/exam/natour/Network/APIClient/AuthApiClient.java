@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.util.Log;
 
 import androidx.appcompat.app.AlertDialog;
@@ -15,6 +16,7 @@ import com.exam.natour.Model.LoginResponse.LoginResponse;
 import com.exam.natour.Network.APICaller;
 import com.exam.natour.Network.RetroInstance;
 import com.exam.natour.R;
+import com.google.firebase.analytics.FirebaseAnalytics;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -30,6 +32,7 @@ public class AuthApiClient {
     private APICaller apiCaller;
     private static AuthApiClient authApiClient;
     private SharedPreferences sharedPreferences;
+    private FirebaseAnalytics mFirebaseAnalytics;
 
     public AuthApiClient() {
         this.apiCaller = RetroInstance.getRetrofitClient().create(APICaller.class);
@@ -44,6 +47,7 @@ public class AuthApiClient {
 
 
     public void login(Context context, String email, String password){
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(context);
         Call<LoginResponse> call = apiCaller.login(email, password);
         call.enqueue(new Callback<LoginResponse>() {
             @Override
@@ -52,16 +56,25 @@ public class AuthApiClient {
                     if(response.isSuccessful()){
                         Log.i("API 200","Login riuscito correttamente per: "+email);
                         saveLogin(context,response.body());
+                        Bundle bundle = new Bundle();
+                        bundle.putString(FirebaseAnalytics.Param.METHOD, "Login riuscito");
+                        mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.LOGIN, bundle);
                         context.startActivity(new Intent(context, MainActivity.class));
                         ((Activity) context).finish();
                     }else if(response.code() == 422){
                         Log.i("API 422",new JSONObject(response.errorBody().string()).toString());
+                        Bundle bundle = new Bundle();
+                        bundle.putString(FirebaseAnalytics.Param.METHOD, "Login fallito");
+                        mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.LOGIN, bundle);
                         new AlertDialog.Builder(context)
                                 .setTitle("Si è verificato un errore")
                                 .setMessage("Controlla i dati inseriti e riprova.")
                                 .show();
                     }else if(response.code() == 401){
                         Log.i("API 401",new JSONObject(response.errorBody().string()).toString());
+                        Bundle bundle = new Bundle();
+                        bundle.putString(FirebaseAnalytics.Param.METHOD, "Login fallito");
+                        mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.LOGIN, bundle);
                         new AlertDialog.Builder(context)
                                 .setTitle("Acccesso non riuscito")
                                 .setMessage("Le credenziali inserite non sono corrette!")
@@ -149,10 +162,16 @@ public class AuthApiClient {
                     if(response.isSuccessful()){
                         Log.i("API 200","Registrazione avvenuta correttamente per: "+email);
                         saveLogin(context,response.body());
+                        Bundle bundle = new Bundle();
+                        bundle.putString(FirebaseAnalytics.Param.METHOD, "Registrazione riuscita");
+                        mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SIGN_UP, bundle);
                         context.startActivity(new Intent(context, MainActivity.class));
                         ((Activity) context).finish();
                     }else if(response.code() == 422){
                         Log.i("API 422",new JSONObject(response.errorBody().string()).toString());
+                        Bundle bundle = new Bundle();
+                        bundle.putString(FirebaseAnalytics.Param.METHOD, "Registrazione fallita");
+                        mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SIGN_UP, bundle);
                         new AlertDialog.Builder(context)
                                 .setTitle("Errore di registrazione")
                                 .setMessage("L'indirizzo email risulta già registrato!\nAccedere premendo il tasto \"Accedi\"")
